@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src = "https://www.gstatic.com/firebasejs/live/3.1/firebase.js"></script>
+    <script src = "./scripts.js"></script>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class = "header">
+    <button class = "button" id = "StartGame" onclick = "newinput('Enter Name', 'new');" style="display: block;">Start a New Game</button>
+    <button class = "button" id = "JoinGame" onclick = "newinput('Enter Code', 'join')" style="display: block;">Join a Game</button>
+    <button class = "leavebutton" id = "Leave" onclick = "leavegame()" style="display: none;">Leave</button>
+    <h1 class = "GameCode" id ="GameInfo"></h1>
+    </div>
+    <div class = "playertable" id ="PlayerList" style="display: none;"></div>
+
+    <div class = "input" id = "inputmodal" style="display: none;">
+        <h1 class = "popuptitle" id="popuptitle">Temporary</h1>
+        <input class = "inputbox" id = "input" type ="text" placeholder = "" name = "input" required>
+        <br><br>
+        <button class = "joinbutton" id = "submit" onclick = "submit()">Submit</button>
+    </div>
+    
+
+</body>
+</html>
