@@ -23,6 +23,9 @@ let host = "null";
 let name = "null";
 let latestinput = "null";
 let overallcode = "null";
+var black = [];
+var white = [];
+var packs = [];
 
 
 // Functions -------------------------------------------------------------------------------------
@@ -55,7 +58,6 @@ function newgame(input){
   let string = makeid(5);
   newgameid = string;
   firebase.database().ref('Games/' + string).set({
-    name : "Game",
   });
   host = "1";
   createplayer(input);
@@ -63,13 +65,40 @@ function newgame(input){
 
 function createplayer(name){
   firebase.database().ref('Games/'+ newgameid + '/' + 'players/' + name).set({
-    name : 'null',
+    name: 'null'
   });
   document.getElementById("GameInfo").innerText = newgameid;
   document.getElementById("StartGame").style.display = "none";
   document.getElementById("JoinGame").style.display = "none";
   document.getElementById("Leave").style.display = "block";
-  document.getElementById("PlayerList").style.display = "block";
+  document.getElementById("playeroverall").style.display = "block";
+  if(host !== "1"){
+    document.getElementById("options").style.display = "none";
+    document.getElementById("pleasewait").style.display = "block";
+    const status = firebase.database().ref('Games/' + newgameid + '/status/');
+    status.on('value', (snapshot) =>{
+      let started = JSON.stringify(snapshot.val());
+      console.log(started);
+      if(started == '{"started":1}'){
+        console.log("Started");
+        newround();
+      }else{
+        console.log("Not Starting");
+      }
+    });
+  }else{
+    document.getElementById("options").style.display = "block";
+    document.getElementById("pleasewait").style.display = "none";
+    const cardlist = firebase.database().ref('Games/' + newgameid + "/" + "packs/" + "packs/");
+    cardlist.on('value', (snapshot) =>{
+      data = (JSON.stringify(snapshot.val(), null, 3))
+      var newdata1 = data.replace(/"/g,'');
+      var newdata2 = newdata1.replace('[','');
+      var newdata3 = newdata2.replace(/]/g,'');
+      var packs = newdata3.split(',');
+      document.getElementById("packlist").innerHTML = makeTableHTML(packs); 
+    });
+  }
   loadlist();
 };
 
@@ -122,8 +151,6 @@ function makeTableHTML(myArray) {
   return result;
 }
 
-
-
 function newinput(title,code){
   document.getElementById("popuptitle").innerText = title;
   document.getElementById("inputmodal").style.display = "block";
@@ -155,6 +182,57 @@ function submit(){
   }
 }
 
+function add_deck(){
+  let input = document.getElementById("cardcode").value;
+  fetch('https://castapi.clrtd.com/cc/decks/' + input + '/cards')
+  .then((resp) => resp.json())
+  .then(function (data1){
+    data = JSON.stringify(data1.calls);
+    var newdata1 = data.replace(/}/g,'');
+    var newdata2 = newdata1.replace(/{/g,'');
+    var newdata3 = newdata2.replace(/]/g,'');
+    var newdata4 = newdata3.replace(/"/g,'');
+    var newdata5 = newdata4.replace(/text/g,'');
+    var newdata6 = newdata5.replace(/:/g,'');
+    var newdata7 = newdata6.split('[');
+    black.push(newdata7);
+    data = JSON.stringify(data1.responses);
+    var newdata1 = data.replace(/}/g,'');
+    var newdata2 = newdata1.replace(/{/g,'');
+    var newdata3 = newdata2.replace(/]/g,'');
+    var newdata4 = newdata3.replace(/"/g,'');
+    var newdata5 = newdata4.replace(/text/g,'');
+    var newdata6 = newdata5.replace(/:/g,'');
+    var newdata7 = newdata6.split('[');
+    white.push(newdata7);
+    packs.push(input);
+    firebase.database().ref('Games/'+ newgameid + '/packs').set({
+      packs : packs,
+    });
+  });
+}
+
+function random_black(){
+  console.log(getRandom(black))
+}
+
+function getRandom(arr) {
+  var random1 = Math.floor((Math.random() * (arr.length)));
+  console.log(random1);
+  return arr[random1][Math.floor((Math.random() * (arr[random1].length)))];
+}
+
+function startgame(){
+  firebase.database().ref('Games/'+ newgameid + '/status/').set({
+    started: 1
+  });
+}
+
+function newround(){
+  firebase.database().ref('Games/'+ newgameid + '/status/').set({
+    started: 0
+  });
+}
 
 
 //------------------------------------------------------------------------------------------

@@ -19,13 +19,33 @@
     <button class = "leavebutton" id = "Leave" onclick = "leavegame()" style="display: none;">Leave</button>
     <h1 class = "GameCode" id ="GameInfo"></h1>
     </div>
-    <div class = "playertable" id ="PlayerList" style="display: none;"></div>
+    <div id="playeroverall" style = "display:none;">
+    <div class = "playertable" id ="PlayerList"></div>
+    </div>
 
     <div class = "input" id = "inputmodal" style="display: none;">
         <h1 class = "popuptitle" id="popuptitle">Temporary</h1>
         <input class = "inputbox" id = "input" type ="text" placeholder = "" name = "input" required>
         <br><br>
         <button class = "joinbutton" id = "submit" onclick = "submit()">Submit</button>
+    </div>
+
+    <div class = "options" id = "options" style="display:none;">
+        <h1>Options:</h1>
+        <div id = "adddecks">
+            <h2>Add decks:</h2>
+            <input class = "inputbox" id = "cardcode" type ="text" placeholder = "Enter Card Code" name = "cardcode" required>
+            <button class = "joinbutton" id = "submit" onclick = "add_deck()">Add</button>
+            <div id = "fullpacklist">
+                <h1 class = "packtitle">Added Packs:</h1>
+                <h1 id = "packlist"></h1>
+            </div>
+        </div>
+        <button class = "button"  onclick = "startgame();">Start Game</button>
+    </div>
+
+    <div class = "pleasewait" id = "pleasewait" style="display:none;">
+        <h1>Please wait for the host to start the game.</h1>
     </div>
     
 

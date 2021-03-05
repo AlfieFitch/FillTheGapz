@@ -13,7 +13,6 @@ body{
     border-color: transparent;
     font-size: 15px;
     font-family: Poppins;
-    margin-top: 25px;
     margin-left: 50px;
 }
 
@@ -28,13 +27,23 @@ body{
     
 }
 
-.playertable{
-    margin-top: 50px;
-    margin-left: 45px;
-    border: #0b173d 1px solid;
-    border-radius: 6px;
-    width: 200px;
+#playeroverall{
+    margin-top: 0px;
+    margin-left: -10px;
+    background-color: #0b173d;
+    color: white;
+    width: 300px;
     padding: 17px;
+    height: calc(100vh - 94px);
+}
+
+.playertable{
+    margin-left: 50px;
+    text-align: center;
+    height: 50px;
+    text-align: right;
+    padding: 0px;
+    margin-top: 25px;
 }
 
 .header{
@@ -81,5 +90,42 @@ body{
     border-radius: 6px;
     font-size: 20px;
     padding: 5px;
+}
+
+.options{
+    margin-top: -93vh;
+    margin-left: 350px;
+}
+
+.pleasewait{
+    margin-top: -93vh;
+    margin-left: 350px;
+}
+
+#packlist{
+    font-size: 15px;
+    padding: 0px;
+    margin-top: 20px;
+    margin-left: 45px;
+}
+
+.packtitle{
+    margin-left: 18px;
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: -10px;
+}
+
+#fullpacklist{
+    margin-top: 30px;
+    border: 2px solid #0b173d;
+    width: 200px;
+    border-radius: 6px;
+    
+}
+
+.pleasewait{
+    margin-top: -450px;
+    margin-left: 600px;
 }
 
