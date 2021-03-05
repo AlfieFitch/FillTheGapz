@@ -47,6 +47,7 @@ body{
 }
 
 .header{
+    position: relative;
     background-color: #0b173d;
     height: 60px;
 }
@@ -129,3 +130,19 @@ body{
     margin-left: 600px;
 }
 
+#blackcard{
+    position: absolute;
+    color: white;
+    height: 700px;
+    width: 500px;
+    margin-left: 50px;
+    margin-top: calc(50vh - 375px);
+    background-color: rgb(31, 30, 30);
+    border-radius: 10px;
+}
+
+#blackcontent{
+    margin-left: 50px;
+    padding-top: 50px;
+    font-size: 25px;
+}

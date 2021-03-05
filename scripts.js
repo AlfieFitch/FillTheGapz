@@ -75,6 +75,7 @@ function createplayer(name){
   if(host !== "1"){
     document.getElementById("options").style.display = "none";
     document.getElementById("pleasewait").style.display = "block";
+    document.getElementById("waittext").innerText = "Please wait for the host to start the game.";
     const status = firebase.database().ref('Games/' + newgameid + '/status/');
     status.on('value', (snapshot) =>{
       let started = JSON.stringify(snapshot.val());
@@ -212,10 +213,6 @@ function add_deck(){
   });
 }
 
-function random_black(){
-  console.log(getRandom(black))
-}
-
 function getRandom(arr) {
   var random1 = Math.floor((Math.random() * (arr.length)));
   console.log(random1);
@@ -226,12 +223,33 @@ function startgame(){
   firebase.database().ref('Games/'+ newgameid + '/status/').set({
     started: 1
   });
+  newround();
 }
 
 function newround(){
-  firebase.database().ref('Games/'+ newgameid + '/status/').set({
-    started: 0
-  });
+  let storedblack = "null";
+  if(host == "1"){
+    firebase.database().ref('Games/'+ newgameid + '/status/').set({
+      started: 0
+    });
+    let new_black = getRandom(black);
+    firebase.database().ref('Games/' + newgameid + '/blackcard/').set({
+      blackcard: new_black
+    });
+    storedblack = new_black; 
+  }else{
+    console.log("Collecting blackcard");
+    var blackcard = firebase.database().ref('Games/' + newgameid + "/blackcard/");
+    blackcard.once('value', (snapshot) =>{
+      storedblack = JSON.stringify(snapshot.val());
+    });
+  }
+  document.getElementById("blackcontent").innerHTML = storedblack;
+  document.getElementById("playeroverall").style.display = "none";
+  document.getElementById("pleasewait").style.display = "none";
+  document.getElementById("Game").style.display = "inline";
+  document.getElementById("waittext").innerText = "Please wait for the next round to start.";
+
 }
 
 
