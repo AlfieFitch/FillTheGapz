@@ -472,7 +472,7 @@ function selectiontime(){
       let string6 = string5.split('::');
       selection.push(string6);
       if(czar == "1"){
-        let newselection = JSON.stringify(selection[0][0]);
+        //let newselection = JSON.stringify(selection[0][0]);
         //let newselection2 = newselection.replace(/"/g,'');
         let ting = "'" + selection[0][0] + "'"
         finalhtml = finalhtml + '<div class = "selectoverall"><button onclick = "czarselected('+daid + ',' + ting +');" class = "czarselect" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 id = "author">'+ selection[0][0] +'</h1></button></div>';
@@ -543,6 +543,11 @@ function czarhaspicked(cardid){
       });
   });
 }
+}
+
+function leavegame(){
+  firebase.database().ref('Games/'+ newgameid + '/players/' + username + '/').remove();
+  location.reload();
 }
 
 
