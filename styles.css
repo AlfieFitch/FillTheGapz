@@ -3,6 +3,7 @@ body{
     font-family: Poppins;
     color: #0b173d;
     margin: 0px;
+    overflow: hidden;
 }
 
 
@@ -47,7 +48,6 @@ body{
 }
 
 .header{
-    position: relative;
     background-color: #0b173d;
     height: 60px;
 }
@@ -133,16 +133,134 @@ body{
 #blackcard{
     position: absolute;
     color: white;
-    height: 700px;
-    width: 500px;
+    height: 80%;
+    width: 35%;
     margin-left: 50px;
-    margin-top: calc(50vh - 375px);
+    margin-top: 6vh;
     background-color: rgb(31, 30, 30);
     border-radius: 10px;
 }
 
 #blackcontent{
-    margin-left: 50px;
-    padding-top: 50px;
+    padding: 20px;
+    white-space: pre-wrap;
+    word-break: keep-all;
+    display: flex;
+    padding-top: 100px;
     font-size: 25px;
+}
+
+#whiteboxesparent{
+    overflow-y:auto;
+    overflow: hidden;
+    float: right;
+    margin-top: -25px;
+    margin-right: -10px;
+    margin-left: 45vw;
+    border-radius: 10px;
+    min-height: calc(100vh - 90px);
+    background-color: #0b173d;
+    min-width: 56vw;
+}
+
+.singlebutton{
+    float: left;
+    margin-left: 4vw;
+    margin-right: 8vw;
+    background-color: white;
+    margin-top: 8vh;
+    width: 10vw;
+    height: 20vh;
+    border-radius: 6px;
+    outline: none;
+    height: 20vh;
+    max-width: 1vw;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+
+.whitebutton{
+    outline: none;
+    height: 20vh;
+    width: 10vw;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+.selectoverall{
+    float: left;
+    margin-left: 4vw;
+    margin-right: 8vw;
+    background-color: white;
+    margin-top: 8vh;
+    width: 10vw;
+    height: 20vh;
+    border-radius: 6px;
+    outline: none;
+    height: 20vh;
+    max-width: 1vw;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+.select{
+    outline: none;
+    height: 20vh;
+    width: 11vw;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+.whitebutton:hover{
+    color: rgb(153, 44, 44);
+}
+
+#confirmselection{
+    float: right;
+    margin-top: 13vh;
+    margin-right: 5vw;
+}
+
+.confirmslectionbutton{
+    height: 10vh;
+    width: 20vw;
+    border-radius: 10px;
+    border:none;
+    outline: none;
+}
+
+.confirmslectionbutton:hover{
+    background-color: rgb(134, 40, 40);
+    color: white;
+}
+
+.mainfunny{
+    font-size: 15px;
+    margin-top: calc(50% - 70px);
+    padding: 5px;
+}
+
+#author{
+    font-size: 15px;
+    margin-top: 50px;
+}
+
+.czarselect{
+    outline: none;
+    height: 20vh;
+    width: 10vw;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+
+.czarselect:hover{
+    background-color: grey;
+    color: white;
 }
