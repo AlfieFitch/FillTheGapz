@@ -91,7 +91,7 @@ function createplayer(name){
     name: 'null'
   });
   document.getElementById("GameInfo").innerText = newgameid;
-  document.getElementById("url").innerText = "https://cah.fitchnetwork.co.uk?code=" + newgameid;
+  document.getElementById("url").innerText = "https://fillthegapz.com/?code=" + newgameid;
   document.getElementById("StartGame").style.display = "none";
   document.getElementById("JoinGame").style.display = "none";
   document.getElementById("Leave").style.display = "block";
