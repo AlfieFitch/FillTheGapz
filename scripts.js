@@ -90,6 +90,7 @@ function createplayer(name){
   firebase.database().ref('Games/'+ newgameid + '/' + 'players/' + name).set({
     name: 'null'
   });
+  document.getElementById("logo").style.marginLeft = "calc(50% - 15%)";  
   document.getElementById("GameInfo").innerText = newgameid;
   document.getElementById("url").innerText = "https://fillthegapz.com/?code=" + newgameid;
   document.getElementById("StartGame").style.display = "none";
@@ -543,6 +544,11 @@ function czarhaspicked(cardid){
       });
   });
 }
+}
+
+function leavegame(){
+  firebase.database().ref('Games/'+ newgameid + '/players/' + username).remove();
+  location.reload();
 }
 
 

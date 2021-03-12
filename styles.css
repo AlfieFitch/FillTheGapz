@@ -266,7 +266,8 @@ body{
 }
 
 .logo{
+    position: relative;
     height: 40px;
     margin-top: 10px;
-    margin-left: calc(50% - 590px);
+    margin-left: calc(50% - 22%);
 }
