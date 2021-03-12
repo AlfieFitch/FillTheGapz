@@ -90,7 +90,7 @@ function createplayer(name){
   firebase.database().ref('Games/'+ newgameid + '/' + 'players/' + name).set({
     name: 'null'
   });
-  document.getElementById("logo").style.marginLeft = "calc(50% - 15%)";  
+  document.getElementById("logo").style.marginLeft = "calc(50% - 350px)";  
   document.getElementById("GameInfo").innerText = newgameid;
   document.getElementById("url").innerText = "https://fillthegapz.com/?code=" + newgameid;
   document.getElementById("StartGame").style.display = "none";
@@ -160,7 +160,7 @@ function makeTableHTML(myArray) {
   for(var i=0; i<myArray.length; i++) {
       result += "<tr>";
       for(var j=0; j<myArray[i].length; j++){
-          result += "<td>"+myArray[i][j]+"</td>";
+          result += "<td  class = 'tablerow'>"+myArray[i][j]+"</td>";
       }
       result += "</tr>";
   }

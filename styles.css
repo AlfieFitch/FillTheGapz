@@ -9,12 +9,14 @@ body{
 
 
 .leavebutton{
-    position: relative;
+    float: left;
+    margin-top: 15px;
+    margin-left: 45px;
+    width: 200px;
     border-radius: 6px;
     border-color: transparent;
     font-size: 15px;
     font-family: Poppins;
-    margin-left: 50px;
 }
 
 
@@ -40,11 +42,16 @@ body{
 
 .playertable{
     margin-left: 50px;
-    text-align: center;
-    height: 50px;
     text-align: right;
     padding: 0px;
     margin-top: 25px;
+
+}
+
+.tablerow{
+    text-align: center;
+    padding: 0px;
+    padding-bottom: 20px;
 }
 
 .header{
@@ -52,15 +59,30 @@ body{
     height: 60px;
 }
 
-.header button{
-    float: left;
+.button{
+    display: block;
+    float: right;
     margin-top: 15px;
-    margin-left: 20px;
+    margin-right: 20px;
     width: 200px;
     border-radius: 6px;
     border-color: transparent;
     font-size: 15px;
     font-family: Poppins;
+}
+
+.joinbutton{
+    width: 100px;
+}
+
+.joinbutton:hover{
+    background-color: #dab410;
+    color: white;
+}
+
+.button:hover{
+    background-color: #dab410;
+    color: white;
 }
 
 .input{
@@ -118,9 +140,9 @@ body{
 }
 
 #fullpacklist{
+    width: 270px;
     margin-top: 30px;
     border: 2px solid #0b173d;
-    width: 200px;
     border-radius: 6px;
     
 }
@@ -269,5 +291,18 @@ body{
     position: relative;
     height: 40px;
     margin-top: 10px;
-    margin-left: calc(50% - 22%);
+    margin-left: 30px;
+}
+
+.Playerstitle{
+    font-size: 20px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+#url{
+    font-size: 20px;
+    text-align: center;
+    margin-top: 50vh;
 }
