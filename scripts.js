@@ -37,6 +37,7 @@ let czarname = null;
 let alreadyconfirmed = "false";
 let rounds = 0;
 let winnercard = null;
+let runpicked = "false";
 
 
 // Functions -------------------------------------------------------------------------------------
@@ -234,6 +235,7 @@ function getRandomwhite(arr) {
 
 
 function newround(){
+  runpicked = "false";
   firebase.database().ref('Games/'+ newgameid + '/czarpick/').set({
     pick : "null",
   });
@@ -473,8 +475,6 @@ function selectiontime(){
       let string6 = string5.split('::');
       selection.push(string6);
       if(czar == "1"){
-        let newselection = JSON.stringify(selection[0][0]);
-        //let newselection2 = newselection.replace(/"/g,'');
         let ting = "'" + selection[0][0] + "'"
         finalhtml = finalhtml + '<div class = "selectoverall"><button onclick = "czarselected('+daid + ',' + ting +');" class = "czarselect" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 id = "author">'+ selection[0][0] +'</h1></button></div>';
       }else{
@@ -486,11 +486,13 @@ function selectiontime(){
     document.getElementById("pickerselection").style.display = "block";
     const status = firebase.database().ref('Games/' + newgameid + '/czarpick/');
     status.on('value', (snapshot) =>{
-      let newval = JSON.stringify(snapshot.val());
-
-      if(newval !== '{"pick":"null"}'){
-        czarhaspicked(newval);
-      }
+      if(runpicked == "false"){
+        let newval = JSON.stringify(snapshot.val());
+        if(newval !== '{"pick":"null"}'){
+          czarhaspicked(newval);
+          runpicked = "true";
+        }
+      };
     });
     });
 };
@@ -506,7 +508,6 @@ function czarselected(skeeid,author){
 }
 
 function czarhaspicked(cardid){
-  let finalfinal = null;
   let newcardid = cardid.replace('{"pick":' , '');
   newcardid = newcardid.replace('}' , '');
   newcardid = newcardid.replace(/"/g , '');
@@ -520,30 +521,21 @@ function czarhaspicked(cardid){
       let two = one.replace(/{name:/ , '');
       let three = two.replace('}' , '');
       let finalfour = three.replace(/"/g , '');
-      const status = firebase.database().ref('Games/' + newgameid + '/scores/' + finalfour);
-      status.once('value', (snapshot) =>{
-        let one2 = JSON.stringify(snapshot.val());
-        console.log(one2);
-        if(one2 == "null"){
-          finalfinal = 1;
-        }else{
-          let two2 = one2.replace('{score:' , '')
-          let three2 = two2.replace('}' , '');
-          let finalfour2 = three2.replace(/"/g , '');
-          finalfour2 = parseInt(finalfour2);
-          finalfinal = finalfour2 + 1;
-          console.log(finalfinal);
-        }
-        firebase.database().ref('Games/'+ newgameid + '/scores/' + finalfour + "/").set({
-        score: finalfinal,
-        });
-      });
-      const status3 = firebase.database().ref('Games/' + newgameid + '/scores/');
-      status3.once('value', (snapshot) =>{
-        console.log(snapshot.val());
-      });
+      let splitfour = finalfour.split(':');
+      let finalfinalpee = splitfour[1];
+      const scroe = database.ref('Games/' + newgameid + '/scores/' + finalfinalpee)
+      scroe.set({
+        score: firebase.database.ServerValue.increment(1),
+      });  
   });
 }
+const scoreboard = firebase.database().ref('Games/' + newgameid + '/scores/');
+scoreboard.on('value', (snapshot) =>{
+  let newarray =[];
+  newarray.push(snapshot.val());
+  document.getElementById("scoreboard").innerHTML = makeTableHTML(newarray[0]);
+  console.log(newarray[0]);
+});
 }
 
 function leavegame(){
