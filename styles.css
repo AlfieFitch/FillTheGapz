@@ -1,7 +1,7 @@
 body{
-    background-color: white;
+    background-color: #0D0B25;
     font-family: Poppins;
-    color: #0b173d;
+    color: #0D0B35;
     margin: 0px;
     overflow: hidden;
 }
@@ -9,20 +9,29 @@ body{
 
 
 .leavebutton{
+    outline: none;
+    color: white;
+    background-color: #FD4444;
+    display: block;
     float: left;
-    margin-top: 15px;
-    margin-left: 45px;
+    margin-top: 12px;
+    margin-left: 20px;
     width: 200px;
-    border-radius: 6px;
+    border-radius: 7px;
+    height: 35px;
     border-color: transparent;
     font-size: 15px;
     font-family: Poppins;
 }
 
+.leavebutton:hover{
+    background-color: #D94E53;
+    color: white;
+}
 
 
 .GameCode{
-    color: white;
+    color: #FD4444;
     float: right;
     margin-right: 50px;
     margin-top: 15px;
@@ -31,17 +40,18 @@ body{
 }
 
 #playeroverall{
-    margin-top: 0px;
-    margin-left: -10px;
-    background-color: #0b173d;
+    margin-top: 15px;
+    margin-left: 10px;
+    background-color: #1F222E;
     color: white;
     width: 300px;
     padding: 17px;
-    height: calc(100vh - 94px);
+    min-height: 300px;
+    border-radius: 6px;
 }
 
 .playertable{
-    margin-left: 50px;
+    margin-left: 90px;
     text-align: right;
     padding: 0px;
     margin-top: 25px;
@@ -55,38 +65,84 @@ body{
 }
 
 .header{
-    background-color: #0b173d;
+    background-color: #0D0B25;
     height: 60px;
 }
 
 .button{
+    outline: none;
+    color: white;
+    background-color: #FD4444;
     display: block;
     float: right;
-    margin-top: 15px;
+    margin-top: 12px;
     margin-right: 20px;
     width: 200px;
-    border-radius: 6px;
+    border-radius: 7px;
+    height: 35px;
     border-color: transparent;
     font-size: 15px;
     font-family: Poppins;
 }
 
 .joinbutton{
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    background-color: #FD4444;
+    color: white;
     width: 100px;
 }
 
+
+.joinbutton1{
+    border: none;
+    outline: none;
+    height: 23px;
+    border-radius: 6px;
+    background-color: #FD4444;
+    color: white;
+    width: 100px;
+}
+
+.SelectedWhiteCard{
+    background-color: #FD4444;
+    color: white;
+    outline: none;
+    height: 20vh;
+    width: 10vw;
+    border: none;
+    border-radius: 10px;
+}
+
 .joinbutton:hover{
-    background-color: #dab410;
+    background-color: #D94E53;
     color: white;
 }
 
 .button:hover{
-    background-color: #dab410;
+    background-color: #D94E53;
     color: white;
 }
 
+.over2header{
+    margin-left: 20px;
+    margin-bottom: -5px;
+    margin-top: 50px;
+    padding: 5px;
+}
+
+.inputbox{
+    margin-left: 40px;
+    margin-top: 20px;
+    border-radius: 6px;
+    height: 20px;
+    border: none;
+    outline: none;
+}
+
 .input{
-    background-color: #0b173d;
+    background-color: #1F222E;
     color: white;
     width: 500px;
     height: 150px;
@@ -98,11 +154,15 @@ body{
 }
 
 .input input{
+    margin-left: 0px;
     border: none;
     border-radius: 6px;
     height: 20px;
-    
+    margin-bottom: 10px;
+    margin-top: -10px;
 }
+
+
 
 .input h1{
     margin-top: -5px;
@@ -116,14 +176,51 @@ body{
 }
 
 .options{
-    margin-top: -93vh;
-    margin-left: 350px;
+    display: inline-block;
+    color: white;
+    background-color: #0d0b25;
+    margin-top: 10vh;
+    margin-left: 50px;
 }
 
 .pleasewait{
     margin-top: -93vh;
     margin-left: 350px;
 }
+
+.ophead{
+    margin-top: 5px;
+}
+
+.playeroverall{
+    margin-top: 20px;
+    margin-left: 25px;
+    border:#FD4444 solid 2px;
+    border-radius: 6px;
+    width: 300px;
+}
+
+.over1{
+    float: left;
+    background-color: #1F222E ;
+    width: 360px;
+    align-content: center;
+    justify-content: center;
+    border-radius: 7px;
+    margin-left: 50px;
+    min-height: 370px;
+}
+
+.over2{
+ margin-left: 500px;
+ background-color: #1F222E ;
+width: 360px;
+align-content: center;
+justify-content: center;
+border-radius: 7px;
+min-height: 370px;
+}
+
 
 #packlist{
     font-size: 15px;
@@ -140,9 +237,10 @@ body{
 }
 
 #fullpacklist{
+    margin-left: 40px;
     width: 270px;
     margin-top: 30px;
-    border: 2px solid #0b173d;
+    border: 2px solid #FD4444;
     border-radius: 6px;
     
 }
@@ -159,7 +257,7 @@ body{
     width: 35%;
     margin-left: 50px;
     margin-top: 6vh;
-    background-color: rgb(31, 30, 30);
+    background-color: #1F222E;
     border-radius: 10px;
 }
 
@@ -176,12 +274,12 @@ body{
     overflow-y:auto;
     overflow: hidden;
     float: right;
-    margin-top: -25px;
+    margin-top: -20px;
     margin-right: -10px;
     margin-left: 45vw;
     border-radius: 10px;
     min-height: calc(100vh - 90px);
-    background-color: #0b173d;
+    background-color: #0d0b25;
     min-width: 56vw;
 }
 
@@ -189,7 +287,7 @@ body{
     float: left;
     margin-left: 4vw;
     margin-right: 8vw;
-    background-color: white;
+    background-color: transparent;
     margin-top: 8vh;
     width: 10vw;
     height: 20vh;
@@ -197,7 +295,6 @@ body{
     outline: none;
     height: 20vh;
     max-width: 1vw;
-    background-color: white;
     border: none;
     border-radius: 10px;
 }
@@ -216,7 +313,7 @@ body{
     float: left;
     margin-left: 4vw;
     margin-right: 8vw;
-    background-color: white;
+    background-color: transparent;
     margin-top: 8vh;
     width: 10vw;
     height: 20vh;
@@ -224,7 +321,6 @@ body{
     outline: none;
     height: 20vh;
     max-width: 1vw;
-    background-color: white;
     border: none;
     border-radius: 10px;
 }
@@ -239,7 +335,8 @@ body{
 }
 
 .whitebutton:hover{
-    color: rgb(153, 44, 44);
+    background-color: #D94E53;
+    color: white;
 }
 
 #confirmselection{
@@ -257,7 +354,7 @@ body{
 }
 
 .confirmslectionbutton:hover{
-    background-color: rgb(134, 40, 40);
+    background-color: #D94E53;
     color: white;
 }
 
@@ -283,7 +380,7 @@ body{
 
 
 .czarselect:hover{
-    background-color: grey;
+    background-color: #D94E53;
     color: white;
 }
 
@@ -296,9 +393,9 @@ body{
 
 .Playerstitle{
     font-size: 20px;
-    margin-left: 30px;
+    margin-left: 10px;
     margin-bottom: 20px;
-    margin-top: 20px;
+    margin-top: 0px;
 }
 
 #url{
@@ -306,3 +403,5 @@ body{
     text-align: center;
     margin-top: 50vh;
 }
+
+

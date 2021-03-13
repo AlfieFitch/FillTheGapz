@@ -19,7 +19,7 @@ var database = firebase.database();
 
 let newgameid = "null";
 let host = "null";
-let username = "null";
+let username = null;
 let latestinput = "null";
 let overallcode = "null";
 var black = [];
@@ -41,6 +41,9 @@ let runpicked = "false";
 
 
 // Functions -------------------------------------------------------------------------------------
+
+
+
 
 
 function makeid(length) {
@@ -88,7 +91,7 @@ function newgame(input){
 
 function createplayer(name){
   username = name;
-  firebase.database().ref('Games/'+ newgameid + '/' + 'players/' + name).set({
+  firebase.database().ref('Games/'+ newgameid + '/' + 'players/' + username).set({
     name: 'null'
   });
   document.getElementById("logo").style.marginLeft = "calc(50% - 350px)";  
@@ -97,8 +100,16 @@ function createplayer(name){
   document.getElementById("StartGame").style.display = "none";
   document.getElementById("JoinGame").style.display = "none";
   document.getElementById("Leave").style.display = "block";
-  document.getElementById("playeroverall").style.display = "block";
   if(host !== "1"){
+    var status67 = firebase.database().ref('Games/' + newgameid + "/" + 'host/');
+    status67.on('value', (snapshot) =>{
+      let value = JSON.stringify(snapshot.val());
+      if(value == '{"status":"lost"}'){
+        alert("Host Disconnected.");
+        firebase.database().ref('Games/'+ newgameid).remove();
+        location.reload();
+      }
+    });
     document.getElementById("options").style.display = "none";
     document.getElementById("pleasewait").style.display = "block";
     document.getElementById("waittext").innerText = "Please wait for the host to start the game.";
@@ -110,6 +121,8 @@ function createplayer(name){
       }
     });
   }else{
+    var disconnect = firebase.database().ref('Games/' + newgameid + '/host/status');
+    disconnect.onDisconnect().set("lost");
     document.getElementById("options").style.display = "block";
     document.getElementById("pleasewait").style.display = "none";
     const cardlist = firebase.database().ref('Games/' + newgameid + "/" + "packs/" + "packs/");
@@ -152,16 +165,16 @@ function loadlist(){
     var users = newdata8.split(',');
     userlist = [];
     userlist.push(users);
-    document.getElementById("PlayerList").innerHTML = makeTableHTML(users); 
+    document.getElementById("PlayerList").innerHTML = makeTableHTML(users,"tablerow"); 
   });
 }
 
-function makeTableHTML(myArray) {
+function makeTableHTML(myArray,class1){
   var result = "<table border=0>";
   for(var i=0; i<myArray.length; i++) {
       result += "<tr>";
       for(var j=0; j<myArray[i].length; j++){
-          result += "<td  class = 'tablerow'>"+myArray[i][j]+"</td>";
+          result += "<td  class = '" + class1 + "'>"+myArray[i][j]+"</td>";
       }
       result += "</tr>";
   }
@@ -337,19 +350,25 @@ function getwhite(){
 };
 
 function whiteselected(id){
+  if(lastpicked !== null){
+  document.getElementById(lastpicked).style.color = "";
+  }
   if(confirmed == "false"){
     if(id !== lastpicked){
       if(lastpicked !== null){
-        document.getElementById(lastpicked).style.backgroundColor = "white";
+        document.getElementById(lastpicked).classList.add("whitebutton");
+       document.getElementById(lastpicked).classList.remove("SelectedWhiteCard");
       }
-      document.getElementById(id).style.backgroundColor = "rgb(152, 152, 153)";
+      document.getElementById(id).classList.add("SelectedWhiteCard");
+      document.getElementById(id).classList.remove("whitebutton");
       lastpicked = id;
      
     }
     picked = playerwhite[id];
-    document.getElementById("confirmselection").innerHTML = '<button class="confirmslectionbutton" onclick="selectionconfirmed(' + id + ');">Confirm Selection</button>';
+    document.getElementById("confirmselection").innerHTML = '<button id="confirmselectionpoop" style="display:none;" class="confirmslectionbutton" onclick="selectionconfirmed(' + id + ');">Confirm Selection</button>';
     document.getElementById("confirmselection").style.display = "block";
-
+    document.getElementById("confirmselectionpoop").style.display = "block";
+    
   }else{
     alert("you have already picked");
   }
@@ -393,7 +412,8 @@ function selectionconfirmed(id){
   alreadyconfirmed = "true"
   let pickedcard = playerwhite[id];
   let string = null;
-  
+  document.getElementById("confirmselectionpoop").style.backgroundColor = "#FD4444";
+  document.getElementById("confirmselectionpoop").style.color = "white";
   firebase.database().ref('Games/'+ newgameid + '/pickedwhite/').child(username).set({
     pickedcard,
   });
@@ -459,6 +479,11 @@ function selectiontime(){
   let finalhtml = "";
   let selectedwhitecards = [];
   document.getElementById("whiteboxes").style.display = "none";
+  if(czar !== "1"){
+  document.getElementById("confirmselectionpoop").style.backgroundColor = "";
+  document.getElementById("confirmselectionpoop").style.color = "";
+  document.getElementById("confirmselectionpoop").style.display = "none";
+  }
   document.getElementById("confirmselection").style.display = "none";
   const status = firebase.database().ref('Games/' + newgameid + '/pickedwhite/');
   status.once('value', (snapshot) =>{
@@ -531,10 +556,22 @@ function czarhaspicked(cardid){
 }
 const scoreboard = firebase.database().ref('Games/' + newgameid + '/scores/');
 scoreboard.on('value', (snapshot) =>{
-  let newarray =[];
-  newarray.push(snapshot.val());
-  document.getElementById("scoreboard").innerHTML = makeTableHTML(newarray[0]);
-  console.log(newarray[0]);
+  let scorearray = [];
+  let score = JSON.stringify(snapshot.val());
+  let score1 = score.replace(/{/g , '');
+  let score2 = score1.replace(/"/g , '');
+  let score4 = score2.replace(/score/g, '');
+  let score5 = score4.replace(/}/g,'');
+  let score6 = score5.replace(/::/g, '  ');
+  let score7 = score6.split(',');
+  scorearray.push(score7);
+  console.log(scorearray[0]);
+  let final = '';
+  for(i in scorearray[0]){
+      final = final + '<tr class = "scoremain">' + scorearray[0][i] + '</tr>';
+  }
+  console.log(final);
+  document.getElementById("scoreboard").innerHTML = '<div><table><td>' + final + '</td></table></div>';
 });
 }
 
