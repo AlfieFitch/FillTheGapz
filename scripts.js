@@ -38,6 +38,8 @@ let alreadyconfirmed = "false";
 let rounds = 0;
 let winnercard = null;
 let runpicked = "false";
+let norounds = 10;
+let compround = 0;
 
 
 // Functions -------------------------------------------------------------------------------------
@@ -85,6 +87,16 @@ function joingame(code){
     }
   });
 };
+
+function numberrounds(){
+  let newinput = document.getElementById("rounds").value;
+  console.log(newinput);
+  if(newinput == ""){
+    alert("Enter number");
+  }else{
+    norounds = newinput + 1;
+  }
+}
 
 function newgame(input){
   let string = makeid(5);
@@ -254,6 +266,13 @@ function getRandomwhite(arr) {
 
 
 function newround(){
+  const status = firebase.database().ref('Games/' + newgameid + '/endofround/');
+  status.on('value', (snapshot) =>{
+    let check = JSON.stringify(snapshot.val())
+    if(check == '{"started":"5"}'){
+      alert("Finsihed");
+    };
+  });
   runpicked = "false";
   firebase.database().ref('Games/'+ newgameid + '/czarpick/').set({
     pick : "null",
@@ -272,6 +291,12 @@ function newround(){
   });
   confirmed = "false";
   if(host == "1"){
+    if(compround == norounds){
+      firebase.database().ref('Games/'+ newgameid + '/endofround/').set({
+        started: "5",
+      });
+    }
+    compround = compround + 1;
     firebase.database().ref('Games/'+ newgameid + '/status/').set({
       started: 0
     });

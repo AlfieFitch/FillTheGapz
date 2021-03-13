@@ -141,7 +141,7 @@ body{
 .over2header{
     margin-left: 20px;
     margin-bottom: -5px;
-    margin-top: 50px;
+    margin-top: 10px;
     padding: 5px;
 }
 
@@ -225,15 +225,40 @@ body{
 }
 
 .over2{
- margin-left: 500px;
+    float: left;
+ margin-left: 100px;
  background-color: #1F222E ;
-width: 360px;
+ width: 360px;
+ align-content: center;
+ justify-content: center;
+ border-radius: 7px;
+ min-height: 370px;
+}
+
+.over3{
+float: left;
+margin-left: 100px;
+background-color: #1F222E ;
+width: 400px;
 align-content: center;
 justify-content: center;
 border-radius: 7px;
 min-height: 370px;
 }
 
+.over3 h1{
+    font-size: 20px;
+}
+
+.rounds{
+    margin-left: 25px;
+    margin-top: 30px;
+}
+
+.customcards{
+    margin-left: 25px;
+    margin-top: 90px;
+}
 
 #packlist{
     font-size: 15px;
@@ -421,7 +446,8 @@ min-height: 370px;
     border:#FD4444 solid 2px;
     margin-left: 29vw;
     text-align: center;
-    margin-top: 9vh;
+    bottom: 40px;
+    position:absolute;
 }
 
 .author{
@@ -442,13 +468,15 @@ min-height: 370px;
     background-color: #FD4444;
     display: block;
     margin-top: 150px;
-    margin-left: 39vw;
-    width: 200px;
+    margin-left: 32.5vw;
+    width: 400px;
     border-radius: 7px;
     height: 35px;
     border-color: transparent;
     font-size: 15px;
     font-family: Poppins;
+    position:absolute;
+    bottom: 200px;
 }
 
 .dabutton:hover{
