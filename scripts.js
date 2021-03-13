@@ -43,7 +43,13 @@ let runpicked = "false";
 // Functions -------------------------------------------------------------------------------------
 
 
-
+function wait(ms){
+  var start = new Date().getTime();
+  var end = start;
+  while(end < start + ms) {
+    end = new Date().getTime();
+ }
+}
 
 
 function makeid(length) {
@@ -385,13 +391,6 @@ function selectionconfirmed(id){
       let string4 = string3.replace("status",'');
       let string5 = string4.replace(":",'');
       let int1 = parseInt(string5);
-      let user69 = (userlist[0].length - 1);
-      let subtract = null;
-      if(user69 == 0){
-        subtract = 0;
-      }else{
-        subtract = 1;
-      }
       if(int1 == (userlist[0].length - 1)){
         firebase.database().ref('Games/'+ newgameid + '/status/').set({
           started : '3',
@@ -414,6 +413,11 @@ function selectionconfirmed(id){
   let string = null;
   document.getElementById("confirmselectionpoop").style.backgroundColor = "#FD4444";
   document.getElementById("confirmselectionpoop").style.color = "white";
+  var x = document.getElementsByClassName('whitebutton');
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].classList.add("whitebuttonselected");
+  }
   firebase.database().ref('Games/'+ newgameid + '/pickedwhite/').child(username).set({
     pickedcard,
   });
@@ -501,13 +505,12 @@ function selectiontime(){
       selection.push(string6);
       if(czar == "1"){
         let ting = "'" + selection[0][0] + "'"
-        finalhtml = finalhtml + '<div class = "selectoverall"><button onclick = "czarselected('+daid + ',' + ting +');" class = "czarselect" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 id = "author">'+ selection[0][0] +'</h1></button></div>';
+        finalhtml = finalhtml + '<div class = "selectoverall"><button onclick = "czarselected('+daid + ',' + ting +');" class = "czarselect" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 id = "author" style = "display:none;">'+ selection[0][0] +'</h1></button></div>';
       }else{
-        finalhtml = finalhtml + '<div class = "selectoverall"><button class = "select" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 id = "author">'+ selection[0][0] +'</h1></button></div>';
+        finalhtml = finalhtml + '<div class = "selectoverall"><button class = "select" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 id = "author" style = "display:none;">'+ selection[0][0] +'</h1></button></div>';
       }
     }
     document.getElementById("pickerselection").innerHTML = finalhtml;
-    document.getElementById("author").style.display="none";
     document.getElementById("pickerselection").style.display = "block";
     const status = firebase.database().ref('Games/' + newgameid + '/czarpick/');
     status.on('value', (snapshot) =>{
@@ -536,7 +539,11 @@ function czarhaspicked(cardid){
   let newcardid = cardid.replace('{"pick":' , '');
   newcardid = newcardid.replace('}' , '');
   newcardid = newcardid.replace(/"/g , '');
-  document.getElementById("author").style.display="block";
+  var xting = document.querySelectorAll('p[id="author"]');
+  var i;
+  for (i = 0; i < xting.length; i++) {
+    xting[i].style.display="block";
+  }
   document.getElementById(newcardid).style.backgroundColor = "#8a720b";
   document.getElementById(newcardid).style.color = "white";
   if(host == "1"){
@@ -573,6 +580,9 @@ scoreboard.on('value', (snapshot) =>{
   console.log(final);
   document.getElementById("scoreboard").innerHTML = '<div><table><td>' + final + '</td></table></div>';
 });
+if(host == "1"){
+  setTimeout(() => {  startgame(); }, 10000);
+}
 }
 
 function leavegame(){
