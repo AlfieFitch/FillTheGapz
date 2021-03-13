@@ -309,6 +309,7 @@ function newround(){
   if(czar == "1"){
     selectionconfirmed();
     document.getElementById("whiteboxes").style.display = "none";
+    document.getElementById("czarnotif").style.display = "block";
     document.getElementById("confirmselection").style.display = "none";
   }else{
     document.getElementById("whiteboxes").style.display = "block";
@@ -488,6 +489,7 @@ function selectiontime(){
   document.getElementById("confirmselectionpoop").style.color = "";
   document.getElementById("confirmselectionpoop").style.display = "none";
   }
+  document.getElementById("czarnotif").style.display = "none";
   document.getElementById("confirmselection").style.display = "none";
   const status = firebase.database().ref('Games/' + newgameid + '/pickedwhite/');
   status.once('value', (snapshot) =>{
@@ -505,9 +507,9 @@ function selectiontime(){
       selection.push(string6);
       if(czar == "1"){
         let ting = "'" + selection[0][0] + "'"
-        finalhtml = finalhtml + '<div class = "selectoverall"><button onclick = "czarselected('+daid + ',' + ting +');" class = "czarselect" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 id = "author" style = "display:none;">'+ selection[0][0] +'</h1></button></div>';
+        finalhtml = finalhtml + '<div class = "selectoverall"><button onclick = "czarselected('+daid + ',' + ting +');" class = "czarselect" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 class = "author" style = "display:none;">'+ selection[0][0] +'</h1></button></div>';
       }else{
-        finalhtml = finalhtml + '<div class = "selectoverall"><button class = "select" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 id = "author" style = "display:none;">'+ selection[0][0] +'</h1></button></div>';
+        finalhtml = finalhtml + '<div class = "selectoverall"><button class = "select" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 class = "author" style = "display:none;">'+ selection[0][0] +'</h1></button></div>';
       }
     }
     document.getElementById("pickerselection").innerHTML = finalhtml;
@@ -539,7 +541,7 @@ function czarhaspicked(cardid){
   let newcardid = cardid.replace('{"pick":' , '');
   newcardid = newcardid.replace('}' , '');
   newcardid = newcardid.replace(/"/g , '');
-  var xting = document.querySelectorAll('p[id="author"]');
+  var xting = document.getElementsByClassName('author');
   var i;
   for (i = 0; i < xting.length; i++) {
     xting[i].style.display="block";

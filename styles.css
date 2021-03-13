@@ -259,8 +259,9 @@ min-height: 370px;
 }
 
 .pleasewait{
-    margin-top: -450px;
-    margin-left: 600px;
+    color: white;
+    margin-top: 40vh;
+    margin-left: 425px;
 }
 
 #blackcard{
@@ -372,7 +373,7 @@ min-height: 370px;
 }
 
 .mainfunny{
-    font-size: 15px;
+    font-size: 20px;
     margin-top: calc(50% - 70px);
     padding: 5px;
 }
@@ -412,9 +413,44 @@ min-height: 370px;
 }
 
 #url{
+    background-color: #1F222E;
+    width: 500px;
     font-size: 20px;
+    padding: 5px;
+    border-radius: 6px;
+    border:#FD4444 solid 2px;
+    margin-left: 29vw;
     text-align: center;
-    margin-top: 50vh;
+    margin-top: 9vh;
 }
 
+.author{
+    font-size: 20px;
+    text-align: center;
+    color: #f5a8aa;
+}
 
+#czarnotif{
+    text-align: center;
+    color: white;
+    margin-top: 43vh;
+}
+
+.dabutton{
+    outline: none;
+    color: white;
+    background-color: #FD4444;
+    display: block;
+    margin-top: 150px;
+    margin-left: 39vw;
+    width: 200px;
+    border-radius: 7px;
+    height: 35px;
+    border-color: transparent;
+    font-size: 15px;
+    font-family: Poppins;
+}
+
+.dabutton:hover{
+    background-color: #D94E53;
+}
