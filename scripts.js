@@ -94,7 +94,7 @@ function numberrounds(){
   if(newinput == ""){
     alert("Enter number");
   }else{
-    norounds = newinput + 1;
+    norounds = parseInt(newinput);
   }
 }
 
@@ -161,6 +161,9 @@ function startgame(){
     firebase.database().ref('Games/' + newgameid + '/' + 'status/').set({
       started: 1,
     });
+    firebase.database().ref('Games/' + newgameid + '/white').set({
+      cards: JSON.stringify(white),
+    });
     newround();
   }else{
     alert("You are not host.");
@@ -180,6 +183,7 @@ function loadlist(){
     var newdata6 = newdata5.replace(/null/g,'');
     var newdata7 = newdata6.replace(/ /g , '');
     var newdata8 = newdata7.replace(/(\n)+/g , '');
+    newdata8 = newdata8.replace(/\n/g , '');
     var users = newdata8.split(',');
     userlist = [];
     userlist.push(users);
@@ -243,11 +247,9 @@ function add_deck(){
         .then(function (data) {
             black.push(data.calls);
             white.push(data.responses);
-            firebase.database().ref('Games/' + newgameid + '/white').set({
-              cards: JSON.stringify(white),
-            });
         });
 }
+
 
 
 function getRandom(arr) {
@@ -268,9 +270,10 @@ function getRandomwhite(arr) {
 function newround(){
   const status = firebase.database().ref('Games/' + newgameid + '/endofround/');
   status.on('value', (snapshot) =>{
-    let check = JSON.stringify(snapshot.val())
+    let check = JSON.stringify(snapshot.val());
     if(check == '{"started":"5"}'){
-      alert("Finsihed");
+      gamefinished();
+      return;
     };
   });
   runpicked = "false";
@@ -279,7 +282,6 @@ function newround(){
   });
   alreadyconfirmed = "false";
   firebase.database().ref('Games/'+ newgameid + '/pickedwhite/').remove();
-  let selectedwhitecards = [];
   let string3 = null;
   czar = "0";
   lastpicked = null;
@@ -293,7 +295,7 @@ function newround(){
   if(host == "1"){
     if(compround == norounds){
       firebase.database().ref('Games/'+ newgameid + '/endofround/').set({
-        started: "5",
+        started: "5"
       });
     }
     compround = compround + 1;
@@ -366,9 +368,11 @@ function getwhite(){
   }else{
     if(playerwhite.length < 10){
         let randomwhite17 = getRandom(white);
+        console.log(randomwhite17);
         let randomwhite = JSON.stringify(randomwhite17);
         let randomwhite1 = randomwhite.replace('["' , '');
         let randomwhite2 = randomwhite1.replace('"]' , '');
+        randomwhite2 = randomwhite2.replace(/\n/g , '');
         playerwhite.push(randomwhite2);
         getwhite();
     };
@@ -602,10 +606,11 @@ scoreboard.on('value', (snapshot) =>{
   console.log(scorearray[0]);
   let final = '';
   for(i in scorearray[0]){
-      final = final + '<tr class = "scoremain">' + scorearray[0][i] + '</tr>';
+      final = final + '<tr class="scorerow"><td class = "scoremain">' + scorearray[0][i] + '</td></tr>';
   }
-  console.log(final);
-  document.getElementById("scoreboard").innerHTML = '<div><table><td>' + final + '</td></table></div>';
+  let finalpoop = '<div><table class = "scoreover">' + final +'</table></div>';
+  console.log(finalpoop);
+  document.getElementById("scoreboard").innerHTML = finalpoop;
 });
 if(host == "1"){
   setTimeout(() => {  startgame(); }, 10000);
@@ -615,6 +620,13 @@ if(host == "1"){
 function leavegame(){
   firebase.database().ref('Games/'+ newgameid + '/players/' + username).remove();
   location.reload();
+}
+
+function gamefinished(){
+  document.getElementById("endofgame").style.display = "block";
+  document.getElementById("whiteboxesparent").style.display = "none";
+  document.getElementById("Game").style.display = "none";
+  document.getElementById("blackcard").style.display = "none";
 }
 
 

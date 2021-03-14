@@ -482,3 +482,28 @@ min-height: 370px;
 .dabutton:hover{
     background-color: #D94E53;
 }
+
+#endofgame h1{
+    color: white;
+    margin-left: 50px;
+    margin-top: 50px;
+}
+
+.scoremain{
+    margin-top: 20px;
+}
+
+.scorerow{
+    margin-left: 25px;
+    margin-top: 20px;
+}
+
+.scoreover{
+    margin-top : 30vh;
+    margin-left: 25px;
+    background-color: #0D0B25;
+    border: #FD4444 2px solid;
+    border-radius: 6px;
+    width: 300px;
+    min-height: 200px;
+}
