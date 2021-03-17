@@ -125,10 +125,11 @@ function createplayer(name){
       if(value == '{"status":"lost"}'){
         alert("Host Disconnected.");
         firebase.database().ref('Games/'+ newgameid).remove();
-        location.reload();
+        window.location.replace("http://fillthegapz.com");
       }
     });
     document.getElementById("options").style.display = "none";
+    document.getElementById("additionalplayer").style.display = "block";
     document.getElementById("pleasewait").style.display = "block";
     document.getElementById("waittext").innerText = "Please wait for the host to start the game.";
     const status = firebase.database().ref('Games/' + newgameid + '/status/');
@@ -187,7 +188,8 @@ function loadlist(){
     var users = newdata8.split(',');
     userlist = [];
     userlist.push(users);
-    document.getElementById("PlayerList").innerHTML = makeTableHTML(users,"tablerow"); 
+    document.getElementById("PlayerList").innerHTML = makeTableHTML(users,"tablerow");
+    document.getElementById("additionalPlayerList").innerHTML = makeTableHTML(users,"tablerow"); 
   });
 }
 
@@ -321,6 +323,7 @@ function newround(){
     }else{
       czar = "0";
     }
+    document.getElementById("czardisplay").innerHTML = "<h1>The Current Czar is " + string3 + "</h1>";
   getwhite();
   const status = firebase.database().ref('Games/' + newgameid + '/card').child('black');
   status.once('value', (snapshot) =>{
@@ -345,6 +348,7 @@ function newround(){
   document.getElementById("playeroverall").style.display = "none";
   document.getElementById("pleasewait").style.display = "none";
   document.getElementById("options").style.display = "none";
+  document.getElementById("additionalplayer").style.display = "none";
   document.getElementById("Game").style.display = "inline";
   document.getElementById("waittext").innerText = "Please wait for the next round to start.";
   });
@@ -619,7 +623,7 @@ if(host == "1"){
 
 function leavegame(){
   firebase.database().ref('Games/'+ newgameid + '/players/' + username).remove();
-  location.reload();
+  window.location.replace("http://fillthegapz.com");
 }
 
 function gamefinished(){

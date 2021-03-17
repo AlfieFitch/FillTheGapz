@@ -285,8 +285,8 @@ min-height: 370px;
 
 .pleasewait{
     color: white;
-    margin-top: 40vh;
-    margin-left: 425px;
+    margin-top: -52vh;
+    margin-left: 45vw;
 }
 
 #blackcard{
@@ -499,7 +499,7 @@ min-height: 370px;
 }
 
 .scoreover{
-    margin-top : 30vh;
+    margin-top : 3vh;
     margin-left: 25px;
     background-color: #0D0B25;
     border: #FD4444 2px solid;
@@ -507,3 +507,35 @@ min-height: 370px;
     width: 300px;
     min-height: 200px;
 }
+
+#czardisplay h1{
+    font-size: 15px;
+}
+
+#czardisplay{
+    margin-left: 25px;
+    margin-top: 250px;
+}
+
+#additionplayeroverall{
+    margin-top: 20px;
+    margin-left: 25px;
+    border-radius:6px;
+    color: white;
+    background-color: #1F222E;
+    height: 88vh;
+    width: 500px;
+    border:#FD4444 2px solid;
+}
+
+.addPlayerstitle{
+    font-size: 25px;
+    margin-left: 25px;
+    padding-top: 25px;
+}
+
+.addplayertable{
+    margin-left: 95px;
+    padding-top: 15px;
+}
+
