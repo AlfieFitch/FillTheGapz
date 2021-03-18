@@ -1,14 +1,14 @@
 // Firebase -------------------------------------------------------------------------------------
 
 var firebaseConfig = {
-    apiKey: "AIzaSyAtJsf9OYIx3Ul9wRSWsxSRPrNa69Z4Rj0",
-    authDomain: "cardsagainsthumanity-6a896.firebaseapp.com",
-    databaseURL: "https://cardsagainsthumanity-6a896-default-rtdb.firebaseio.com",
-    projectId: "cardsagainsthumanity-6a896",
-    storageBucket: "cardsagainsthumanity-6a896.appspot.com",
-    messagingSenderId: "391885717905",
-    appId: "1:391885717905:web:7cb754567c6d69ffe99a30",
-    measurementId: "G-NLE09XVV78"
+    apiKey: API_KEY,
+    authDomain: AUTH_DOMAIN,
+    databaseURL: DATABASE_URL,
+    projectId: PROJECT_ID,
+    storageBucket: STORAGE_BUCKET,
+    messagingSenderId: MESSAGE_ID,
+    appId: APP_ID,
+    measurementId: MEASUREMENT_ID
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -599,7 +599,10 @@ function czarhaspicked(cardid){
 const scoreboard = firebase.database().ref('Games/' + newgameid + '/scores/');
 scoreboard.on('value', (snapshot) =>{
   let scorearray = [];
+  console.log(JSON.stringify(snapshot.val()[0]));
+  console.log(JSON.stringify(snapshot.val()[1]));
   let score = JSON.stringify(snapshot.val());
+  console.log(score);
   let score1 = score.replace(/{/g , '');
   let score2 = score1.replace(/"/g , '');
   let score4 = score2.replace(/score/g, '');
