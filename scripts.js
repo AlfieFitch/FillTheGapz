@@ -1,14 +1,14 @@
 // Firebase -------------------------------------------------------------------------------------
 
 var firebaseConfig = {
-    apiKey: process.env.API_KEY,
-    authDomain: process.env.AUTH_DOMAIN,
-    databaseURL: process.env.DATABASE_URL,
-    projectId: process.env.PROJECT_ID,
-    storageBucket: process.env.STORAGE_BUCKET,
-    messagingSenderId: process.env.MESSAGE_ID,
-    appId: process.env.APP_ID,
-    measurementId: process.env.MEASUREMENT_ID
+    apiKey: "AIzaSyAtJsf9OYIx3Ul9wRSWsxSRPrNa69Z4Rj0",
+    authDomain: "cardsagainsthumanity-6a896.firebaseapp.com",
+    databaseURL: "https://cardsagainsthumanity-6a896-default-rtdb.firebaseio.com",
+    projectId: "cardsagainsthumanity-6a896",
+    storageBucket: "cardsagainsthumanity-6a896.appspot.com",
+    messagingSenderId: "391885717905",
+    appId: "1:391885717905:web:7cb754567c6d69ffe99a30",
+    measurementId: "G-NLE09XVV78"
 };
 
 firebase.initializeApp(firebaseConfig);
