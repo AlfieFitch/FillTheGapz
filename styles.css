@@ -489,24 +489,28 @@ min-height: 370px;
     margin-top: 50px;
 }
 
-.scoremain{
-    margin-top: 20px;
-}
-
-.scorerow{
-    margin-left: 25px;
-    margin-top: 20px;
-}
-
 .scoreover{
-    margin-top : 3vh;
+    margin-top : 2vh;
     margin-left: 25px;
     background-color: #0D0B25;
     border: #FD4444 2px solid;
     border-radius: 6px;
-    width: 300px;
-    min-height: 200px;
+    width: 90%;
+    max-height: 300px;
+    border-radius: 6px;
 }
+
+.scoremain{
+    border-collapse: collapse;
+    padding: 10px;
+    border-right: solid white 2px;
+}
+
+.scoremain:last-child{
+    border-right: none;
+}
+
+
 
 #czardisplay h1{
     font-size: 15px;
@@ -514,7 +518,7 @@ min-height: 370px;
 
 #czardisplay{
     margin-left: 25px;
-    margin-top: 250px;
+    margin-top: 200px;
 }
 
 #additionplayeroverall{

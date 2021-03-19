@@ -599,21 +599,21 @@ function czarhaspicked(cardid){
 const scoreboard = firebase.database().ref('Games/' + newgameid + '/scores/');
 scoreboard.on('value', (snapshot) =>{
   let scorearray = [];
-  console.log(JSON.stringify(snapshot.val()[0]));
-  console.log(JSON.stringify(snapshot.val()[1]));
   let score = JSON.stringify(snapshot.val());
-  console.log(score);
   let score1 = score.replace(/{/g , '');
   let score2 = score1.replace(/"/g , '');
   let score4 = score2.replace(/score/g, '');
   let score5 = score4.replace(/}/g,'');
-  let score6 = score5.replace(/::/g, '  ');
-  let score7 = score6.split(',');
-  scorearray.push(score7);
-  console.log(scorearray[0]);
+  let score6 = score5.split(',');
+  scorearray.push(score6);
+  console.log(scorearray);
   let final = '';
   for(i in scorearray[0]){
-      final = final + '<tr class="scorerow"><td class = "scoremain">' + scorearray[0][i] + '</td></tr>';
+      let smallarray = [];
+      let ting = scorearray[0][i];
+      let newting = ting.split('::');
+      smallarray.push(newting);
+      final = final + '<tr class="scorerow"><td class = "scoremain">' + smallarray[0][0] + '</td><td class = "scoremain">' + smallarray[0][1] + '</td></tr>';
   }
   let finalpoop = '<div><table class = "scoreover">' + final +'</table></div>';
   console.log(finalpoop);
