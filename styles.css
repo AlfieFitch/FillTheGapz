@@ -175,8 +175,6 @@ body{
     margin-top: -10px;
 }
 
-
-
 .input h1{
     margin-top: -5px;
 }
@@ -193,7 +191,7 @@ body{
     color: white;
     background-color: #0d0b25;
     margin-top: 10vh;
-    margin-left: 50px;
+    margin-left: 4vw;
 }
 
 .pleasewait{
@@ -510,8 +508,6 @@ min-height: 370px;
     border-right: none;
 }
 
-
-
 #czardisplay h1{
     font-size: 15px;
 }
@@ -541,5 +537,12 @@ min-height: 370px;
 .addplayertable{
     margin-left: 95px;
     padding-top: 15px;
+}
+
+.roundsdiv{
+    text-align: center;
+    margin-top: 25px;
+    margin-left: -25px;
+    font-size: 25px;
 }
 

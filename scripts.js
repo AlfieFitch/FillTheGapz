@@ -90,11 +90,11 @@ function joingame(code){
 
 function numberrounds(){
   let newinput = document.getElementById("rounds").value;
-  console.log(newinput);
   if(newinput == ""){
     alert("Enter number");
   }else{
     norounds = parseInt(newinput);
+    document.getElementById("roundsnum").innerText = newinput + ' rounds';
   }
 }
 
@@ -170,7 +170,6 @@ function startgame(){
     alert("You are not host.");
   }
 };
-
 
 function loadlist(){
   var playerlist = firebase.database().ref('Games/' + newgameid + "/" + 'players/');
@@ -252,22 +251,17 @@ function add_deck(){
         });
 }
 
-
-
 function getRandom(arr) {
   var random1 = Math.floor((Math.random() * (arr.length - 1)));
   let final =  arr[random1][Math.floor((Math.random() * (arr[random1].length)))].text;
   return final;
 }
 
-
 function getRandomwhite(arr) {
   var random1 = Math.floor((Math.random() * (arr.length - 1)));
   let final =  arr[random1][Math.floor((Math.random() * (arr[random1].length)))];
   return final;
 }
-
-
 
 function newround(){
   const status = firebase.database().ref('Games/' + newgameid + '/endofround/');
@@ -364,7 +358,11 @@ function getwhite(){
         let randomwhite = getRandomwhite(white);
         let randomwhite1 = randomwhite.replace('"text":["' , '');
         let randomwhite2 = randomwhite1.replace('"]' , '');
-        playerwhite.push(randomwhite2);
+        let randomwhite3 = randomwhite2.replace(/\\n/g,'');
+        let randomwhite4 = randomwhite3.replace(/\n/g,'');
+        let randomwhite5 = randomwhite4.replace(/}]]/g,'');
+        let randomwhite6 = randomwhite5.replace(/\\/g , '');
+        playerwhite.push(randomwhite6);
         getwhite();
       });
     }
@@ -372,9 +370,8 @@ function getwhite(){
   }else{
     if(playerwhite.length < 10){
         let randomwhite17 = getRandom(white);
-        console.log(randomwhite17);
         let randomwhite = JSON.stringify(randomwhite17);
-        let randomwhite1 = randomwhite.replace('["' , '');
+        let randomwhite1 = randomwhite.replace('["', '');
         let randomwhite2 = randomwhite1.replace('"]' , '');
         randomwhite2 = randomwhite2.replace(/\n/g , '');
         playerwhite.push(randomwhite2);
@@ -606,7 +603,6 @@ scoreboard.on('value', (snapshot) =>{
   let score5 = score4.replace(/}/g,'');
   let score6 = score5.split(',');
   scorearray.push(score6);
-  console.log(scorearray);
   let final = '';
   for(i in scorearray[0]){
       let smallarray = [];
@@ -616,7 +612,6 @@ scoreboard.on('value', (snapshot) =>{
       final = final + '<tr class="scorerow"><td class = "scoremain">' + smallarray[0][0] + '</td><td class = "scoremain">' + smallarray[0][1] + '</td></tr>';
   }
   let finalpoop = '<div><table class = "scoreover">' + final +'</table></div>';
-  console.log(finalpoop);
   document.getElementById("scoreboard").innerHTML = finalpoop;
 });
 if(host == "1"){
