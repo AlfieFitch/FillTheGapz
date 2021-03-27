@@ -223,7 +223,7 @@ body{
 }
 
 .over2{
-    float: left;
+float: left;
  margin-left: 100px;
  background-color: #1F222E ;
  width: 360px;
@@ -546,3 +546,31 @@ min-height: 370px;
     font-size: 25px;
 }
 
+.neu1{
+    border: 2px solid #fd4444;
+    width: 40vw;
+    height: 80vh;
+    border-radius: 48px;
+    background: #0d0b25;
+    box-shadow:  -41px 41px 77px #05040f,
+                 41px -41px 77px #15123b;
+    margin-top: 50px;
+    margin-left: 50px; 
+}
+
+.homeheader{
+    color: white;
+    margin-left: 50px;
+    margin-top: 30px;
+}
+
+.hometext{
+    position: absolute;
+    color: white;
+    margin-left: 50px;
+    margin-right: 58vw;
+}
+
+.link{
+    color: white;
+}

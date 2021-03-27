@@ -317,7 +317,7 @@ function newround(){
     }else{
       czar = "0";
     }
-    document.getElementById("czardisplay").innerHTML = "<h1>The Current Czar is " + string3 + "</h1>";
+    document.getElementById("czardisplay").innerHTML = "<h1>The Current King is " + string3 + "</h1>";
   getwhite();
   const status = firebase.database().ref('Games/' + newgameid + '/card').child('black');
   status.once('value', (snapshot) =>{
