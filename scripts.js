@@ -679,7 +679,7 @@ window.onload = function(){
 }
 
 function joining(game){
-  window.location.href = "http://fillthegapz.com/?code="+game;
+  joingame(game);
 }
 
 //------------------------------------------------------------------------------------------
