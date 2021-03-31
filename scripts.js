@@ -207,6 +207,7 @@ function makeTableHTML(myArray,class1){
 }
 
 function newinput(title,code){
+  document.getElementById("homepage").style.display = "none";
   document.getElementById("popuptitle").innerText = title;
   document.getElementById("inputmodal").style.display = "block";
   if(code == "join"){
@@ -216,7 +217,6 @@ function newinput(title,code){
   }if(code == "create"){
     overallcode = "create";
   }
-
 }
 
 function submit(){
@@ -631,7 +631,56 @@ function gamefinished(){
   document.getElementById("blackcard").style.display = "none";
 }
 
+function lobbyname(){
+  let name = document.getElementById("lobname").value;
+  if(name == "" || name == null){
+    alert("Enter a name.");
+  }else if(name.length > 14){
+    alert("Must be less than 14 Characters.");
+  }else{
+    firebase.database().ref('Games/'+ newgameid + '/lobbyname/').set({
+      name: name + "$" + newgameid,
+    });
+    document.getElementById("lobnamedisp").innerText = "Public: "+ name;
+  }
+}
 
+window.onload = function(){
+  const scoreboard = firebase.database().ref('Games/');
+  scoreboard.on('value', (snapshot) =>{
+    let overallhtml = "";
+    let pubgames = [];
+    let array = [];
+    let tin = snapshot.val();
+    for(i in tin){
+      array.push(tin[i]);
+    }
+    for(i in array){
+      let val = array[i].lobbyname;
+      if(val !== undefined){
+        pubgames.push(val);
+      }
+    }
+    if(pubgames.length == 0){
+      overallhtml = "<h1 class = 'nogames'>There are no public Games.</h1>";
+    }
+    for(i in pubgames){
+      let val = pubgames[i];
+      let temparray = [];
+      val = JSON.stringify(val);
+      val = val.replace('{"name":"','');
+      val = val.replace('"}','');
+      let toarray = val.split('$');
+      temparray.push(toarray);
+      overallhtml = overallhtml + "<div class ='gamenameover'><div class = 'gamename'><h1 class = 'nametext'>"+ temparray[0][0] +"</h1></div><button onclick = 'joining("+ JSON.stringify(temparray[0][1]) + ");' class = 'gamesbutton'>Join</button></div>";
+    }
+    document.getElementById("gamesoverall").innerHTML = overallhtml;
+  });
+}
+
+function joining(game){
+  window.location.href = "http://fillthegapz.com/?code="+game;
+}
 
 //------------------------------------------------------------------------------------------
 

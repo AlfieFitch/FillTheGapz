@@ -255,7 +255,12 @@ min-height: 370px;
 
 .customcards{
     margin-left: 25px;
-    margin-top: 90px;
+    margin-top: 25px;
+}
+
+.smallercustom{
+    font-size: 10px;
+    margin-right: 20px;
 }
 
 #packlist{
@@ -574,3 +579,100 @@ min-height: 370px;
 .link{
     color: white;
 }
+
+.homeheader1{
+    color: white;
+    margin-left: 47vw;
+    margin-top: -77.5vh;
+}
+
+.crcasthelp{
+    font-size: 10px;
+}
+
+.smallercustom1{
+    text-align: center;
+    font-size: 15px;
+    margin-left: -25px;
+}
+
+.gamesoverall{
+    width: 52vw;
+    float: right;
+    color: white;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin-right: 25px;
+    max-height: 67vh;
+}
+
+.gamenameover{
+    color:#D94E53;
+    background-color: white;
+    min-width: 300px;
+    font-size: 10px;
+    float: left;
+    margin-left: 0vw;
+    margin-right: 5vw;
+    margin-top: 1vh;
+    border-radius: 6px;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    height: 10vh;
+    margin-bottom: 25px;
+}
+
+.gamename{
+    width: 50%;
+    margin-left: 25px;
+    margin-top: 8%;
+}
+
+.gamesbutton{
+    padding: none;
+    float:right;
+    margin: 0;
+    outline: 0px;
+    border: 0px;
+    margin-top: -16%;
+    margin-right: 15px;
+    width: 75px;
+    outline: none;
+    border: none;
+    background-color: #FD4444;
+    color: white;
+    height: 5vh;
+    border-radius: 6px;
+}
+
+.gamesbutton:hover{
+    background-color: #D94E53;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: none;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background:#FD4444;
+    border-radius: 6px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background:#D94E53;
+  }
+
+  .nogames{
+      color:white;
+      margin-left: 11vw;
+      margin-top:25vh;
+  }

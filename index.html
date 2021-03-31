@@ -33,6 +33,10 @@
             <h1 class = "homeheader">Do not hold back.</h1>
             <b1 class = "hometext">That is right - Do not hold back - especially in the name of fun and humour. <br><br> Fill the gapz... The game that may not be for all the family! Come up with the most outrageous, offensive, and hilarious statements by matching statement cards with your own selection of cards. <br><br> Use the <a class="link" href="https://cast.clrtd.com/" target="_blank">CrCast</a> system to add your own custom card decks and even inside jokes into the game. Simply find the code to the deck you want to add into the game and instantly play it! <br><br> Fill the Gapz is free, online and multiplayer. Quickly and easily join your friends or families game on any browser and get involved with the fun that is possible! <br><br> The Fill the Gapz game and website is developed by <a class = "link" href="https://alfiefitch.com" target="_blank">Alfie Fitch</a> and is apart of the variant features available on <a class = "link" href="https://fitchnetwork.co.uk" target="_blank">The Fitch Network</a>.<br><br>Help and support is available through email at 'support@fillthegapz.com' or general enquiries can be sent to 'general@fillthegapz.com'. Click <a class = "link" href="https://fillthegapz.com/legal">Here</a> for legal information and website policies.</b1>
         </div>
+        <div class = "findgame">
+            <h1 class = "homeheader1">Find a Game:</h1>
+            <div class = "gamesoverall" id = "gamesoverall"></div>
+        </div>
     </div>
 
     <div class = "input" id = "inputmodal" style="display: none;">
@@ -52,6 +56,7 @@
         <div class = "over2">
             <div class = "over2header">
                 <h2>Add decks:</h2>
+                <h1 class = "crcasthelp">Enter the code to the card deck, which can be found <a class=link href="https://cast.clrtd.com/" target="_blank">here</a>.</h1>
             </div>
             <input class = "inputbox" id = "cardcode" type ="text" placeholder = "Enter Card Code" name = "cardcode" required>
             <button class = "joinbutton1" id = "submit" onclick = "add_deck()">Add</button>
@@ -67,10 +72,12 @@
                 <button class = "joinbutton1" id = "submit" onclick = "numberrounds()">Submit</button>
                 <div class = "roundsdiv" id = "roundsnum">10 rounds</div>
             </div>
-            <div class = "customcards" style="display: none;">
-                <h1>Enter the number of Custom Cards</h1>
-                <input class = "inputbox" id = "custom" type="number" placeholder = "" name = "custom" required>
-                <button class = "joinbutton1" id = "submit" onclick = "custom()">Submit</button>
+            <div class = "customcards">
+                <h1>Enter a lobby name:</h1>
+                <h2 class = "smallercustom">Enter a name for the lobby to make it appear on the homepage.</h2>
+                <input class = "inputbox" id = "lobname" placeholder = "" name = "custom" required>
+                <button class = "joinbutton1" id = "submit" onclick = "lobbyname()">Submit</button>
+                <h2 class = "smallercustom1" id ="lobnamedisp">Not Public</h2>
             </div>
         </div>
         
