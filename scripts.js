@@ -40,10 +40,29 @@ let winnercard = null;
 let runpicked = "false";
 let norounds = 10;
 let compround = 0;
+let gameid=null;
 
 
 // Functions -------------------------------------------------------------------------------------
 
+
+
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
 
 function wait(ms){
   var start = new Date().getTime();
@@ -63,16 +82,6 @@ function makeid(length) {
   }
   return result;
 }
-
-window.onload = function(){
-  let url = new URLSearchParams(location.search);
-  let dacode = url.get('code');
-  if(dacode !== null){
-    joingame(dacode);
-  }else{
-  }
-};
-
 
 function joingame(code){
   let data = "null";
@@ -123,7 +132,6 @@ function createplayer(name){
     status67.on('value', (snapshot) =>{
       let value = JSON.stringify(snapshot.val());
       if(value == '{"status":"lost"}'){
-        alert("Host Disconnected.");
         firebase.database().ref('Games/'+ newgameid).remove();
         window.location.replace("http://fillthegapz.com");
       }
@@ -142,6 +150,7 @@ function createplayer(name){
   }else{
     var disconnect = firebase.database().ref('Games/' + newgameid + '/host/status');
     disconnect.onDisconnect().set("lost");
+    firebase.database().ref('Games/' + newgameid + '/lobbyname').remove;
     document.getElementById("options").style.display = "block";
     document.getElementById("pleasewait").style.display = "none";
     const cardlist = firebase.database().ref('Games/' + newgameid + "/" + "packs/" + "packs/");
@@ -154,6 +163,8 @@ function createplayer(name){
       document.getElementById("packlist").innerHTML = makeTableHTML(packs); 
     });
   }
+  document.cookie = "playername=" + username;
+  document.cookie = "gameid=" + newgameid;
   loadlist();
 };
 
@@ -351,9 +362,11 @@ function newround(){
 function getwhite(){
   if(host !== "1"){
     if(playerwhite.length < 10){
-      const status = firebase.database().ref('Games/' + newgameid + '/white').child('cards');
+      const status = firebase.database().ref('Games/' + newgameid + '/white/cards');
       status.once('value', (snapshot) =>{
-        let splited = snapshot.val().split("},{");
+        let splited = snapshot.val();
+        console.log(splited);
+        splited = splited.split("},{");
         white.push(splited);
         let randomwhite = getRandomwhite(white);
         let randomwhite1 = randomwhite.replace('"text":["' , '');
@@ -620,6 +633,8 @@ if(host == "1"){
 }
 
 function leavegame(){
+  document.cookie = "playername=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  document.cookie = "gameid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   firebase.database().ref('Games/'+ newgameid + '/players/' + username).remove();
   window.location.replace("http://fillthegapz.com");
 }
@@ -646,6 +661,25 @@ function lobbyname(){
 }
 
 window.onload = function(){
+  firebase.auth().signInAnonymously()
+  .then(() => {
+    console.log("signedin");
+  })
+  .catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // ...
+  });
+  let url = new URLSearchParams(location.search);
+  let dacode = url.get('code');
+  if(dacode !== null){
+    joingame(dacode);
+  }else{
+    let id = getCookie('gameid');
+    if(id !== ""){
+      RejoinGame(id);
+    }
+  };
   const scoreboard = firebase.database().ref('Games/');
   scoreboard.on('value', (snapshot) =>{
     let overallhtml = "";
@@ -680,6 +714,41 @@ window.onload = function(){
 
 function joining(game){
   joingame(game);
+}
+
+function RejoinGame(id){
+  const status = firebase.database().ref('Games/' + id);
+  status.once('value', (snapshot) =>{
+    let check = JSON.stringify(snapshot.val());
+    console.log(check);
+    if(check !== 'null'){
+      gameid = id;
+      document.getElementById("rejoinoverall").style.display = 'block';
+    };
+ });
+}
+
+function discardgame(){
+  let nameting = getCookie('playername');
+  firebase.database().ref('Games/'+ gameid + '/players/' + nameting).remove();
+  document.cookie = "playername=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  document.cookie = "gameid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  document.getElementById("rejoinoverall").style.display = 'none';
+}
+
+function rejoindagame(){
+  document.getElementById("homepage").style.display = "none";
+  document.getElementById("rejoinoverall").style.display = "none";
+  newgameid = getCookie('gameid');
+  createplayer(getCookie('playername'));
+  const status = firebase.database().ref('Games/' + newgameid + '/status/');
+  status.once('value', (snapshot) =>{
+    let check = JSON.stringify(snapshot.val());
+    console.log(check);
+    if(check == '{"started":0}'){
+      newround();
+    };
+  });
 }
 
 //------------------------------------------------------------------------------------------

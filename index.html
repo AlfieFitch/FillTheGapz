@@ -10,12 +10,12 @@
     <title>FillTheGapz</title>
     <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
     <script src = "./scripts.js"></script>
     <link rel="stylesheet" href="./styles.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="https://imgs.fitchnetwork.co.uk/FTGfav.png"/>
-    <link rel="icon" type="image/png" href="https://imgs.fitchnetwork.co.uk/FTGfav.png"/>
     <meta name="description" content="A Cards against Humanity alternative with custom card decks - Play live with you friends wherever they are!">
 </head>
 <body>
@@ -36,6 +36,9 @@
         <div class = "findgame">
             <h1 class = "homeheader1">Find a Game:</h1>
             <div class = "gamesoverall" id = "gamesoverall"></div>
+        </div>
+        <div class = "footer">
+            <h1>Copyright ©  Fitch Network 2021</h1>
         </div>
     </div>
 
@@ -116,6 +119,15 @@
 
     <div id = "endofgame" style="display:none;">
         <h1>End of Game</h1>
+    </div>
+
+    <div class = "rejoinoverall" id = "rejoinoverall" style="display:none;">
+        <div class = "header2"><h1>Would you like to rejoin?</h1></div>
+        <div class = "bodytext"><h1>The last game you were in has not finished yet. Would you like to rejoin.</h1></div>
+        <div class = "rejoinbuttons">
+            <button class = "rebutton" onclick="rejoindagame();">Rejoin</button>
+            <button class = "rebutton" onclick="discardgame();">Discard</button>
+        </div>
     </div>
     
 </body>
