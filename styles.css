@@ -7,6 +7,7 @@ body{
 }
 
 .whitebutton.whitebuttonselected{
+    font-family: poppins;
     color: white;
     outline: none;
     height: 20vh;
@@ -17,6 +18,7 @@ body{
 }
 
 .whitebutton.whitebuttonselected:hover{
+    font-family: poppins;
     color:white;
     background-color: white;
 }
@@ -119,6 +121,7 @@ body{
 }
 
 .SelectedWhiteCard{
+    font-family: poppins;
     background-color: #FD4444;
     color: white;
     outline: none;
@@ -343,6 +346,7 @@ min-height: 370px;
 
 
 .whitebutton{
+    font-family: poppins;
     outline: none;
     height: 20vh;
     width: 10vw;
@@ -377,6 +381,7 @@ min-height: 370px;
 }
 
 .whitebutton:hover{
+    font-family: poppins;
     background-color: #D94E53;
     color: white;
 }
@@ -557,8 +562,6 @@ min-height: 370px;
     height: 80vh;
     border-radius: 48px;
     background: #0d0b25;
-    box-shadow:  -41px 41px 77px #05040f,
-                 41px -41px 77px #15123b;
     margin-top: 50px;
     margin-left: 50px; 
 }

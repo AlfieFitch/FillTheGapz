@@ -170,13 +170,13 @@ function createplayer(name){
 
 function startgame(){
   if(host == "1"){
-    firebase.database().ref('Games/' + newgameid + '/' + 'status/').set({
-      started: 1,
-    });
     firebase.database().ref('Games/' + newgameid + '/white').set({
       cards: JSON.stringify(white),
     });
     newround();
+    firebase.database().ref('Games/' + newgameid + '/' + 'status/').set({
+      started: 1,
+    });
   }else{
     alert("You are not host.");
   }
@@ -318,6 +318,11 @@ function newround(){
       czar: czarname,
     });
   }
+  newroundcomplete();
+}
+
+
+function newroundcomplete(){
   const retrieveczar = firebase.database().ref('Games/' + newgameid + '/czar/');
   retrieveczar.once('value', (snapshot) =>{
     let string1 = JSON.stringify(snapshot.val());
@@ -362,10 +367,9 @@ function newround(){
 function getwhite(){
   if(host !== "1"){
     if(playerwhite.length < 10){
-      const status = firebase.database().ref('Games/' + newgameid + '/white/cards');
-      status.once('value', (snapshot) =>{
-        let splited = snapshot.val();
-        console.log(splited);
+      const whitecards = firebase.database().ref('Games/' + newgameid + '/white/cards');
+      whitecards.once('value', (snapshot) =>{
+        var splited = snapshot.val();
         splited = splited.split("},{");
         white.push(splited);
         let randomwhite = getRandomwhite(white);
@@ -378,8 +382,7 @@ function getwhite(){
         playerwhite.push(randomwhite6);
         getwhite();
       });
-    }
-
+    };
   }else{
     if(playerwhite.length < 10){
         let randomwhite17 = getRandom(white);
@@ -661,15 +664,7 @@ function lobbyname(){
 }
 
 window.onload = function(){
-  firebase.auth().signInAnonymously()
-  .then(() => {
-    console.log("signedin");
-  })
-  .catch((error) => {
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // ...
-  });
+  firebase.auth().signInAnonymously();
   let url = new URLSearchParams(location.search);
   let dacode = url.get('code');
   if(dacode !== null){
@@ -720,7 +715,6 @@ function RejoinGame(id){
   const status = firebase.database().ref('Games/' + id);
   status.once('value', (snapshot) =>{
     let check = JSON.stringify(snapshot.val());
-    console.log(check);
     if(check !== 'null'){
       gameid = id;
       document.getElementById("rejoinoverall").style.display = 'block';
@@ -744,7 +738,6 @@ function rejoindagame(){
   const status = firebase.database().ref('Games/' + newgameid + '/status/');
   status.once('value', (snapshot) =>{
     let check = JSON.stringify(snapshot.val());
-    console.log(check);
     if(check == '{"started":0}'){
       newround();
     };
