@@ -317,6 +317,10 @@ function newround(){
     firebase.database().ref('Games/' + newgameid + '/czar/').set({
       czar: czarname,
     });
+    let rounddisplay = "round " + JSON.stringify(compround) + " of " + JSON.stringify(norounds);
+    firebase.database().ref('Games/' +newgameid + '/currentround').set({
+      number: rounddisplay,
+    })
   }
   newroundcomplete();
 }
@@ -334,6 +338,14 @@ function newroundcomplete(){
       czar = "0";
     }
     document.getElementById("czardisplay").innerHTML = "<h1>The Current King is " + string3 + "</h1>";
+  const retrieveround = firebase.database().ref('Games/' + newgameid + '/currentround');
+  retrieveround.once('value', (snapshot) =>{
+    let string1 = JSON.stringify(snapshot.val());
+    string1 = string1.replace(/"/g,'');
+    string1 = string1.replace('{number:','');
+    string1 = string1.replace('}','');
+    document.getElementById("rounddisplay").innerHTML = "<h1 class = 'roundtext'>"+string1+"</h1>";
+  })
   getwhite();
   const status = firebase.database().ref('Games/' + newgameid + '/card').child('black');
   status.once('value', (snapshot) =>{
@@ -704,7 +716,9 @@ window.onload = function(){
       overallhtml = overallhtml + "<div class ='gamenameover'><div class = 'gamename'><h1 class = 'nametext'>"+ temparray[0][0] +"</h1></div><button onclick = 'joining("+ JSON.stringify(temparray[0][1]) + ");' class = 'gamesbutton'>Join</button></div>";
     }
     document.getElementById("gamesoverall").innerHTML = overallhtml;
+    document.getElementById("loaderoverall").style.display = "none";
   });
+  
 }
 
 function joining(game){

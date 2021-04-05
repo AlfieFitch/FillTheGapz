@@ -102,8 +102,11 @@
 
     <div id = "Game" style="display:none;">
         <div id = "blackcard">
-            <h1 id = "blackcontent"></h1>
+            <div class = "actualblack">
+                <h1 id = "blackcontent"></h1>
+            </div>
             <div id ="czardisplay"></div>
+            <div id ="rounddisplay"></div>
             <div id = "scoreboard"></div>
         </div>
     </div>
@@ -129,6 +132,16 @@
             <button class = "rebutton" onclick="discardgame();">Discard</button>
         </div>
     </div>
+
+
+<div id = "loaderoverall">
+    <div class = "loader">
+        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    </div>
     
+    <div id = "loading"></div>
+</div>
+
+
 </body>
 </html>
