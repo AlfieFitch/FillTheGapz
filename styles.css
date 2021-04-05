@@ -307,23 +307,37 @@ min-height: 370px;
 }
 
 #blackcontent{
-    padding: 20px;
+    background-color: black;
+    padding-left: 50px;
+    padding-right: 25px;
+    height: 200px;
+    margin-top: -20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     white-space: pre-wrap;
     word-break: keep-all;
     display: flex;
-    padding-top: 100px;
+    padding-top: 50px;
+    padding-bottom: 50px;
     font-size: 25px;
+    border-bottom:#FD4444 2px solid;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
 }
 
 #whiteboxesparent{
     overflow-y:auto;
     overflow: hidden;
     float: right;
-    margin-top: -20px;
+    margin-top: 10px;
     margin-right: -10px;
     margin-left: 45vw;
     border-radius: 10px;
-    min-height: calc(100vh - 90px);
+    border-left:#FD4444 2px solid;
+    border-bottom:#FD4444 2px solid;
+    border-top-left-radius: 0px;;
+    min-height: calc(100vh - 100px);
     background-color: #0d0b25;
     min-width: 56vw;
 }
@@ -499,13 +513,13 @@ min-height: 370px;
 
 .scoreover{
     margin-top : 2vh;
-    background-color: #0D0B25;
+    background-color:#1F222E;
     border: #FD4444 2px solid;
     border-radius: 6px;
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;
-    max-height: 300px;
+
     border-radius: 6px;
 }
 
@@ -521,14 +535,14 @@ min-height: 370px;
 
 #czardisplay h1{
     font-size: 20px;
+    padding-left: 25px;
 }
 
 #czardisplay{
+    height: 60px;
     float: left;
-    width: 50%;
     text-align: center;
-    margin-top: 150px;
-    border-right:#FD4444 2px solid;
+    margin-top: 25px;
 }
 
 #additionplayeroverall{
@@ -760,18 +774,29 @@ min-height: 370px;
 #rounddisplay{
     float: right;
     font-size: 10px;
-    margin-top: -55px;
-    width: 50%;
+    padding-left: 20px;
+    padding-right: 20px;
     text-align:center;
+    margin-top: 25px;
+    border-left:#FD4444 2px solid;
+    border-top:#FD4444 2px solid;
+    border-bottom:#FD4444 2px solid;
+    border-radius: 6px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    height: 60px;
 }
 
 #scoreboard{
     position:absolute;
-    margin-top: 25vh;
+    margin-top: 12vh;
     width: 95%;
     margin-left: 2.5%;
     margin-right: 2.5%;
+    max-height: 40%;
+    overflow-y:scroll;
 }
+
 
 #loading{
     position:absolute;
