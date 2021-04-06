@@ -66,6 +66,8 @@ body{
 }
 
 .playertable{
+    overflow-y:scroll;
+    max-height: 200px;
     margin-left: 90px;
     text-align: right;
     padding: 0px;
@@ -281,6 +283,8 @@ min-height: 370px;
 }
 
 #fullpacklist{
+    overflow-y: scroll;
+    max-height: 170px;
     margin-left: 40px;
     width: 270px;
     margin-top: 30px;
@@ -420,12 +424,19 @@ min-height: 370px;
 }
 
 .mainfunny{
+    display: flex;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    font-size: 25px;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
     font-size: 20px;
-    margin-top: calc(50% - 70px);
     padding: 5px;
 }
 
 #author{
+    position:absolute;
     font-size: 15px;
     margin-top: 50px;
 }
