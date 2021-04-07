@@ -43,7 +43,7 @@ let compround = 0;
 let gameid=null;
 let amijoining = null;
 let amijoining2 = null;
-
+let id = null;
 
 // Functions -------------------------------------------------------------------------------------
 
@@ -86,18 +86,10 @@ function makeid(length) {
 }
 
 function joingame(code){
-  let data = "null";
-  var gamecodes = firebase.database().ref('Games/' + code + "/");
-  gamecodes.once('value', (snapshot) =>{
-    data = snapshot.val();
-    if(data == 'null'){
-      alert("Incorrect Code");
-    }else{
-      newinput("Enter Name", "create");
-      newgameid = code;
-    }
-  });
-};
+  newinput("Enter Name", "create");
+  newgameid = code;
+}
+
 
 function numberrounds(){
   let newinput = document.getElementById("rounds").value;
@@ -123,6 +115,9 @@ function newgame(input){
 
 function createplayer(name){
   username = name;
+  document.cookie = "playername=" + username;
+  document.cookie = "gameid=" + newgameid;
+  
   firebase.database().ref('Games/'+ newgameid + '/' + 'players/' + username).set({
     name: 'null'
   });
@@ -171,8 +166,7 @@ function createplayer(name){
       document.getElementById("packlist").innerHTML = makeTableHTML(packs); 
     });
   }
-  document.cookie = "playername=" + username;
-  document.cookie = "gameid=" + newgameid;
+  
   loadlist();
 };
 
@@ -231,9 +225,9 @@ function newinput(title,code){
   document.getElementById("inputmodal").style.display = "block";
   if(code == "join"){
     overallcode = "join";
-  }if(code == "new"){
+  }else if(code == "new"){
     overallcode = "startnew";
-  }if(code == "create"){
+  }else if(code == "create"){
     overallcode = "create";
   }
 }
@@ -659,6 +653,7 @@ function leavegame(){
   document.cookie = "playername=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   document.cookie = "gameid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   document.cookie = "visited=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  document.cookie = "tojoin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   firebase.database().ref('Games/'+ newgameid + '/players/' + username).remove();
   window.location.replace("http://fillthegapz.com");
 }
@@ -687,7 +682,7 @@ function lobbyname(){
 function checkstatus(dacode,id){
   let variable = dacode;
   amijoining = "";
-  if(dacode == null){
+  if(dacode == ""){
     variable = id;
   }
   const gameactivelink = firebase.database().ref('Games/' + variable + '/host/');
@@ -707,41 +702,37 @@ window.onload = function(){
   firebase.auth().signInAnonymously();
   let url = new URLSearchParams(location.search);
   let dacode = url.get('code');
-  let id = getCookie('gameid');
+  if(dacode !== null){
+    document.cookie = "tojoin=" + dacode;
+    window.location.replace("/");
+  }
+  dacode = getCookie("tojoin");
+  id = getCookie('gameid');
   checkstatus(dacode, id);
 }
 
 function aftercheck (dacode, id){
-  console.log(amijoining);
   let hasbeen = getCookie("visited");
   if(id == dacode){
     if(amijoining == "join"){
-      if(hasbeen !== ""){
+      if(hasbeen == id){
         RejoinGame(id);
       }else{
         joingame(dacode);
-        document.cookie = "visited=true";
+        document.cookie = "visited=" + dacode;
       }
-    }else{
-      document.cookie = "visited=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     }
-
-  }else if(dacode !== null){
+  }else if(dacode !== ""){
     if(amijoining == "join"){
       joingame(dacode);
+      document.cookie = "visited=" + dacode;
     }
-    if(amijoining == "inactive"){
-      window.location.replace("http://fillthegapz.com");
-    }
-
-  }else if(id !== null){
+ 
+  }else if(id !== ""){
     if(amijoining == "join"){
       RejoinGame(id);
     }
-    if(amijoining = "inactive"){
-      document.cookie = "playername=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      document.cookie = "gameid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    }
+
   }
   const scoreboard = firebase.database().ref('Games/');
   scoreboard.on('value', (snapshot) =>{
@@ -797,6 +788,7 @@ function discardgame(){
   document.cookie = "playername=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   document.cookie = "gameid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   document.cookie = "visited=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  document.cookie = "tojoin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   document.getElementById("rejoinoverall").style.display = 'none';
 }
 
@@ -813,6 +805,11 @@ function rejoindagame(){
     };
   });
 }
+
+window.addEventListener("beforeunload", function(e){
+  firebase.database().ref('Games/'+ gameid + '/players/' + username).remove();
+}, false);
+
 
 //------------------------------------------------------------------------------------------
 
