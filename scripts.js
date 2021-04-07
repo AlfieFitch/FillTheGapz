@@ -41,6 +41,8 @@ let runpicked = "false";
 let norounds = 10;
 let compround = 0;
 let gameid=null;
+let amijoining = null;
+let amijoining2 = null;
 
 
 // Functions -------------------------------------------------------------------------------------
@@ -112,6 +114,9 @@ function newgame(input){
   newgameid = string;
   firebase.database().ref('Games/' + string).set({
   });
+  firebase.database().ref('Games/' + string + "/host").set({
+    status: "active",
+  })
   host = "1";
   createplayer(input);
 };
@@ -133,6 +138,9 @@ function createplayer(name){
       let value = JSON.stringify(snapshot.val());
       if(value == '{"status":"lost"}'){
         firebase.database().ref('Games/'+ newgameid).remove();
+        document.cookie = "playername=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "gameid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "visited=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         window.location.replace("http://fillthegapz.com");
       }
     });
@@ -650,6 +658,7 @@ if(host == "1"){
 function leavegame(){
   document.cookie = "playername=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   document.cookie = "gameid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  document.cookie = "visited=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   firebase.database().ref('Games/'+ newgameid + '/players/' + username).remove();
   window.location.replace("http://fillthegapz.com");
 }
@@ -675,18 +684,65 @@ function lobbyname(){
   }
 }
 
+function checkstatus(dacode,id){
+  let variable = dacode;
+  amijoining = "";
+  if(dacode == null){
+    variable = id;
+  }
+  const gameactivelink = firebase.database().ref('Games/' + variable + '/host/');
+  gameactivelink.once('value', (snapshot) =>{
+    gameactive = JSON.stringify(snapshot.val())
+    if(gameactive == '{"status":"active"}'){
+     amijoining = "join";
+    }else{
+     amijoining = "inactive";
+    }
+    aftercheck(dacode, id);
+  });
+}
+
+
 window.onload = function(){
   firebase.auth().signInAnonymously();
   let url = new URLSearchParams(location.search);
   let dacode = url.get('code');
-  if(dacode !== null){
-    joingame(dacode);
-  }else{
-    let id = getCookie('gameid');
-    if(id !== ""){
+  let id = getCookie('gameid');
+  checkstatus(dacode, id);
+}
+
+function aftercheck (dacode, id){
+  console.log(amijoining);
+  let hasbeen = getCookie("visited");
+  if(id == dacode){
+    if(amijoining == "join"){
+      if(hasbeen !== ""){
+        RejoinGame(id);
+      }else{
+        joingame(dacode);
+        document.cookie = "visited=true";
+      }
+    }else{
+      document.cookie = "visited=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+
+  }else if(dacode !== null){
+    if(amijoining == "join"){
+      joingame(dacode);
+    }
+    if(amijoining == "inactive"){
+      window.location.replace("http://fillthegapz.com");
+    }
+
+  }else if(id !== null){
+    if(amijoining == "join"){
       RejoinGame(id);
     }
-  };
+    if(amijoining = "inactive"){
+      document.cookie = "playername=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "gameid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+  }
   const scoreboard = firebase.database().ref('Games/');
   scoreboard.on('value', (snapshot) =>{
     let overallhtml = "";
@@ -717,8 +773,7 @@ window.onload = function(){
     }
     document.getElementById("gamesoverall").innerHTML = overallhtml;
     document.getElementById("loaderoverall").style.display = "none";
-  });
-  
+  }); 
 }
 
 function joining(game){
@@ -741,6 +796,7 @@ function discardgame(){
   firebase.database().ref('Games/'+ gameid + '/players/' + nameting).remove();
   document.cookie = "playername=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   document.cookie = "gameid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  document.cookie = "visited=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   document.getElementById("rejoinoverall").style.display = 'none';
 }
 
