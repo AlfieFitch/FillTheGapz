@@ -114,10 +114,13 @@ function newgame(input){
 };
 
 function createplayer(name){
+  document.getElementById("inputmodal").style.display = "none";
   username = name;
   document.cookie = "playername=" + username;
   document.cookie = "gameid=" + newgameid;
-  
+  firebase.database().ref('Games/' + newgameid + '/scores/' + username).set({
+    score: 0,
+  });
   firebase.database().ref('Games/'+ newgameid + '/' + 'players/' + username).set({
     name: 'null'
   });
@@ -225,9 +228,11 @@ function newinput(title,code){
   document.getElementById("inputmodal").style.display = "block";
   if(code == "join"){
     overallcode = "join";
-  }else if(code == "new"){
+  }
+  if(code == "new"){
     overallcode = "startnew";
-  }else if(code == "create"){
+  }
+  if(code == "create"){
     overallcode = "create";
   }
 }
@@ -239,13 +244,12 @@ function submit(){
   }else{
     if(overallcode == "join"){
       joingame(input);
-      document.getElementById("inputmodal").style.display = "none";
     }if(overallcode == "startnew"){
       newgame(input);
-      document.getElementById("inputmodal").style.display = "none";
+      
     }if(overallcode == "create"){
       createplayer(input);
-      document.getElementById("inputmodal").style.display = "none";
+      
     }
   }
 }
@@ -277,6 +281,30 @@ function getRandomwhite(arr) {
 }
 
 function newround(){
+  firebase.database().ref('Games/' + newgameid + '/confirmpicked').set({
+    picked: 'false',
+  });
+  const scoreboard = firebase.database().ref('Games/' + newgameid + '/scores/');
+scoreboard.on('value', (snapshot) =>{
+  let scorearray = [];
+  let score = JSON.stringify(snapshot.val());
+  let score1 = score.replace(/{/g , '');
+  let score2 = score1.replace(/"/g , '');
+  let score4 = score2.replace(/score/g, '');
+  let score5 = score4.replace(/}/g,'');
+  let score6 = score5.split(',');
+  scorearray.push(score6);
+  let final = '';
+  for(i in scorearray[0]){
+      let smallarray = [];
+      let ting = scorearray[0][i];
+      let newting = ting.split('::');
+      smallarray.push(newting);
+      final = final + '<tr class="scorerow"><td class = "scoremain">' + smallarray[0][0] + '</td><td class = "scoremain">' + smallarray[0][1] + '</td></tr>';
+  }
+  let finalpoop = '<div><table class = "scoreover">' + final +'</table></div>';
+  document.getElementById("scoreboard").innerHTML = finalpoop;
+  });
   const status = firebase.database().ref('Games/' + newgameid + '/endofround/');
   status.on('value', (snapshot) =>{
     let check = JSON.stringify(snapshot.val());
@@ -595,6 +623,9 @@ function czarselected(skeeid,author){
   firebase.database().ref('Games/'+ newgameid + '/winner/').set({
     name: author,
   });
+  firebase.database().ref('Games/' + newgameid + '/confirmpicked').set({
+    picked: 'true',
+  })
 }
 
 function czarhaspicked(cardid){
@@ -609,44 +640,37 @@ function czarhaspicked(cardid){
   document.getElementById(newcardid).style.backgroundColor = "#8a720b";
   document.getElementById(newcardid).style.color = "white";
   if(host == "1"){
-    const status = firebase.database().ref('Games/' + newgameid + '/winner/');
-    status.once('value', (snapshot) =>{
-      let one = JSON.stringify(snapshot.val());
-      let two = one.replace(/{name:/ , '');
-      let three = two.replace('}' , '');
-      let finalfour = three.replace(/"/g , '');
-      let splitfour = finalfour.split(':');
-      let finalfinalpee = splitfour[1];
-      const scroe = database.ref('Games/' + newgameid + '/scores/' + finalfinalpee)
-      scroe.set({
-        score: firebase.database.ServerValue.increment(1),
-      });  
-  });
-}
-const scoreboard = firebase.database().ref('Games/' + newgameid + '/scores/');
-scoreboard.on('value', (snapshot) =>{
-  let scorearray = [];
-  let score = JSON.stringify(snapshot.val());
-  let score1 = score.replace(/{/g , '');
-  let score2 = score1.replace(/"/g , '');
-  let score4 = score2.replace(/score/g, '');
-  let score5 = score4.replace(/}/g,'');
-  let score6 = score5.split(',');
-  scorearray.push(score6);
-  let final = '';
-  for(i in scorearray[0]){
-      let smallarray = [];
-      let ting = scorearray[0][i];
-      let newting = ting.split('::');
-      smallarray.push(newting);
-      final = final + '<tr class="scorerow"><td class = "scoremain">' + smallarray[0][0] + '</td><td class = "scoremain">' + smallarray[0][1] + '</td></tr>';
+    incrementscoreboard();
   }
-  let finalpoop = '<div><table class = "scoreover">' + final +'</table></div>';
-  document.getElementById("scoreboard").innerHTML = finalpoop;
-});
-if(host == "1"){
-  setTimeout(() => {  startgame(); }, 10000);
+
+  if(host == "1"){
+    setTimeout(() => {  startgame(); }, 10000);
+  }
 }
+
+function incrementscoreboard(){
+  let value = null;
+  let alreadyincrememented = false;
+  const check = firebase.database().ref('Games/' + newgameid + '/confirmpicked/');
+  check.on('value', (snapshot) =>{
+    value = JSON.stringify(snapshot.val());
+    if(value == '{"picked":"true"}' && alreadyincrememented == false){
+      const status = firebase.database().ref('Games/' + newgameid + '/winner/');
+      status.once('value', (snapshot) =>{
+          let one = JSON.stringify(snapshot.val());
+          let two = one.replace(/{name:/ , '');
+          let three = two.replace('}' , '');
+          let finalfour = three.replace(/"/g , '');
+          let splitfour = finalfour.split(':');
+          let finalfinalpee = splitfour[1];
+          const scroe = database.ref('Games/' + newgameid + '/scores/' + finalfinalpee)
+          scroe.set({
+            score: firebase.database.ServerValue.increment(1),
+          });  
+          alreadyincrememented = true;
+        });
+      }
+  });
 }
 
 function leavegame(){
