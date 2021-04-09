@@ -46,6 +46,7 @@ let amijoining2 = null;
 let id = null;
 let lastcustom = 0;
 let rawwhite = [];
+let lastchosen = null;
 
 // Functions -------------------------------------------------------------------------------------
 
@@ -279,7 +280,7 @@ function customcards(){
       .then((resp) => resp.json())
       .then(function(data) {
         rawwhite.push(data.responses);
-      })
+      });
     i++;
   }
   if(packs.length == 0){
@@ -368,6 +369,9 @@ scoreboard.on('value', (snapshot) =>{
       started: 0
     });
     let new_black = getRandom(black);
+    var firstIndex = new_black.indexOf('\\",\\"');
+    var result = firstIndex != new_black.lastIndexOf('\\",\\"') && firstIndex != -1;
+    console.log(result);
     firebase.database().ref('Games/' + newgameid + '/card/').set({
       black: new_black
     });
@@ -409,7 +413,7 @@ function newroundcomplete(){
   status.once('value', (snapshot) =>{
     storedblack = JSON.stringify(snapshot.val());
     var newdata = storedblack.replace("[", "");
-    var newdata1 = newdata.replace(/\",\"/g , "   ﹏﹏﹏﹏   " );
+    var newdata1 = newdata.replace(/\",\"/g , " ͟ ͟ ͟ ͟ ͟ ͟ ͟ ͟ ͟ ͟ ͟ ͟    " );
     var newdata2 = newdata1.replace(/\\n/g,' ');
     var newdata3 = newdata2.replace(/"/g ,'');
     var newdata4 = newdata3.replace("]", "");
@@ -442,6 +446,7 @@ function getwhite(){
         splited = splited.split("},{");
         white.push(splited);
         let randomwhite = getRandomwhite(white);
+        randomwhite = randomwhite.replace('[[{','');
         let randomwhite1 = randomwhite.replace('"text":["' , '');
         let randomwhite2 = randomwhite1.replace('"]' , '');
         let randomwhite3 = randomwhite2.replace(/\\n/g,'');
@@ -452,7 +457,7 @@ function getwhite(){
         let duplicatecheck = playerwhite.includes(randomwhite6);
         if(commacheck == true){
           getwhite();
-        }else if(duplicatecheck == true){
+        }else if(duplicatecheck == true && randomwhite6 !== "Custom Card"){
           getwhite();
         }else{
           playerwhite.push(randomwhite6);
@@ -470,6 +475,13 @@ function getwhite(){
 function whiteselected(id){
   if(lastpicked !== null){
   document.getElementById(lastpicked).style.color = "";
+  }
+  let cardval = document.getElementById(id).innerText;
+  if(cardval == "Custom Card" || cardval == lastchosen){
+    let input = prompt("Enter what you would like the card to say");
+    lastchosen = input;
+    document.getElementById(id).innerText = input;
+    playerwhite[id] = input;
   }
   if(confirmed == "false"){
     if(id !== lastpicked){
