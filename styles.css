@@ -199,6 +199,7 @@ body{
     margin-left: 4vw;
 }
 
+
 .pleasewait{
     margin-top: -93vh;
     margin-left: 350px;
@@ -242,7 +243,7 @@ float: left;
 float: left;
 margin-left: 100px;
 background-color: #1F222E ;
-width: 400px;
+width: 370px;
 align-content: center;
 justify-content: center;
 border-radius: 7px;
@@ -272,7 +273,14 @@ min-height: 370px;
     font-size: 15px;
     padding: 0px;
     margin-top: 20px;
-    margin-left: 45px;
+    margin-left: 15px;
+}
+
+
+#packlist td{
+    position: relative;
+    padding: 1px;
+    text-align: center;
 }
 
 .packtitle{
@@ -284,12 +292,13 @@ min-height: 370px;
 
 #fullpacklist{
     overflow-y: scroll;
-    max-height: 170px;
+    max-height: 130px;
     margin-left: 40px;
     width: 270px;
     margin-top: 30px;
     border: 2px solid #FD4444;
     border-radius: 6px;
+    padding: 0px;
     
 }
 

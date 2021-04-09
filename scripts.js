@@ -44,6 +44,8 @@ let gameid=null;
 let amijoining = null;
 let amijoining2 = null;
 let id = null;
+let lastcustom = 0;
+let rawwhite = [];
 
 // Functions -------------------------------------------------------------------------------------
 
@@ -176,7 +178,7 @@ function createplayer(name){
 function startgame(){
   if(host == "1"){
     firebase.database().ref('Games/' + newgameid + '/white').set({
-      cards: JSON.stringify(white),
+      cards: JSON.stringify(rawwhite),
     });
     newround();
     firebase.database().ref('Games/' + newgameid + '/' + 'status/').set({
@@ -264,8 +266,35 @@ function add_deck(){
         .then((resp) => resp.json())
         .then(function (data) {
             black.push(data.calls);
-            white.push(data.responses);
+            rawwhite.push(data.responses);
         });
+}
+
+function customcards(){
+  let input = document.getElementById("customcards").value;
+  i = 0;
+  let int1 = parseInt(input);
+  while(i < int1){
+    fetch('https://castapi.clrtd.com/cc/decks/LXPR7/cards/')
+      .then((resp) => resp.json())
+      .then(function(data) {
+        rawwhite.push(data.responses);
+      })
+    i++;
+  }
+  if(packs.length == 0){
+    packs.push(input + " Custom Cards");
+  }else{
+    for(i in packs){
+      let check = packs[i].includes(" Custom");
+      if(check == true){
+       packs[i] = input + " Custom Cards";
+      }
+    }
+  }
+  firebase.database().ref('Games/'+ newgameid + '/packs').set({
+    packs : packs,
+  });
 }
 
 function getRandom(arr) {
@@ -319,7 +348,6 @@ scoreboard.on('value', (snapshot) =>{
   });
   alreadyconfirmed = "false";
   firebase.database().ref('Games/'+ newgameid + '/pickedwhite/').remove();
-  let string3 = null;
   czar = "0";
   lastpicked = null;
   document.getElementById("confirmselection").style.display = "none";
@@ -382,7 +410,7 @@ function newroundcomplete(){
     storedblack = JSON.stringify(snapshot.val());
     var newdata = storedblack.replace("[", "");
     var newdata1 = newdata.replace(/\",\"/g , "   ﹏﹏﹏﹏   " );
-    var newdata2 = newdata1.replace(/\n/g,' ');
+    var newdata2 = newdata1.replace(/\\n/g,' ');
     var newdata3 = newdata2.replace(/"/g ,'');
     var newdata4 = newdata3.replace("]", "");
     document.getElementById("blackcontent").innerHTML = newdata4;
@@ -407,7 +435,6 @@ function newroundcomplete(){
 }
 
 function getwhite(){
-  if(host !== "1"){
     if(playerwhite.length < 10){
       const whitecards = firebase.database().ref('Games/' + newgameid + '/white/cards');
       whitecards.once('value', (snapshot) =>{
@@ -421,27 +448,23 @@ function getwhite(){
         let randomwhite4 = randomwhite3.replace(/\n/g,'');
         let randomwhite5 = randomwhite4.replace(/}]]/g,'');
         let randomwhite6 = randomwhite5.replace(/\\/g , '');
-        playerwhite.push(randomwhite6);
-        getwhite();
+        let commacheck = randomwhite6.includes(",");
+        let duplicatecheck = playerwhite.includes(randomwhite6);
+        if(commacheck == true){
+          getwhite();
+        }else if(duplicatecheck == true){
+          getwhite();
+        }else{
+          playerwhite.push(randomwhite6);
+          getwhite();
+        }
       });
     };
-  }else{
-    if(playerwhite.length < 10){
-        let randomwhite17 = getRandom(white);
-        let randomwhite = JSON.stringify(randomwhite17);
-        let randomwhite1 = randomwhite.replace('["', '');
-        let randomwhite2 = randomwhite1.replace('"]' , '');
-        randomwhite2 = randomwhite2.replace(/\n/g , '');
-        playerwhite.push(randomwhite2);
-        getwhite();
-    };
-  }
   let innerhtml = "";
   for(i in playerwhite){
     innerhtml = innerhtml + '<div class = "singlebutton"><button class = "whitebutton" id = "' + i + '" onClick="whiteselected('+ i + ');">' + playerwhite[i] + '</button></div>'
   }
-    document.getElementById("whiteboxes").innerHTML = innerhtml;
-  
+    document.getElementById("whiteboxes").innerHTML = innerhtml; 
 };
 
 function whiteselected(id){

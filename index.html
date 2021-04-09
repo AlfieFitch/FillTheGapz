@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="icon" href="./FTGfav.png" type="image/x-icon"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <meta name="description" content="A Cards against Humanity alternative with custom card decks - Play live with you friends wherever they are!">
+    <meta name="description" content="A multiplayer, free, Cards against Humanity, online clone with custom card decks - Play live with you friends wherever they are!">
 </head>
 <body>
     <div class = "header">
@@ -56,20 +56,20 @@
             <h1 class = "Playerstitle">Players:</h1>
             <div class = "playertable" id ="PlayerList"></div>
             </div>
-        </div>
-        <div class = "over2">
+        </div><div class = "over2">
             <div class = "over2header">
                 <h2>Add decks:</h2>
                 <h1 class = "crcasthelp">Enter the code to the card deck, which can be found <a class=link href="https://cast.clrtd.com/" target="_blank">here</a>.</h1>
             </div>
             <input class = "inputbox" id = "cardcode" type ="text" placeholder = "Enter Card Code" name = "cardcode" required>
             <button class = "joinbutton1" id = "submit" onclick = "add_deck()">Add</button>
+            <input class = "inputbox" id = "customcards" type ="number" placeholder = "Add Custom Cards" name = "cardcode" required>
+            <button class = "joinbutton1" id = "submit" onclick = "customcards()">Add</button>
             <div id = "fullpacklist">
                 <h1 class = "packtitle">Added Packs:</h1>
                 <h1 id = "packlist"></h1>
             </div>
-        </div>
-        <div class = "over3">
+        </div><div class = "over3">
             <div class = "rounds">
                 <h1>Enter number of rounds:</h1>
                 <input class = "inputbox" id = "rounds" type="number"  name = "rounds" required> 
