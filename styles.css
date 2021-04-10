@@ -59,7 +59,7 @@ body{
     margin-left: 10px;
     background-color: #1F222E;
     color: white;
-    width: 300px;
+    width: 30vw;
     padding: 17px;
     min-height: 300px;
     border-radius: 6px;
@@ -67,7 +67,9 @@ body{
 
 .playertable{
     overflow-y:scroll;
-    max-height: 200px;
+    min-height: 75vh;
+    max-height: 75vh;
+    min-width: 30vw;
     margin-left: 90px;
     text-align: right;
     padding: 0px;
@@ -192,11 +194,7 @@ body{
 }
 
 .options{
-    display: inline-block;
     color: white;
-    background-color: #0d0b25;
-    margin-top: 10vh;
-    margin-left: 4vw;
 }
 
 
@@ -211,26 +209,16 @@ body{
 
 .playeroverall{
     margin-top: 20px;
-    margin-left: 25px;
     border:#FD4444 solid 2px;
     border-radius: 6px;
-    width: 300px;
 }
 
-.over1{
-    float: left;
-    background-color: #1F222E ;
-    width: 360px;
-    align-content: center;
-    justify-content: center;
-    border-radius: 7px;
-    margin-left: 50px;
-    min-height: 370px;
-}
+
 
 .over2{
-float: left;
- margin-left: 100px;
+margin-top: -87vh;
+ float: left;
+ margin-left: 40vw;
  background-color: #1F222E ;
  width: 360px;
  align-content: center;
@@ -240,8 +228,8 @@ float: left;
 }
 
 .over3{
-float: left;
-margin-left: 100px;
+margin-left: 70vw;
+margin-top: -87vh;
 background-color: #1F222E ;
 width: 370px;
 align-content: center;
@@ -250,13 +238,25 @@ border-radius: 7px;
 min-height: 370px;
 }
 
+.over4{
+background-color: #1F222E ;
+max-width: 360px;
+align-content: center;
+justify-content: center;
+border-radius: 7px;
+min-height: 350px;
+max-height: 350px;
+margin-left: 40vw;
+margin-top: 4vh;
+}
+
 .over3 h1{
     font-size: 20px;
 }
 
 .rounds{
     margin-left: 25px;
-    margin-top: 30px;
+    padding-top: 20px;
 }
 
 .customcards{
@@ -272,14 +272,14 @@ min-height: 370px;
 #packlist{
     font-size: 15px;
     padding: 0px;
-    margin-top: 20px;
-    margin-left: 15px;
+    margin-left: 25px;
 }
 
 
 #packlist td{
     position: relative;
     padding: 1px;
+    padding-top: 15px;
     text-align: center;
 }
 
@@ -291,15 +291,17 @@ min-height: 370px;
 }
 
 #fullpacklist{
+    margin-top: 20px;
+    position:absolute;
     overflow-y: scroll;
-    max-height: 130px;
-    margin-left: 40px;
-    width: 270px;
-    margin-top: 30px;
+    height: 310px;
+    max-height: 310px;
+    margin-left: 18px;
+    width: 320px;
+    padding-top: 50px;
     border: 2px solid #FD4444;
     border-radius: 6px;
     padding: 0px;
-    
 }
 
 .pleasewait{
@@ -474,22 +476,21 @@ min-height: 370px;
 
 .Playerstitle{
     font-size: 20px;
-    margin-left: 10px;
+    margin-left: 15px;
     margin-bottom: 20px;
-    margin-top: 0px;
+    margin-top: 20px;
 }
 
 #url{
     background-color: #1F222E;
-    width: 500px;
-    font-size: 20px;
+    width: 360px;
+    font-size: 15px;
     padding: 5px;
     border-radius: 6px;
     border:#FD4444 solid 2px;
-    margin-left: 29vw;
+    margin-left: 70vw;
     text-align: center;
-    bottom: 40px;
-    position:absolute;
+    margin-top: 75px;
 }
 
 .author{
@@ -509,15 +510,14 @@ min-height: 370px;
     color: white;
     background-color: #FD4444;
     display: block;
-    margin-top: 150px;
-    margin-left: 32.5vw;
-    width: 400px;
+    margin-top: -28vh;
+    margin-left: 70vw;
+    width: 371px;
     border-radius: 7px;
     height: 35px;
     border-color: transparent;
     font-size: 15px;
     font-family: Poppins;
-    position:absolute;
     bottom: 200px;
 }
 

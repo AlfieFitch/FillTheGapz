@@ -180,15 +180,20 @@ function createplayer(name){
 };
 
 function startgame(){
+  console.log(userlist.length);
   if(host == "1"){
-    rawwhite.push(tempwhite);
-    firebase.database().ref('Games/' + newgameid + '/white').set({
-      cards: JSON.stringify(rawwhite),
-    });
-    newround();
-    firebase.database().ref('Games/' + newgameid + '/' + 'status/').set({
-      started: 1,
-    });
+    if(rawwhite.length == 0 || black.length == 0){
+      alert("Please add a deck which includes black cards.");
+    }else{
+        rawwhite.push(tempwhite);
+        firebase.database().ref('Games/' + newgameid + '/white').set({
+          cards: JSON.stringify(rawwhite),
+        });
+        newround();
+        firebase.database().ref('Games/' + newgameid + '/' + 'status/').set({
+          started: 1,
+        });
+      }
   }else{
     alert("You are not host.");
   }
