@@ -55,27 +55,36 @@
             <h1 class = "Playerstitle">Players:</h1>
             <div class = "playertable" id ="PlayerList"></div>
             </div>
-        </div><div class = "over2">
+        </div>
+
+        <div class = "over2">
+            <div class = "over2internals">
             <div class = "over2header">
                 <h2>Add decks:</h2>
                 <h1 class = "crcasthelp">Enter the code to the card deck, which can be found <a class=link href="https://cast.clrtd.com/" target="_blank">here</a>.</h1>
             </div>
+            <div class = "over2buttons">
             <input class = "inputbox" id = "cardcode" type ="text" placeholder = "Enter Card Code" name = "cardcode" required>
             <button class = "joinbutton1" id = "submit" onclick = "add_deck()">Add</button>
             <input class = "inputbox" id = "customcards" type ="number" placeholder = "Add Custom Cards" name = "cardcode" required>
             <button class = "joinbutton1" id = "submit" onclick = "customcards()">Add</button>
- 
-        </div><div class = "over3">
+            <input class = "inputbox" id = "imagecards" type ="number" placeholder = "Add Image Cards" name = "cardcode" required>
+            <button class = "joinbutton1" id = "submit" onclick = "imagecards()">Add</button>
+            </div>
+            </div>
+        </div>
+        
+        <div class = "over3">
             <div class = "rounds">
                 <h1>Enter number of rounds:</h1>
-                <input class = "inputbox" id = "rounds" type="number"  name = "rounds" required> 
+                <input class = "roundsinputbox" id = "rounds" type="number"  name = "rounds" required> 
                 <button class = "joinbutton1" id = "submit" onclick = "numberrounds()">Submit</button>
                 <div class = "roundsdiv" id = "roundsnum">10 rounds</div>
             </div>
             <div class = "customcards">
                 <h1>Enter a lobby name:</h1>
                 <h2 class = "smallercustom">Enter a name for the lobby to make it appear on the homepage.</h2>
-                <input class = "inputbox" id = "lobname" placeholder = "" name = "custom" required>
+                <input class = "roundsinputbox" id = "lobname" placeholder = "" name = "custom" required>
                 <button class = "joinbutton1" id = "submit" onclick = "lobbyname()">Submit</button>
                 <h2 class = "smallercustom1" id ="lobnamedisp">Not Public</h2>
             </div>

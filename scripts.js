@@ -49,7 +49,9 @@ let id = null;
 let lastcustom = 0;
 let rawwhite = [];
 let lastchosen = null;
+let lastchosenimage = null;
 let tempwhite = [];
+let tempimage = [];
 
 // Functions -------------------------------------------------------------------------------------
 
@@ -186,6 +188,7 @@ function startgame(){
       alert("Please add a deck which includes black cards.");
     }else{
         rawwhite.push(tempwhite);
+        rawwhite.push(tempimage);
         firebase.database().ref('Games/' + newgameid + '/white').set({
           cards: JSON.stringify(rawwhite),
         });
@@ -292,7 +295,6 @@ function customcards(){
       tempwhite.push(customcard);
     i++;
   }
-  console.log(packs.length);
   if(packs.length == 0){
     packs.push(input + " Custom Cards");
   }else if(packs.length !== 0){
@@ -306,7 +308,36 @@ function customcards(){
       }
     }
   }
-  console.log(tempwhite);
+  firebase.database().ref('Games/'+ newgameid + '/packs').set({
+    packs : packs,
+  });
+}
+
+function imagecards(){
+  alreadyaddedimages=false;
+  tempimage = [];
+  let customarray = ["Image Card"];
+  let input = document.getElementById("imagecards").value;
+  i = 0;
+  let int1 = parseInt(input);
+  while(i < int1){
+      var customcard = {text: customarray};
+      tempimage.push(customcard);
+    i++;
+  }
+  if(packs.length == 0){
+    packs.push(input + " Image Cards");
+  }else if(packs.length !== 0){
+    for(i in packs){
+      let check = packs[i].includes(" Image");
+      if(check == true){
+        alreadyaddedimages = true;
+        packs[i] = input + " Image Cards";
+      }else if(check !== true && alreadyaddedimages == false){
+        packs.push(input + " Image Cards");
+      }
+    }
+  }
   firebase.database().ref('Games/'+ newgameid + '/packs').set({
     packs : packs,
   });
@@ -431,6 +462,7 @@ function newroundcomplete(){
     var newdata2 = newdata1.replace(/\\n/g,' ');
     var newdata3 = newdata2.replace(/"/g ,'');
     var newdata4 = newdata3.replace("]", "");
+    newdata4 = newdata4.replace(/\\/g,"");
     document.getElementById("blackcontent").innerHTML = newdata4;
   });
   
@@ -490,12 +522,36 @@ function whiteselected(id){
   if(lastpicked !== null){
   document.getElementById(lastpicked).style.color = "";
   }
-  let cardval = document.getElementById(id).innerText;
+  let cardval = document.getElementById(id).innerHTML;
+  console.log(cardval);
   if(cardval == "Custom Card" || cardval == lastchosen){
     let input = prompt("Enter what you would like the card to say");
-    lastchosen = input;
-    document.getElementById(id).innerText = input;
-    playerwhite[id] = input;
+    if(input === ""){
+      alert("Please Enter a value.");
+      whiteselected(id);
+    }else if(input){
+      lastchosen = input;
+      document.getElementById(id).innerText = input;
+      playerwhite[id] = input;
+    }else{
+      alert("Please Enter a value.");
+      whiteselected(id);
+    }
+  }
+  if(cardval == "Image Card" || cardval == lastchosenimage){
+    let input = prompt("Enter the link to the image");
+    if(input === ""){
+      alert("Please enter a link");
+      whiteselected(id);
+    }else if(input){
+      let innerhtml = "<img src='" + input + "' class='whiteimage'>";
+      lastchosenimage = '<img src="' + input + '" class="whiteimage">';
+      document.getElementById(id).innerHTML = innerhtml;
+      playerwhite[id] = innerhtml;
+    }else{
+      alert("Please enter a link");
+      whiteselected(id);
+    }
   }
   if(confirmed == "false"){
     if(id !== lastpicked){
@@ -556,8 +612,9 @@ function selectionconfirmed(id){
   for (i = 0; i < x.length; i++) {
     x[i].classList.add("whitebuttonselected");
   }
+  let topush = pickedcard;
   firebase.database().ref('Games/'+ newgameid + '/pickedwhite/').child(username).set({
-    pickedcard,
+    topush,
   });
   if(id > -1){
     playerwhite.splice(id, 1);
@@ -631,14 +688,15 @@ function selectiontime(){
   const status = firebase.database().ref('Games/' + newgameid + '/pickedwhite/');
   status.once('value', (snapshot) =>{
     let picker = JSON.stringify(snapshot.val());
-    selectedwhitecards.push(picker.split(','));
+    selectedwhitecards.push(picker.split('},{'));
     for(i in selectedwhitecards[0]){
+      console.log(selectedwhitecards[0][i]);
       let daid = "'" + "card" + i + "'";
       let selection = [];
       let string1 = selectedwhitecards[0][i];
       let string2 = string1.replace(/{/g , '');
       let string3 = string2.replace(/"/g, '');
-      let string4 = string3.replace("pickedcard" , '');
+      let string4 = string3.replace("topush" , '');
       let string5 = string4.replace(/}/g , '');
       let string6 = string5.split('::');
       selection.push(string6);
