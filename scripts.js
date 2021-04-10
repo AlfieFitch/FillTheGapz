@@ -688,7 +688,8 @@ function selectiontime(){
   const status = firebase.database().ref('Games/' + newgameid + '/pickedwhite/');
   status.once('value', (snapshot) =>{
     let picker = JSON.stringify(snapshot.val());
-    selectedwhitecards.push(picker.split('},{'));
+    console.log(picker);
+    selectedwhitecards.push(picker.split('"},"'));
     for(i in selectedwhitecards[0]){
       console.log(selectedwhitecards[0][i]);
       let daid = "'" + "card" + i + "'";
