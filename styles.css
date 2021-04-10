@@ -818,7 +818,7 @@ min-height: 370px;
 }
 
 
-#loading{
+.loader{
     position:absolute;
     background-color:#0D0B25;
     width: 100vw;

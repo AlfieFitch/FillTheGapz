@@ -11,8 +11,10 @@ var firebaseConfig = {
     measurementId: "G-NLE09XVV78"
 };
 
+
 firebase.initializeApp(firebaseConfig);
 
+const analytics = firebase.analytics();
 var database = firebase.database();
 
 // Global Variables ------------------------------------------------------------------------------
@@ -47,6 +49,7 @@ let id = null;
 let lastcustom = 0;
 let rawwhite = [];
 let lastchosen = null;
+let tempwhite = [];
 
 // Functions -------------------------------------------------------------------------------------
 
@@ -178,6 +181,7 @@ function createplayer(name){
 
 function startgame(){
   if(host == "1"){
+    rawwhite.push(tempwhite);
     firebase.database().ref('Games/' + newgameid + '/white').set({
       cards: JSON.stringify(rawwhite),
     });
@@ -272,27 +276,32 @@ function add_deck(){
 }
 
 function customcards(){
+  alreadyadded=false;
+  tempwhite = [];
+  let customarray = ["Custom Card"];
   let input = document.getElementById("customcards").value;
   i = 0;
   let int1 = parseInt(input);
   while(i < int1){
-    fetch('https://castapi.clrtd.com/cc/decks/LXPR7/cards/')
-      .then((resp) => resp.json())
-      .then(function(data) {
-        rawwhite.push(data.responses);
-      });
+      var customcard = {text: customarray};
+      tempwhite.push(customcard);
     i++;
   }
+  console.log(packs.length);
   if(packs.length == 0){
     packs.push(input + " Custom Cards");
-  }else{
+  }else if(packs.length !== 0){
     for(i in packs){
       let check = packs[i].includes(" Custom");
       if(check == true){
-       packs[i] = input + " Custom Cards";
+        alreadyadded = true;
+        packs[i] = input + " Custom Cards";
+      }else if(check !== true && alreadyadded == false){
+        packs.push(input + " Custom Cards");
       }
     }
   }
+  console.log(tempwhite);
   firebase.database().ref('Games/'+ newgameid + '/packs').set({
     packs : packs,
   });
