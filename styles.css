@@ -124,6 +124,17 @@ body{
     width: 100px;
 }
 
+.joinbuttonCLEAR{
+    border: none;
+    outline: none;
+    height: 23px;
+    border-radius: 6px;
+    background-color: #FD4444;
+    color: white;
+    width: 100px;
+    margin-top: 40px;
+}
+
 .SelectedWhiteCard{
     font-family: poppins;
     background-color: #FD4444;

@@ -167,6 +167,9 @@ function createplayer(name){
     firebase.database().ref('Games/' + newgameid + '/lobbyname').remove;
     document.getElementById("options").style.display = "block";
     document.getElementById("pleasewait").style.display = "none";
+    firebase.database().ref('Games/' + newgameid + "/packs").set({
+      packs: "",
+    });
     const cardlist = firebase.database().ref('Games/' + newgameid + "/" + "packs/" + "packs/");
     cardlist.on('value', (snapshot) =>{
       let data = (JSON.stringify(snapshot.val(), null, 3))
@@ -283,6 +286,19 @@ function add_deck(){
         });
 }
 
+function clear_decks(){
+  black = [];
+  rawwhite = [];
+  tempwhite = [];
+  playerwhite = [];
+  tempimage = [];
+  white = [];
+  packs = [];
+  firebase.database().ref('Games/' + newgameid + '/packs').set({
+    packs: "",
+  });
+}
+
 function customcards(){
   alreadyadded=false;
   tempwhite = [];
@@ -316,24 +332,27 @@ function customcards(){
 function imagecards(){
   alreadyaddedimages=false;
   tempimage = [];
-  let customarray = ["Image Card"];
+  let customiarray = ["Image Card"];
   let input = document.getElementById("imagecards").value;
   i = 0;
   let int1 = parseInt(input);
   while(i < int1){
-      var customcard = {text: customarray};
-      tempimage.push(customcard);
+      var customicard = {text: customiarray};
+      tempimage.push(customicard);
     i++;
   }
   if(packs.length == 0){
+    console.log("Empty Array");
     packs.push(input + " Image Cards");
   }else if(packs.length !== 0){
     for(i in packs){
       let check = packs[i].includes(" Image");
       if(check == true){
+        console.log("Already here, editing")
         alreadyaddedimages = true;
         packs[i] = input + " Image Cards";
       }else if(check !== true && alreadyaddedimages == false){
+        console.log("Other stuff, adding")
         packs.push(input + " Image Cards");
       }
     }
@@ -503,7 +522,7 @@ function getwhite(){
         let duplicatecheck = playerwhite.includes(randomwhite6);
         if(commacheck == true){
           getwhite();
-        }else if(duplicatecheck == true && randomwhite6 !== "Custom Card"){
+        }else if(duplicatecheck == true && randomwhite6 !== "Custom Card" && randomwhite6 !== "Image Card"){
           getwhite();
         }else{
           playerwhite.push(randomwhite6);
