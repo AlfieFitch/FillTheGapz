@@ -35,6 +35,7 @@
             catch (error) {}
         </script>
     </div>
+
     <div class = "header">
     <button class = "button" id = "StartGame" onclick = "newinput('Enter Name', 'new');" style="display: block;">Start a New Game</button>
     <button class = "button" id = "JoinGame" onclick = "newinput('Enter Code', 'join');" style="display: none;">Join a Game</button>
@@ -156,9 +157,23 @@
     <div id = "endofgame" style="display:none;">
         <h1>End of Game</h1>
         <div class = "podium">
-            <div class = "three"></div>
-            <div class = "three"></div>
-            <div class = "three"></div>
+            <div class = "three">
+                <h1 class = "place">3</h1>
+                <h1 class = "score" id= "podiumpoints3"></h1>
+                <h1 class = "name" id = "podiumnames3"></h1>
+                
+            </div>
+            <div class = "three">
+                <h1 class = "place">1</h1>
+                <h1 class = "score" id= "podiumpoints1"></h1>
+                <h1 class = "name" id = "podiumnames1"></h1>
+            </div>
+            <div class = "three">
+                <h1 class = "place">2</h1>
+                <h1 class = "score" id= "podiumpoints2"></h1>
+                <h1 class = "name" id = "podiumnames2"></h1>
+                
+            </div>
         </div>
  
        
@@ -188,7 +203,6 @@
         </div>
     </div>
 </div>
-    
     
 </body>
 

@@ -763,7 +763,7 @@ margin-top: 2vh;
       width: 100%;
       background-color: transparent;
       color:white;
-      bottom: 0px;
+      bottom: 10px;
   }
 
   .footer h1{
@@ -951,3 +951,31 @@ margin-top: 2vh;
     margin-left: -19vw;
     width: 100vw;
 }
+
+.place{
+    transform: rotate(180deg);
+}
+
+.name{
+    transform: rotate(180deg);
+    padding-top: 0px !important;
+   
+}
+
+#podiumnames3{
+    margin-top: 145px !important;
+}
+
+#podiumnames1{
+    margin-top: 345px !important;
+}
+
+#podiumnames2{
+    margin-top: 245px !important;
+}
+
+.score{
+    transform: rotate(180deg) !important;
+    font-size: 15px;
+}
+

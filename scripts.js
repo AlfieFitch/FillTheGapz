@@ -694,6 +694,15 @@ function selectionconfirmed(id){
 }
 }
 
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
+
+
 function selectiontime(){
   let finalhtml = "";
   let selectedwhitecards = [];
@@ -711,7 +720,6 @@ function selectiontime(){
     console.log(picker);
     selectedwhitecards.push(picker.split('"},"'));
     for(i in selectedwhitecards[0]){
-      console.log(selectedwhitecards[0][i]);
       let daid = "'" + "card" + i + "'";
       let selection = [];
       let string1 = selectedwhitecards[0][i];
@@ -811,6 +819,7 @@ function leavegame(){
 }
 
 function gamefinished(){
+  getpodium();
   document.getElementById("endofgame").style.display = "block";
   document.getElementById("whiteboxesparent").style.display = "none";
   document.getElementById("Game").style.display = "none";
@@ -961,6 +970,56 @@ function rejoindagame(){
 window.addEventListener("beforeunload", function(e){
   firebase.database().ref('Games/'+ gameid + '/players/' + username).remove();
 }, false);
+
+function getpodium(){
+  const status = firebase.database().ref('Games/' + newgameid + '/scores');
+  status.once('value', (snapshot) =>{
+    let scores = JSON.stringify(snapshot.val());
+    let scorelist = scores.split(',');
+    console.log(scorelist);
+    let namelist = [];
+    let cleanscorelist = [];
+    for(i in scorelist){
+      let current = scorelist[i];
+      console.log(current);
+      let name = current.replace(/{/g,"");
+      name = name.replace(/:/g,"");
+      name = name.replace(/"/g,'');
+      name = name.replace(/}/g,'');
+      name = name.replace('score','');
+      name = name.replace('{"','');
+      namelist.push(name);
+      let playerscore = current.replace(/\D/g,'');
+      cleanscorelist.push(parseInt(playerscore));
+    }
+    let newscorelist = cleanscorelist.sort().reverse();
+    let iterations = 0;
+    let alreadypodium = [];
+    console.log(newscorelist);
+    for(i in newscorelist){
+      iterations = iterations + 1;
+      let checkingnow = newscorelist[i];
+      for(j in cleanscorelist){
+        let compare = cleanscorelist[j]
+        if(compare == checkingnow){
+          for(k in namelist){
+            let numcheck = namelist[k].includes(JSON.stringify(cleanscorelist[j]));
+            let name = namelist[j].replace(/\d/g, "");
+            if(numcheck == true){
+              console.log("address = " + j + ' name = ' + name + " score = " + cleanscorelist[j]);
+              document.getElementById('podiumnames' + iterations).innerText = name;
+              document.getElementById('podiumpoints' + iterations).innerText = cleanscorelist[j] + ' Points';
+              alreadypodium.push(name);
+            }else{
+              console.log("not here");
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
 
 
 //------------------------------------------------------------------------------------------
