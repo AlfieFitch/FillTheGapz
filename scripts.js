@@ -186,7 +186,6 @@ function createplayer(name){
 };
 
 function startgame(){
-  console.log(userlist.length);
   if(host == "1"){
     if(rawwhite.length == 0 || black.length == 0){
       alert("Please add a deck which includes black cards.");
@@ -343,17 +342,14 @@ function imagecards(){
     i++;
   }
   if(packs.length == 0){
-    console.log("Empty Array");
     packs.push(input + " Image Cards");
   }else if(packs.length !== 0){
     for(i in packs){
       let check = packs[i].includes(" Image");
       if(check == true){
-        console.log("Already here, editing")
         alreadyaddedimages = true;
         packs[i] = input + " Image Cards";
       }else if(check !== true && alreadyaddedimages == false){
-        console.log("Other stuff, adding")
         packs.push(input + " Image Cards");
       }
     }
@@ -436,7 +432,6 @@ scoreboard.on('value', (snapshot) =>{
     let new_black = getRandom(black);
     var firstIndex = new_black.indexOf('\\",\\"');
     var result = firstIndex != new_black.lastIndexOf('\\",\\"') && firstIndex != -1;
-    console.log(result);
     firebase.database().ref('Games/' + newgameid + '/card/').set({
       black: new_black
     });
@@ -543,7 +538,6 @@ function whiteselected(id){
   document.getElementById(lastpicked).style.color = "";
   }
   let cardval = document.getElementById(id).innerHTML;
-  console.log(cardval);
   if(cardval == "Custom Card" || cardval == lastchosen){
     let input = prompt("Enter what you would like the card to say");
     if(input === ""){
@@ -717,7 +711,6 @@ function selectiontime(){
   const status = firebase.database().ref('Games/' + newgameid + '/pickedwhite/');
   status.once('value', (snapshot) =>{
     let picker = JSON.stringify(snapshot.val());
-    console.log(picker);
     selectedwhitecards.push(picker.split('"},"'));
     for(i in selectedwhitecards[0]){
       let daid = "'" + "card" + i + "'";
@@ -976,12 +969,10 @@ function getpodium(){
   status.once('value', (snapshot) =>{
     let scores = JSON.stringify(snapshot.val());
     let scorelist = scores.split(',');
-    console.log(scorelist);
     let namelist = [];
     let cleanscorelist = [];
     for(i in scorelist){
       let current = scorelist[i];
-      console.log(current);
       let name = current.replace(/{/g,"");
       name = name.replace(/:/g,"");
       name = name.replace(/"/g,'');
@@ -995,9 +986,7 @@ function getpodium(){
     let newscorelist = cleanscorelist.sort().reverse();
     let iterations = 0;
     let alreadypodium = [];
-    console.log(newscorelist);
     for(i in newscorelist){
-      iterations = iterations + 1;
       let checkingnow = newscorelist[i];
       for(j in cleanscorelist){
         let compare = cleanscorelist[j]
@@ -1005,22 +994,61 @@ function getpodium(){
           for(k in namelist){
             let numcheck = namelist[k].includes(JSON.stringify(cleanscorelist[j]));
             let name = namelist[j].replace(/\d/g, "");
-            if(numcheck == true){
-              console.log("address = " + j + ' name = ' + name + " score = " + cleanscorelist[j]);
+            if(numcheck == true && alreadypodium.includes(name) == false && iterations < 4){
+              iterations = iterations + 1;
               document.getElementById('podiumnames' + iterations).innerText = name;
               document.getElementById('podiumpoints' + iterations).innerText = cleanscorelist[j] + ' Points';
               alreadypodium.push(name);
-            }else{
-              console.log("not here");
             }
           }
         }
       }
     }
   });
+
+  const restarting = firebase.database().ref('Games/' + newgameid + '/restarting/');
+  restarting.on('value', (snapshot) =>{
+    let check = JSON.stringify(snapshot.val());
+    console.log(check);
+    if(check == '{"data":"True"}'){
+      restartgameadditional();
+    }
+  });
 }
 
+function restartgame(){
+  document.getElementById("whiteboxesparent").style.display = "none";
+  document.getElementById("endofgame").style.display = "none";
+  document.getElementById("Game").style.display = "none";
+  firebase.database().ref('Games/'+ newgameid + '/restarting/').set({
+    data: 'True',
+  });
+  document.getElementById("options").style.display = "block";
+  document.getElementById("logo").style.marginLeft = "calc(50% - 350px)";  
+  document.getElementById("GameInfo").innerText = newgameid;
+  document.getElementById("url").innerText = "https://fillthegapz.com/?code=" + newgameid;
+  document.getElementById("StartGame").style.display = "none";
+  document.getElementById("JoinGame").style.display = "none";
+  document.getElementById("Leave").style.display = "block";
+  document.getElementById("additionalplayer").style.display = "block";
+  document.getElementById("options").style.display = "block";
+  document.getElementById("pleasewait").style.display = "none";
+}
 
+function restartgameadditional(){
+  if(host !== "1"){
+  document.getElementById("options").style.display = "none";
+  document.getElementById("additionalplayer").style.display = "block";
+  document.getElementById("pleasewait").style.display = "block";
+  document.getElementById("waittext").innerText = "Please wait for the host to start the game.";
+  document.getElementById("whiteboxesparent").style.display = "none";
+  document.getElementById("Game").style.display = "none";
+  document.getElementById("endofgame").style.display = "none";
+  }
+  firebase.database().ref('Games/' + newgameid + '/scores/' + username).set({
+    score: 0,
+  });
+}
 
 //------------------------------------------------------------------------------------------
 

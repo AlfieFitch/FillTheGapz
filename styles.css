@@ -979,3 +979,44 @@ margin-top: 2vh;
     font-size: 15px;
 }
 
+.restartbutton{
+    position: absolute;
+    outline: none;
+    color: white;
+    background-color: #FD4444;
+    display: block;
+    margin-top: -28vh;
+    margin-left: 70vw;
+    width: 25vw;
+    border-radius: 7px;
+    height: 35px;
+    border-color: transparent;
+    font-size: 15px;
+    font-family: Poppins;
+    bottom: 200px;
+}
+
+.sorrytext{
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    margin-top: 10vh;
+    padding: 20px;
+}
+
+.sorrytitle{
+    color: white;
+    text-align: center;
+    margin-top: 80px;
+}
+
+.feedbacklink{
+    cursor: pointer;
+}
+
+.feedbacklink:hover{
+    text-decoration: underline;
+    color:#FD4444;
+    transition: 0.3s;
+}
+
