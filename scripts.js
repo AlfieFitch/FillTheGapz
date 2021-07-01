@@ -853,6 +853,7 @@ function checkstatus(dacode,id){
 
 
 window.onload = function(){
+  checkscreen();
   firebase.auth().signInAnonymously();
   let url = new URLSearchParams(location.search);
   let dacode = url.get('code');
@@ -1048,6 +1049,23 @@ function restartgameadditional(){
   firebase.database().ref('Games/' + newgameid + '/scores/' + username).set({
     score: 0,
   });
+}
+
+
+window.addEventListener("resize", function() {
+  if (window.matchMedia("(min-width: 1200px)").matches) {
+    document.getElementById("screentosmall").style.display = "none";
+  } else {
+    document.getElementById("screentosmall").style.display = "block";
+  }
+})
+
+function checkscreen(){
+  if (window.matchMedia("(min-width: 1200px)").matches) {
+    document.getElementById("screentosmall").style.display = "none";
+  } else {
+    document.getElementById("screentosmall").style.display = "block";
+  }
 }
 
 //------------------------------------------------------------------------------------------
