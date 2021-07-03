@@ -103,7 +103,7 @@ function joingame(code){
 function numberrounds(){
   let newinput = document.getElementById("rounds").value;
   if(newinput == ""){
-    alert("Enter number");
+    sendalert("Please enter a value.")
   }else{
     norounds = parseInt(newinput);
     document.getElementById("roundsnum").innerText = newinput + ' rounds';
@@ -126,37 +126,37 @@ function createplayer(name){
   document.getElementById("inputmodal").style.display = "none";
   username = name;
   document.cookie = "playername=" + username;
-  document.cookie = "gameid=" + newgameid;
+  document.cookie = "gameid=" + newgameid; 
   firebase.database().ref('Games/' + newgameid + '/scores/' + username).set({
     score: 0,
-  });
+ });
   firebase.database().ref('Games/'+ newgameid + '/' + 'players/' + username).set({
     name: 'null'
   });
-  document.getElementById("logo").style.marginLeft = "calc(50% - 350px)";  
+ document.getElementById("logo").style.marginLeft = "calc(50% - 350px)";  
   document.getElementById("GameInfo").innerText = newgameid;
   document.getElementById("url").innerText = "https://fillthegapz.com/?code=" + newgameid;
   document.getElementById("StartGame").style.display = "none";
   document.getElementById("JoinGame").style.display = "none";
   document.getElementById("Leave").style.display = "block";
   if(host !== "1"){
-    var status67 = firebase.database().ref('Games/' + newgameid + "/" + 'host/');
-    status67.on('value', (snapshot) =>{
-      let value = JSON.stringify(snapshot.val());
-      if(value == '{"status":"lost"}'){
-        firebase.database().ref('Games/'+ newgameid).remove();
-        document.cookie = "playername=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        document.cookie = "gameid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        document.cookie = "visited=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        window.location.replace("http://fillthegapz.com");
-      }
-    });
-    document.getElementById("options").style.display = "none";
-    document.getElementById("additionalplayer").style.display = "block";
-    document.getElementById("pleasewait").style.display = "block";
-    document.getElementById("waittext").innerText = "Please wait for the host to start the game.";
-    const status = firebase.database().ref('Games/' + newgameid + '/status/');
-    status.on('value', (snapshot) =>{
+      var status67 = firebase.database().ref('Games/' + newgameid + "/" + 'host/');
+      status67.on('value', (snapshot) =>{
+        let value = JSON.stringify(snapshot.val());
+        if(value == '{"status":"lost"}'){
+          firebase.database().ref('Games/'+ newgameid).remove();
+          document.cookie = "playername=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          document.cookie = "gameid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          document.cookie = "visited=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          window.location.replace("http://fillthegapz.com");
+        }
+      });
+      document.getElementById("options").style.display = "none";
+      document.getElementById("additionalplayer").style.display = "block";
+      document.getElementById("pleasewait").style.display = "block";
+      document.getElementById("waittext").innerText = "Please wait for the host to start the game.";
+      const status = firebase.database().ref('Games/' + newgameid + '/status/');
+      status.on('value', (snapshot) =>{
       let started = JSON.stringify(snapshot.val());
       if(started == '{"started":1}'){
         newround();
@@ -188,7 +188,7 @@ function createplayer(name){
 function startgame(){
   if(host == "1"){
     if(rawwhite.length == 0 || black.length == 0){
-      alert("Please add a deck which includes black cards.");
+      sendalert("Please ensure the deck has at least 1 black card.")
     }else{
         rawwhite.push(tempwhite);
         rawwhite.push(tempimage);
@@ -201,7 +201,7 @@ function startgame(){
         });
       }
   }else{
-    alert("You are not host.");
+
   }
 };
 
@@ -258,7 +258,7 @@ function newinput(title,code){
 function submit(){
   let input = document.getElementById("input").value;
   if(input == null || input == ""){
-    alert("Please Enter something");
+    sendalert("Please enter a value.")
   }else{
     if(overallcode == "join"){
       joingame(input);
@@ -429,12 +429,27 @@ scoreboard.on('value', (snapshot) =>{
     firebase.database().ref('Games/'+ newgameid + '/status/').set({
       started: 0
     });
+    getblack();
+  }
+
+  function getblack(){
     let new_black = getRandom(black);
-    var firstIndex = new_black.indexOf('\\",\\"');
-    var result = firstIndex != new_black.lastIndexOf('\\",\\"') && firstIndex != -1;
-    firebase.database().ref('Games/' + newgameid + '/card/').set({
-      black: new_black
-    });
+    console.log(new_black);
+    console.log(new_black.length)
+    let blackiteration = 0;
+    if(new_black.length ==  "2"){
+      firebase.database().ref('Games/' + newgameid + '/card/').set({
+        black: new_black
+      });
+    }else if(blackiteration == 10){
+      sendalert("Please ensure the deck some single pick cards - cards that require more than 1 white cards are currently incompatible.")
+      firebase.database().ref('Games/' + newgameid + '/card/').set({
+        black: "Incompatible Deck",
+      });
+    }else{
+      blackiteration = blackiteration + 1;
+      getblack();
+    }
     czarname = getRandomwhite(userlist);
     firebase.database().ref('Games/' + newgameid + '/czar/').set({
       czar: czarname,
@@ -541,21 +556,22 @@ function whiteselected(id){
   if(cardval == "Custom Card" || cardval == lastchosen){
     let input = prompt("Enter what you would like the card to say");
     if(input === ""){
-      alert("Please Enter a value.");
+      sendalert("Please enter a value.");
       whiteselected(id);
     }else if(input){
       lastchosen = input;
       document.getElementById(id).innerText = input;
       playerwhite[id] = input;
     }else{
-      alert("Please Enter a value.");
+      sendalert("Please enter a value.");
       whiteselected(id);
     }
   }
   if(cardval == "Image Card" || cardval == lastchosenimage){
     let input = prompt("Enter the link to the image");
     if(input === ""){
-      alert("Please enter a link");
+      sendalert("Please enter a value.");
+
       whiteselected(id);
     }else if(input){
       let innerhtml = "<img src='" + input + "' class='whiteimage'>";
@@ -563,7 +579,7 @@ function whiteselected(id){
       document.getElementById(id).innerHTML = innerhtml;
       playerwhite[id] = innerhtml;
     }else{
-      alert("Please enter a link");
+      sendalert("Please enter a value.")
       whiteselected(id);
     }
   }
@@ -584,7 +600,7 @@ function whiteselected(id){
     document.getElementById("confirmselectionpoop").style.display = "block";
     
   }else{
-    alert("you have already picked");
+
   }
 }
 
@@ -599,6 +615,7 @@ function selectionconfirmed(id){
       let string4 = string3.replace("status",'');
       let string5 = string4.replace(":",'');
       let int1 = parseInt(string5);
+      console.log(int1);
       if(int1 == (userlist[0].length - 1)){
         firebase.database().ref('Games/'+ newgameid + '/status/').set({
           started : '3',
@@ -822,9 +839,10 @@ function gamefinished(){
 function lobbyname(){
   let name = document.getElementById("lobname").value;
   if(name == "" || name == null){
-    alert("Enter a name.");
+    sendalert("Please enter a value.");
   }else if(name.length > 14){
-    alert("Must be less than 14 Characters.");
+    sendalert("Must be less than 14 characters.");
+
   }else{
     firebase.database().ref('Games/'+ newgameid + '/lobbyname/').set({
       name: name + "$" + newgameid,
@@ -1068,5 +1086,16 @@ function checkscreen(){
   }
 }
 
+function sendalert(value){
+  document.getElementById("warning").style.display = "block";
+  document.getElementById("warningtext").innerText = value;
+  sleep(3000).then(() => {
+    document.getElementById("warning").style.display = "none";
+  });
+}
+
+function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
 //------------------------------------------------------------------------------------------
 
