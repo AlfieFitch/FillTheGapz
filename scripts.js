@@ -53,6 +53,8 @@ let lastchosen = null;
 let lastchosenimage = null;
 let tempwhite = [];
 let tempimage = [];
+let alreadyaddedimages = false;
+let alreadyadded = false;
 
 // Functions -------------------------------------------------------------------------------------
 
@@ -187,8 +189,12 @@ function createplayer(name){
 
 function startgame(){
   if(host == "1"){
+    console.log(userlist);
+    console.log(userlist.length);
     if(rawwhite.length == 0 || black.length == 0){
       sendalert("Please ensure the deck has at least 1 black card.")
+    }else if(userlist[0].length == 1){
+      sendalert("You can't play this alone.");
     }else{
         rawwhite.push(tempwhite);
         rawwhite.push(tempimage);
@@ -200,8 +206,6 @@ function startgame(){
           started: 1,
         });
       }
-  }else{
-
   }
 };
 
@@ -274,16 +278,20 @@ function submit(){
 
 function add_deck(){
   let input = document.getElementById("cardcode").value;
-  packs.push(input);
-  firebase.database().ref('Games/'+ newgameid + '/packs').set({
-    packs : packs,
-  });
-  fetch('https://castapi.clrtd.com/cc/decks/' + input + '/cards')
-        .then((resp) => resp.json())
-        .then(function (data) {
-            black.push(data.calls);
-            rawwhite.push(data.responses);
-        });
+  if(input == ""){
+    sendalert("Please enter a value.");
+  }else{
+    packs.push(input);
+    firebase.database().ref('Games/'+ newgameid + '/packs').set({
+      packs : packs,
+    });
+    fetch('https://castapi.clrtd.com/cc/decks/' + input + '/cards')
+          .then((resp) => resp.json())
+          .then(function (data) {
+              black.push(data.calls);
+              rawwhite.push(data.responses);
+          });
+  }
 }
 
 function clear_decks(){
@@ -300,64 +308,82 @@ function clear_decks(){
 }
 
 function customcards(){
-  alreadyadded=false;
   tempwhite = [];
   let customarray = ["Custom Card"];
   let input = document.getElementById("customcards").value;
-  i = 0;
-  let int1 = parseInt(input);
-  while(i < int1){
+  if(input == ""){
+    sendalert("Please enter a value.");
+  }else{
+    i = 0;
+    let int1 = parseInt(input);
+    while(i < int1){
       var customcard = {text: customarray};
-      tempwhite.push(customcard);
-    i++;
-  }
-  if(packs.length == 0){
-    packs.push(input + " Custom Cards");
-  }else if(packs.length !== 0){
-    for(i in packs){
-      let check = packs[i].includes(" Custom");
-      if(check == true){
-        alreadyadded = true;
-        packs[i] = input + " Custom Cards";
-      }else if(check !== true && alreadyadded == false){
-        packs.push(input + " Custom Cards");
+       tempwhite.push(customcard);
+       i++;
+    }
+    if(packs.length == 0){
+      alreadyadded = true;
+      packs.push(input + " Custom Cards");
+    }else{
+      for(i in packs){
+        let check = packs[i].includes("Custom");
+        if(check == true){
+          alreadyadded = true;
+          packs[i] = input + " Custom Cards";
+        }else if(check !== true && alreadyadded == false){
+          alreadyadded = true;
+          packs.push(input + " Custom Cards");
+       }
       }
     }
+    firebase.database().ref('Games/'+ newgameid + '/packs').set({
+     packs : packs,
+    });
   }
-  firebase.database().ref('Games/'+ newgameid + '/packs').set({
-    packs : packs,
-  });
 }
 
 function imagecards(){
-  alreadyaddedimages=false;
   tempimage = [];
   let customiarray = ["Image Card"];
   let input = document.getElementById("imagecards").value;
-  i = 0;
-  let int1 = parseInt(input);
-  while(i < int1){
-      var customicard = {text: customiarray};
-      tempimage.push(customicard);
-    i++;
-  }
-  if(packs.length == 0){
-    packs.push(input + " Image Cards");
-  }else if(packs.length !== 0){
-    for(i in packs){
-      let check = packs[i].includes(" Image");
-      if(check == true){
-        alreadyaddedimages = true;
-        packs[i] = input + " Image Cards";
-      }else if(check !== true && alreadyaddedimages == false){
-        packs.push(input + " Image Cards");
+  if(input == ""){
+    sendalert("Please enter a value.");
+  }else{
+    i = 0;
+    let int1 = parseInt(input);
+    while(i < int1){
+       var customicard = {text: customiarray};
+       tempimage.push(customicard);
+       i++;
+    }
+    if(packs.length == 0){
+      alreadyaddedimages = true;
+      packs.push(input + " Image Cards");
+    }else{
+      for(i in packs){
+       let check = packs[i].includes("Image");
+        if(check == true){
+          alreadyaddedimages = true;
+          packs[i] = input + " Image Cards";
+        }else if(check == false ){
+          console.log(alreadyaddedimages)
+          if(alreadyaddedimages == true){
+            console.log("already added")
+          }else if(alreadyaddedimages == false){
+            alreadyaddedimages = true;
+            packs.push(input + " Image Cards");
+          }else{
+            console.log("end of code");
+          }
+       }
       }
     }
+    firebase.database().ref('Games/'+ newgameid + '/packs').set({
+      packs : packs,
+    });
   }
-  firebase.database().ref('Games/'+ newgameid + '/packs').set({
-    packs : packs,
-  });
 }
+
 
 function getRandom(arr) {
   var random1 = Math.floor((Math.random() * (arr.length - 1)));

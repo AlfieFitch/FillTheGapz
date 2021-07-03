@@ -1025,8 +1025,19 @@ margin-top: 2vh;
     height: 200%;
     position: absolute;
     background-color: #0D0B25;
-    margin-top: -50vh;
+    margin-top: -30vh;
     z-index: 1000;
+}
+
+.sorrylogo{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    position: relative;
+    height: 40px;
+    margin-top: 10px;
+    align-self: center;
 }
 
 .sorrytextresponsive{
