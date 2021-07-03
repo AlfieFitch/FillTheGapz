@@ -55,7 +55,8 @@ let tempwhite = [];
 let tempimage = [];
 let alreadyaddedimages = false;
 let alreadyadded = false;
-
+let joinlist = [];
+let tempusers = [];
 // Functions -------------------------------------------------------------------------------------
 
 
@@ -97,8 +98,27 @@ function makeid(length) {
 }
 
 function joingame(code){
-  newinput("Enter Name", "create");
-  newgameid = code;
+  var playerlist = firebase.database().ref('Games/' + code + "/" + 'players/');
+  playerlist.once('value', (snapshot) =>{
+    let data = (JSON.stringify(snapshot.val(), null, 3))
+    var newdata1 = data.replace(/}/g,'');
+    var newdata2 = newdata1.replace(/{/g,'');
+    var newdata3 = newdata2.replace(/:/g,'');
+    var newdata4 = newdata3.replace(/"/g,'');
+    var newdata5 = newdata4.replace(/name/g,'');
+    var newdata6 = newdata5.replace(/null/g,'');
+    var newdata7 = newdata6.replace(/ /g , '');
+    var newdata8 = newdata7.replace(/(\n)+/g , '');
+    newdata8 = newdata8.replace(/\n/g , '');
+    tempusers = newdata8.split(',');
+    newgameid = code;
+    console.log(tempusers)
+    if(tempusers.length == 10){
+      sendalert("Sorry, this game already has 10 players.")
+    }else{
+    newinput("Enter Name", "create");
+    }
+  });
 }
 
 
@@ -1122,6 +1142,12 @@ function sendalert(value){
 
 function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+
+function back(){
+  document.getElementById("inputmodal").style.display = "none";
+  document.getElementById("homepage").style.display = "block";
 }
 //------------------------------------------------------------------------------------------
 

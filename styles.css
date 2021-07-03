@@ -172,15 +172,17 @@ body{
 }
 
 .input{
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
     background-color: #1F222E;
     color: white;
     width: 500px;
-    height: 150px;
+    height: 200px;
     border-radius: 6px;
     padding: 20px;
     text-align: center;
-    margin-top: calc(50vh - 135px);
-    margin-left: calc(50vw - 250px);
+    margin-top: calc(50vh - 200px);
 }
 
 .input input{
@@ -1071,4 +1073,10 @@ margin-top: 2vh;
     font-size: 15px;
     text-align: center;
     padding-top: 5px;
+}
+
+.rightarrow{
+    margin-left: -480px;
+    height: 20px;
+    cursor: pointer;
 }
