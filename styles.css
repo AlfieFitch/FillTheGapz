@@ -132,7 +132,7 @@ body{
     background-color: #FD4444;
     color: white;
     width: 100px;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .SelectedWhiteCard{
@@ -595,9 +595,8 @@ margin-top: 2vh;
 
 #czardisplay{
     height: 60px;
-    float: left;
     text-align: center;
-    margin-top: 25px;
+    margin-top: 30px;
 }
 
 #additionplayeroverall{
@@ -833,7 +832,6 @@ margin-top: 2vh;
     padding-left: 20px;
     padding-right: 20px;
     text-align:center;
-    margin-top: 25px;
     border-left:#FD4444 2px solid;
     border-top:#FD4444 2px solid;
     border-bottom:#FD4444 2px solid;
@@ -842,6 +840,30 @@ margin-top: 2vh;
     border-bottom-right-radius: 0px;
     height: 60px;
 }
+
+#pickeddisplay{
+    float: left;
+    font-size: 20px;
+    font-weight: bold;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom:0px;
+    text-align: center;
+    border-right:#FD4444 2px solid;
+    border-top:#FD4444 2px solid;
+    border-bottom:#FD4444 2px solid;
+    border-radius: 6px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    height: 60px;
+}
+
+.pickedtext{
+    font-size: 20px;
+    padding: auto;
+}
+
+
 
 #scoreboard{
     position:absolute;
@@ -904,7 +926,11 @@ margin-top: 2vh;
 }
 
 .whiteimage{
-    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    height: 10vh;
+    max-width: 9vw;
+    min-width: 5vw;
 }
 
 #endofgame{

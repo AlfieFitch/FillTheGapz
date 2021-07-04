@@ -112,7 +112,6 @@ function joingame(code){
     newdata8 = newdata8.replace(/\n/g , '');
     tempusers = newdata8.split(',');
     newgameid = code;
-    console.log(tempusers)
     if(tempusers.length == 10){
       sendalert("Sorry, this game already has 10 players.")
     }else{
@@ -161,7 +160,18 @@ function createplayer(name){
   document.getElementById("StartGame").style.display = "none";
   document.getElementById("JoinGame").style.display = "none";
   document.getElementById("Leave").style.display = "block";
+  var checkdisconnect = firebase.database().ref('Games/' + newgameid + '/disconnectedplayers')
+  checkdisconnect.on('value', (snapshot) =>{
+    var daya = JSON.stringify(snapshot);
+    var newdata1 = daya.replace(/"/g,'');
+    if(newdata1 !== "null"){
+      sendalert(newdata1 + " has disconnected");
+      firebase.database().ref('Games/'+ newgameid + "/disconnectedplayers").remove();
+    }
+  });
   if(host !== "1"){
+      var disconnect = firebase.database().ref('Games/' + newgameid + '/disconnectedplayers');
+      disconnect.onDisconnect().set(username);
       var status67 = firebase.database().ref('Games/' + newgameid + "/" + 'host/');
       status67.on('value', (snapshot) =>{
         let value = JSON.stringify(snapshot.val());
@@ -209,10 +219,8 @@ function createplayer(name){
 
 function startgame(){
   if(host == "1"){
-    console.log(userlist);
-    console.log(userlist.length);
     if(rawwhite.length == 0 || black.length == 0){
-      sendalert("Please ensure the deck has at least 1 black card.")
+      sendalert("Please ensure the deck has at least 1 black card and white card.")
     }else if(userlist[0].length == 1){
       sendalert("You can't play this alone.");
     }else{
@@ -308,8 +316,14 @@ function add_deck(){
     fetch('https://castapi.clrtd.com/cc/decks/' + input + '/cards')
           .then((resp) => resp.json())
           .then(function (data) {
+            if(JSON.stringify(data.calls) == "[]"){
+              rawwhite.push(data.responses);
+            }else if(JSON.stringify(data.responses) == "[]"){
+              black.push(data.calls);
+            }else{
               black.push(data.calls);
               rawwhite.push(data.responses);
+            }
           });
   }
 }
@@ -386,14 +400,11 @@ function imagecards(){
           alreadyaddedimages = true;
           packs[i] = input + " Image Cards";
         }else if(check == false ){
-          console.log(alreadyaddedimages)
           if(alreadyaddedimages == true){
-            console.log("already added")
           }else if(alreadyaddedimages == false){
             alreadyaddedimages = true;
             packs.push(input + " Image Cards");
           }else{
-            console.log("end of code");
           }
        }
       }
@@ -418,6 +429,21 @@ function getRandomwhite(arr) {
 }
 
 function newround(){
+  const statusting = firebase.database().ref('Games/' + newgameid + '/playerstatus/');
+  statusting.on('value', (snapshot) =>{
+    string = JSON.stringify(snapshot.val());
+    let string1 = string.replace(/"/g,'');
+    let string2 = string1.replace("{",'');
+    let string3 = string2.replace('}','');
+    let string4 = string3.replace("status",'');
+    let string5 = string4.replace(":",'');
+    let int1 = parseInt(string5);
+    if(int1 == 1){
+      document.getElementById("pickeddisplay").innerHTML ="<h1 class = 'pickedtext'>" +  JSON.stringify(int1) + " player picked </h1>";
+    }else{
+      document.getElementById("pickeddisplay").innerHTML ="<h1 class = 'pickedtext'>" +  JSON.stringify(int1) + " players picked </h1>";
+    }
+  });
   firebase.database().ref('Games/' + newgameid + '/confirmpicked').set({
     picked: 'false',
   });
@@ -480,8 +506,6 @@ scoreboard.on('value', (snapshot) =>{
 
   function getblack(){
     let new_black = getRandom(black);
-    console.log(new_black);
-    console.log(new_black.length)
     let blackiteration = 0;
     if(new_black.length ==  "2"){
       firebase.database().ref('Games/' + newgameid + '/card/').set({
@@ -521,42 +545,42 @@ function newroundcomplete(){
       czar = "0";
     }
     document.getElementById("czardisplay").innerHTML = "<h1>The Current King is " + string3 + "</h1>";
-  const retrieveround = firebase.database().ref('Games/' + newgameid + '/currentround');
-  retrieveround.once('value', (snapshot) =>{
+    const retrieveround = firebase.database().ref('Games/' + newgameid + '/currentround');
+    retrieveround.once('value', (snapshot) =>{
     let string1 = JSON.stringify(snapshot.val());
     string1 = string1.replace(/"/g,'');
     string1 = string1.replace('{number:','');
     string1 = string1.replace('}','');
     document.getElementById("rounddisplay").innerHTML = "<h1 class = 'roundtext'>"+string1+"</h1>";
-  })
-  getwhite();
-  const status = firebase.database().ref('Games/' + newgameid + '/card').child('black');
-  status.once('value', (snapshot) =>{
-    storedblack = JSON.stringify(snapshot.val());
-    var newdata = storedblack.replace("[", "");
-    var newdata1 = newdata.replace(/\",\"/g , " ͟ ͟ ͟ ͟ ͟ ͟ ͟ ͟ ͟ ͟ ͟ ͟    " );
-    var newdata2 = newdata1.replace(/\\n/g,' ');
-    var newdata3 = newdata2.replace(/"/g ,'');
-    var newdata4 = newdata3.replace("]", "");
-    newdata4 = newdata4.replace(/\\/g,"");
-    document.getElementById("blackcontent").innerHTML = newdata4;
-  });
-  
-  if(czar == "1"){
-    selectionconfirmed();
-    document.getElementById("whiteboxes").style.display = "none";
-    document.getElementById("czarnotif").style.display = "block";
-    document.getElementById("confirmselection").style.display = "none";
-  }else{
-    document.getElementById("whiteboxes").style.display = "block";
-    document.getElementById("confirmselection").style.display = "block";
-  }
-  document.getElementById("playeroverall").style.display = "none";
-  document.getElementById("pleasewait").style.display = "none";
-  document.getElementById("options").style.display = "none";
-  document.getElementById("additionalplayer").style.display = "none";
-  document.getElementById("Game").style.display = "inline";
-  document.getElementById("waittext").innerText = "Please wait for the next round to start.";
+    getwhite();
+    const status = firebase.database().ref('Games/' + newgameid + '/card').child('black');
+    status.once('value', (snapshot) =>{
+      storedblack = JSON.stringify(snapshot.val());
+      var newdata = storedblack.replace("[", "");
+      var newdata1 = newdata.replace(/\",\"/g , " ͟ ͟ ͟ ͟ ͟ ͟ ͟ ͟ ͟ ͟ ͟ ͟    " );
+      var newdata2 = newdata1.replace(/\\n/g,' ');
+      var newdata3 = newdata2.replace(/"/g ,'');
+      var newdata4 = newdata3.replace("]", "");
+      newdata4 = newdata4.replace(/\\/g,"");
+      document.getElementById("blackcontent").innerHTML = newdata4;
+    });
+    
+    if(czar == "1"){
+      selectionconfirmed();
+      document.getElementById("whiteboxes").style.display = "none";
+      document.getElementById("czarnotif").style.display = "block";
+      document.getElementById("confirmselection").style.display = "none";
+    }else{
+      document.getElementById("whiteboxes").style.display = "block";
+      document.getElementById("confirmselection").style.display = "block";
+    }
+    document.getElementById("playeroverall").style.display = "none";
+    document.getElementById("pleasewait").style.display = "none";
+    document.getElementById("options").style.display = "none";
+    document.getElementById("additionalplayer").style.display = "none";
+    document.getElementById("Game").style.display = "inline";
+    document.getElementById("waittext").innerText = "Please wait for the next round to start.";
+    })
   });
 }
 
@@ -589,7 +613,15 @@ function getwhite(){
     };
   let innerhtml = "";
   for(i in playerwhite){
-    innerhtml = innerhtml + '<div class = "singlebutton"><button class = "whitebutton" id = "' + i + '" onClick="whiteselected('+ i + ');">' + playerwhite[i] + '</button></div>'
+    let imagecheck = playerwhite[i].includes("https://");
+    if(imagecheck == true){
+      playerwhite[i] = playerwhite[i].replace("[img]",'');
+      playerwhite[i] = playerwhite[i].replace("[/img]",'');
+      innerhtml = innerhtml + '<div class = "singlebutton"><button class = "whitebutton" id = "' + i + '" onClick="whiteselected(' + i + ');"><img src="' + playerwhite[i] + '"class="whiteimage"></button></div>';
+
+    }else{
+      innerhtml = innerhtml + '<div class = "singlebutton"><button class = "whitebutton" id = "' + i + '" onClick="whiteselected('+ i + ');">' + playerwhite[i] + '</button></div>'
+    }
   }
     document.getElementById("whiteboxes").innerHTML = innerhtml; 
 };
@@ -623,7 +655,7 @@ function whiteselected(id){
       let innerhtml = "<img src='" + input + "' class='whiteimage'>";
       lastchosenimage = '<img src="' + input + '" class="whiteimage">';
       document.getElementById(id).innerHTML = innerhtml;
-      playerwhite[id] = innerhtml;
+      playerwhite[id] = input;
     }else{
       sendalert("Please enter a value.")
       whiteselected(id);
@@ -661,7 +693,6 @@ function selectionconfirmed(id){
       let string4 = string3.replace("status",'');
       let string5 = string4.replace(":",'');
       let int1 = parseInt(string5);
-      console.log(int1);
       if(int1 == (userlist[0].length - 1)){
         firebase.database().ref('Games/'+ newgameid + '/status/').set({
           started : '3',
@@ -785,11 +816,22 @@ function selectiontime(){
       let string5 = string4.replace(/}/g , '');
       let string6 = string5.split('::');
       selection.push(string6);
-      if(czar == "1"){
-        let ting = "'" + selection[0][0] + "'"
-        finalhtml = finalhtml + '<div class = "selectoverall"><button onclick = "czarselected('+daid + ',' + ting +');" class = "czarselect" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 class = "author" style = "display:none;">'+ selection[0][0] +'</h1></button></div>';
+      let imagecheck = playerwhite[i].includes("https://");
+      if(imagecheck == true){
+        if(czar == "1"){
+          console.log("czarimage");
+          let ting = "'" + selection[0][0] + "'"
+          finalhtml = finalhtml + '<div class = "selectoverall"><button onclick = "czarselected('+daid + ',' + ting +');" class = "czarselect" id = "' + daid + '"><h1 class = "mainfunny"><img src="' + selection[0][1] + '"class="whiteimage"></img></h1><h1 class = "author" style = "display:none;">'+ selection[0][0] +'</h1></button></div>';
+        }else{
+          finalhtml = finalhtml + '<div class = "selectoverall"><button class = "select" id = "' + daid + '"><h1 class = "mainfunny"><img src="' + selection[0][1] + '"class="whiteimage"></img></h1><h1 class = "author" style = "display:none;">'+ selection[0][0] +'</h1></button></div>';
+        }
       }else{
-        finalhtml = finalhtml + '<div class = "selectoverall"><button class = "select" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 class = "author" style = "display:none;">'+ selection[0][0] +'</h1></button></div>';
+        if(czar == "1"){
+          let ting = "'" + selection[0][0] + "'"
+          finalhtml = finalhtml + '<div class = "selectoverall"><button onclick = "czarselected('+daid + ',' + ting +');" class = "czarselect" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 class = "author" style = "display:none;">'+ selection[0][0] +'</h1></button></div>';
+        }else{
+          finalhtml = finalhtml + '<div class = "selectoverall"><button class = "select" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 class = "author" style = "display:none;">'+ selection[0][0] +'</h1></button></div>';
+       }
       }
     }
     document.getElementById("pickerselection").innerHTML = finalhtml;
@@ -1074,7 +1116,6 @@ function getpodium(){
   const restarting = firebase.database().ref('Games/' + newgameid + '/restarting/');
   restarting.on('value', (snapshot) =>{
     let check = JSON.stringify(snapshot.val());
-    console.log(check);
     if(check == '{"data":"True"}'){
       restartgameadditional();
     }
