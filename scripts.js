@@ -428,7 +428,60 @@ function getRandomwhite(arr) {
   return final;
 }
 
-function newround(){
+
+
+
+async function newround(){
+  if(host == "1"){
+  firebase.database().ref('Games/' + newgameid + '/readyornot/').set({
+    data: 'not',
+  });
+  czarname = getRandomwhite(userlist);
+  firebase.database().ref('Games/' + newgameid + '/czar/').set({
+    czar: czarname,
+  });
+  getblack();
+  await getblack();
+  firebase.database().ref('Games/' + newgameid + '/readyornot/').set({
+    data: 'ready',
+  });
+  }
+  gotczar();
+}
+
+async function getblack(){
+  let new_black = getRandom(black);
+  let blackiteration = 0;
+  if(new_black.length ==  "2"){
+    firebase.database().ref('Games/' + newgameid + '/card/').set({
+      black: new_black
+    });
+  }else if(blackiteration == 10){
+    sendalert("Please ensure the deck some single pick cards - cards that require more than 1 white cards are currently incompatible.")
+    firebase.database().ref('Games/' + newgameid + '/card/').set({
+      black: "Incompatible Deck",
+    });
+  }else{
+    blackiteration = blackiteration + 1;
+    getblack();
+  }
+  return;
+}
+
+
+
+function gotczar(){
+  const readyornot = firebase.database().ref("Games/" + newgameid + '/readyornot/')
+  readyornot.on('value', (snapshot) =>{
+    let readydata = JSON.stringify(snapshot);
+    if(readydata == '{"data":"ready"}'){
+      gotczar();
+    }
+  })
+}
+
+function gotczar(){
+
   const statusting = firebase.database().ref('Games/' + newgameid + '/playerstatus/');
   statusting.on('value', (snapshot) =>{
     string = JSON.stringify(snapshot.val());
@@ -448,7 +501,7 @@ function newround(){
     picked: 'false',
   });
   const scoreboard = firebase.database().ref('Games/' + newgameid + '/scores/');
-scoreboard.on('value', (snapshot) =>{
+  scoreboard.on('value', (snapshot) =>{
   let scorearray = [];
   let score = JSON.stringify(snapshot.val());
   let score1 = score.replace(/{/g , '');
@@ -501,41 +554,13 @@ scoreboard.on('value', (snapshot) =>{
     firebase.database().ref('Games/'+ newgameid + '/status/').set({
       started: 0
     });
-    getblack();
   }
-
-  function getblack(){
-    let new_black = getRandom(black);
-    let blackiteration = 0;
-    if(new_black.length ==  "2"){
-      firebase.database().ref('Games/' + newgameid + '/card/').set({
-        black: new_black
-      });
-    }else if(blackiteration == 10){
-      sendalert("Please ensure the deck some single pick cards - cards that require more than 1 white cards are currently incompatible.")
-      firebase.database().ref('Games/' + newgameid + '/card/').set({
-        black: "Incompatible Deck",
-      });
-    }else{
-      blackiteration = blackiteration + 1;
-      getblack();
-    }
-    czarname = getRandomwhite(userlist);
-    firebase.database().ref('Games/' + newgameid + '/czar/').set({
-      czar: czarname,
-    });
-    let rounddisplay = "round " + JSON.stringify(compround) + " of " + JSON.stringify(norounds);
-    firebase.database().ref('Games/' +newgameid + '/currentround').set({
-      number: rounddisplay,
-    })
-  }
-  newroundcomplete();
-}
-
-
-function newroundcomplete(){
+  let rounddisplay = "round " + JSON.stringify(compround) + " of " + JSON.stringify(norounds);
+  firebase.database().ref('Games/' +newgameid + '/currentround').set({
+    number: rounddisplay,
+  })
   const retrieveczar = firebase.database().ref('Games/' + newgameid + '/czar/');
-  retrieveczar.once('value', (snapshot) =>{
+  retrieveczar.on('value', (snapshot) =>{
     let string1 = JSON.stringify(snapshot.val());
     let string2 = string1.replace('{"czar":"', '');
     string3 = string2.replace('"}','');
