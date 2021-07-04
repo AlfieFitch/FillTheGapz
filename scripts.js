@@ -57,6 +57,10 @@ let alreadyaddedimages = false;
 let alreadyadded = false;
 let joinlist = [];
 let tempusers = [];
+
+
+
+
 // Functions -------------------------------------------------------------------------------------
 
 
@@ -555,10 +559,7 @@ function gotczar(){
       started: 0
     });
   }
-  let rounddisplay = "round " + JSON.stringify(compround) + " of " + JSON.stringify(norounds);
-  firebase.database().ref('Games/' +newgameid + '/currentround').set({
-    number: rounddisplay,
-  })
+
   const retrieveczar = firebase.database().ref('Games/' + newgameid + '/czar/');
   retrieveczar.on('value', (snapshot) =>{
     let string1 = JSON.stringify(snapshot.val());
@@ -607,6 +608,12 @@ function gotczar(){
     document.getElementById("waittext").innerText = "Please wait for the next round to start.";
     })
   });
+  if(host == "1"){
+    let rounddisplay = "round " + JSON.stringify(compround) + " of " + JSON.stringify(norounds);
+    firebase.database().ref('Games/' +newgameid + '/currentround').set({
+      number: rounddisplay,
+    })
+  }
 }
 
 function getwhite(){
