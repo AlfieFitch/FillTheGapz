@@ -25,7 +25,33 @@
     </script>
     <script src="https://contextual.media.net/dmedianet.js?cid=8CUPQ473C" async="async"></script>
 </head>
-<body>
+<body id = "body">
+    <div id = "loaderoverall" style = "display:block">
+        <div class = "loader">
+            <div class="lds-ring">
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+        <h class = "reloadnotif">Still here? Try reloading the page.</h>
+    </div>
+
+    <div class = "rejoinoverall" id = "rejoinoverall" style="display:none;">
+        <div class = "header2"><h1>Would you like to rejoin?</h1></div>
+        <div class = "bodytext"><h1>The last game you were in has not finished yet. Would you like to rejoin.</h1></div>
+        <div class = "rejoinbuttons">
+            <button class = "rebutton" onclick="rejoindagame();">Rejoin</button>
+            <button class = "rebutton" onclick="discardgame();">Discard</button>
+        </div>
+    </div>
+
+
     <div id="118175980">
         <script type="text/javascript">
             try {
@@ -51,14 +77,14 @@
     <div class = "homepage" id="homepage">
         <div class = "neu1">
             <h1 class = "homeheader">Do not hold back.</h1>
-            <b1 class = "hometext">That is right - Do not hold back - especially in the name of fun and humour. Fill the gapz... <br><br> The game that may not be for all the family! Come up with the most outrageous, offensive, and hilarious statements by matching statement cards with your own selection of cards. <br><br> Use the <a class="link" href="https://cast.clrtd.com/" target="_blank">CrCast</a> system to add your own custom card decks and even inside jokes into the game. Simply find the code to the deck you want to add into the game and instantly play it! <br><br> Fill the Gapz is free, online and multiplayer. Quickly and easily join your friends or families game on any browser and get involved with the fun that is possible! <br><br> The Fill the Gapz game and website is developed by <a class = "link" href="https://alfiefitch.com" target="_blank">Alfie Fitch</a> and is apart of the variant features available on <a class = "link" href="https://fitchnetwork.co.uk" target="_blank">The Fitch Network</a>.<br><br>Help and support is available through email at 'support@fillthegapz.com' or general enquiries can be sent to 'general@fillthegapz.com'. Click <a class = "link" href="https://fillthegapz.com/legal">Here</a> for legal information and website policies.</b1>
+            <h1 class = "hometext">That is right - Do not hold back - especially in the name of fun and humour. Fill the gapz... <br><br> The game that may not be for all the family! Come up with the most outrageous, offensive, and hilarious statements by matching statement cards with your own selection of cards. <br><br> Use the <a class="link" href="https://cast.clrtd.com/" target="_blank">CrCast</a> system to add your own custom card decks and even inside jokes into the game. Simply find the code to the deck you want to add into the game and instantly play it! <br><br> Fill the Gapz is free, online and multiplayer. Quickly and easily join your friends or families game on any browser and get involved with the fun that is possible! <br><br> The Fill the Gapz game and website is developed by <a class = "link" href="https://alfiefitch.com" target="_blank">Alfie Fitch</a> and is apart of the variant features available on <a class = "link" href="https://fitchnetwork.co.uk" target="_blank">The Fitch Network</a>.<br><br>Help and support is available through email at 'support@fillthegapz.com' or general enquiries can be sent to 'general@fillthegapz.com'. Click <a class = "link" href="https://fillthegapz.com/legal">Here</a> for legal information and website policies.</h1>
         </div>
         <div class = "findgame">
             <h1 class = "homeheader1">Find a Game:</h1>
             <div class = "gamesoverall" id = "gamesoverall"></div>
         </div>
         <div class = "footer">
-            <h1>Copyright ©  Fitch Network 2021 | <a class = "feedbacklink" data-az-l="a6086b83-c7e0-4165-a11c-46a969617153">Leave Feedback</a></h1>
+            <h1>Copyright ©  Fitch Network 2021 | <a class = "feedbacklink" data-az-l="a6086b83-c7e0-4165-a11c-46a969617153">Leave Feedback</br></br></br></a></h1>
         </div>
     </div>
 
@@ -77,8 +103,9 @@
             <div class = "playertable" id ="PlayerList"></div>
             </div>
         </div>
-
-        <div class = "over2">
+        <div class = "centeroptions">
+        <div class = "optionsgrid">
+        <div class = "optionsover">
             <div class = "over2internals">
             <div class = "over2header">
                 <h2>Add decks:</h2>
@@ -98,7 +125,7 @@
             </div>
         </div>
         
-        <div class = "over3">
+        <div class = "optionsover">
             <div class = "rounds">
                 <h1>Enter number of rounds:</h1>
                 <input class = "roundsinputbox" id = "rounds" type="number"  name = "rounds" required> 
@@ -115,16 +142,21 @@
        
         </div>
 
-        <div class = "over4">
+ 
+
+        <div class = "optionsover">
             <div id = "fullpacklist">
                 <h1 class = "packtitle">Added Packs:</h1>
                 <h1 id = "packlist"></h1>
             </div>
         </div>
         
-        
-        <button class = "dabutton"  onclick = "startgame();">Start Game</button>
-        <h1 id = "url"></h1>
+        <div class = "optionsover">
+            <button class = "dabutton"  onclick = "startgame();">Start Game</button>
+            <h1 id = "url"></h1>
+        </div>
+        </div>
+        </div>
     </div>
 
     <div class = "overadd" id = "additionalplayer" style="display:none;">
@@ -137,6 +169,7 @@
     <div class = "pleasewait" id = "pleasewait" style="display:none;">
         <h1 id = "waittext"></h1>
     </div>
+
 
     <div id = "Game" style="display:none;">
         <div id = "blackcard">
@@ -183,31 +216,10 @@
         <button class = "restartbutton"  onclick = "restartgame();">Start Game</button>
     </div>
 
-    <div class = "rejoinoverall" id = "rejoinoverall" style="display:none;">
-        <div class = "header2"><h1>Would you like to rejoin?</h1></div>
-        <div class = "bodytext"><h1>The last game you were in has not finished yet. Would you like to rejoin.</h1></div>
-        <div class = "rejoinbuttons">
-            <button class = "rebutton" onclick="rejoindagame();">Rejoin</button>
-            <button class = "rebutton" onclick="discardgame();">Discard</button>
-        </div>
-    </div>
 
 
-<div id = "loaderoverall">
-    <div class = "loader">
-        <div class="lds-ring">
-            <div>
-            </div>
-            <div>
-            </div>
-            <div>
-            </div>
-            <div>
-            </div>
-        </div>
-    </div>
-    <h class = "reloadnotif">Still here? Try reloading the page.</h>
-</div>
+
+
 
 <div id = "screentosmall" style="display: none;">
     <img id="logo" src = "/imgs/logo.svg" class = "sorrylogo" style="margin-top: 30vh;"></img>
@@ -219,7 +231,7 @@
         Our team is working hard to make the game avaiable for all devices, big or small, but in the meantime, Please try on a device with a larger screen, such as a laptop.
     </h1>
 </div>
-    
+
 </body>
 
 </html>

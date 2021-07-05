@@ -3,8 +3,10 @@ body{
     font-family: Poppins;
     color: #0D0B35;
     margin: 0px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
+
 
 .whitebutton.whitebuttonselected{
     font-family: poppins;
@@ -85,7 +87,7 @@ body{
 
 .header{
     background-color: #0D0B25;
-    height: 60px;
+    height: 80px;
 }
 
 .button{
@@ -94,7 +96,7 @@ body{
     background-color: #FD4444;
     display: block;
     float: right;
-    margin-top: 12px;
+    margin-top: 10px;
     margin-right: 20px;
     width: 200px;
     border-radius: 7px;
@@ -132,7 +134,7 @@ body{
     background-color: #FD4444;
     color: white;
     width: 100px;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .SelectedWhiteCard{
@@ -163,7 +165,7 @@ body{
 }
 
 .inputbox{
-    margin-top: 40px;
+    margin-top: 30px;
     width: 50%;
     border-radius: 6px;
     height: 20px;
@@ -206,13 +208,25 @@ body{
 }
 
 .options{
+    position: absolute;
+    top: 50%;
+    margin-top: 20px;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
     color: white;
 }
 
 
 .pleasewait{
-    margin-top: -93vh;
-    margin-left: 350px;
+    float: right;
+    margin-right: auto;
+    margin-left: auto;
+    width: 40vw;
+}
+
+.pleasewait h1{
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .ophead{
@@ -223,54 +237,70 @@ body{
     margin-top: 20px;
     border:#FD4444 solid 2px;
     border-radius: 6px;
+    height: 83vh;
+    max-height: 83vh
 }
 
 
-
-.over2{
- margin-top: -87vh;
- float: left;
- margin-left: 40vw;
- background-color: #1F222E ;
- width: 25vw;
- text-align:center;
- align-content: center;
- justify-content: center;
- border-radius: 7px;
- min-height: 43vh;
+.centeroptions{
+    align-items: center;
+    justify-content: center;
+    margin-left: 38vw;
+    margin-top: -87.5vh;
+    position: absolute;
+    width: 60vw;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    min-height: 88vh;
+    max-height: 88vh;
 }
+
+.optionsover:last-child{
+    background-color: transparent;
+}
+
+.optionsgrid{
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(425px, 1fr));
+    row-gap: 50px;
+    column-gap: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    min-height: 88vh;
+    max-height: 88vh;
+}
+
+.optionsover{
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #1F222E ;
+    width: 400px;
+    text-align:center;
+    align-content: center;
+    justify-content: center;
+    border-radius: 7px;
+    max-height: 350px;
+    height: 350px;
+}
+
 
 .over2buttons{
     display: inline-block;
     margin: 0 auto;
-    width: 25vw;
+    width: 400px;
 }
 
-.over3{
-margin-left: 70vw;
-margin-top: -87vh;
-background-color: #1F222E ;
-width: 25vw;
-align-content: center;
-justify-content: center;
-border-radius: 7px;
-min-height: 43vh;
+.rounds h1{
+    font-size: 15px;
 }
 
-.over4{
-background-color: #1F222E ;
-max-width: 25vw;
-align-content: center;
-justify-content: center;
-border-radius: 7px;
-min-height: 40.5vh;
-max-height: 40.5vh;
-margin-left: 40vw;
-margin-top: 2vh;
-}
-
-.over3 h1{
-    font-size: 20px;
+.customcards h1{
+    font-size: 15px;
 }
 
 .rounds{
@@ -280,7 +310,7 @@ margin-top: 2vh;
 
 .roundsinputbox{
     margin-top: 2vh;
-    width: 10vw;
+    width: 200px;
     border-radius: 6px;
     height: 20px;
     border: none;
@@ -325,12 +355,11 @@ margin-top: 2vh;
 
 #fullpacklist{
     margin-top: 20px;
-    position:absolute;
     overflow-y: scroll;
-    height: 36vh;
-    max-height: 36vh;
-    margin-left: 1vw;
-    width: 22.7vw;
+    height: 310px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 360px;
     padding-top: 50px;
     border: 2px solid #FD4444;
     border-radius: 6px;
@@ -516,14 +545,15 @@ margin-top: 2vh;
 
 #url{
     background-color: #1F222E;
-    width: 25vw;
+    width: 350px;
     font-size: 15px;
     padding: 5px;
     border-radius: 6px;
     border:#FD4444 solid 2px;
-    margin-left: 70vw;
     text-align: center;
-    margin-top: 75px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
 }
 
 .author{
@@ -543,15 +573,15 @@ margin-top: 2vh;
     color: white;
     background-color: #FD4444;
     display: block;
-    margin-top: -28vh;
-    margin-left: 70vw;
-    width: 25vw;
+    margin-top: 120px;
+    width: 370px;
     border-radius: 7px;
     height: 35px;
     border-color: transparent;
     font-size: 15px;
     font-family: Poppins;
-    bottom: 200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .dabutton:hover{
@@ -590,7 +620,6 @@ margin-top: 2vh;
 
 #czardisplay h1{
     font-size: 20px;
-    padding-left: 25px;
 }
 
 #czardisplay{
@@ -605,8 +634,10 @@ margin-top: 2vh;
     border-radius:6px;
     color: white;
     background-color: #1F222E;
-    height: 88vh;
-    width: 500px;
+    min-height: 80vh;
+    max-height: 80vh;
+    overflow: hidden;
+    width: 40vw;
     border:#FD4444 2px solid;
 }
 
@@ -645,11 +676,11 @@ margin-top: 2vh;
 }
 
 .hometext{
-    font-size: 1em;
-    position: absolute;
+    margin-right: 25px;
+    font-size: 15px;
     color: white;
     margin-left: 50px;
-    margin-right: 59vw;
+    margin-bottom: 40px;
 }
 
 .link{
@@ -875,13 +906,20 @@ margin-top: 2vh;
     overflow-y:scroll;
 }
 
-
-.loader{
-    position:absolute;
+#loaderoverall{
+    position: absolute;
     background-color:#0D0B25;
     width: 100vw;
-    height: 150vh;
-    margin-top: -50vh;
+    height: 110vh;
+    z-index: 100;
+}
+
+.loader{
+    position: absolute;
+    background-color:#0D0B25;
+    width: 100vw;
+    height: 100%;
+    z-index: 100;
 }
 
 .lds-ring {
@@ -1081,7 +1119,8 @@ margin-top: 2vh;
     color: white;
     text-align: center;
     width: 100vw;
-    bottom: 50px;
+    bottom: 200px;
+    z-index: 110;
 }
 
 #warning{
@@ -1105,4 +1144,149 @@ margin-top: 2vh;
     margin-left: -480px;
     height: 20px;
     cursor: pointer;
+}
+
+
+@media only screen and (max-width:1500px){
+
+    .neu1{
+        width: 90vw;
+        height: fit-content;
+        display: block;
+        overflow: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .findgame{
+        margin-top: 85vh;
+        margin-bottom: 40vh;
+        height: fit-content;
+    }
+
+    .homeheader1{
+        margin-left: 5vw;
+    }
+
+    .gamesoverall{
+        align-items: center;
+        justify-content: center;
+        color: white;
+        overflow-x: hidden;
+        overflow-y: unset;
+        margin-top: 2vh;
+        margin-bottom: 5vh;
+        width: 90%;
+        margin-left: 5%;
+        margin-right: 5%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-row-gap: 10px;
+        column-gap: 5vw;
+        max-height: fit-content;
+    }
+
+    .footer{
+       position: relative;
+    }
+
+    .gamenameover{
+        color:#D94E53;
+        background-color: white;
+        min-width: 300px;
+        max-width: 300px;
+        font-size: 10px;
+        display: flex;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 1vh;
+        border-radius: 6px;
+        outline: none;
+        border: none;
+        border-radius: 10px;
+        height: 100px;
+        margin-bottom: 25px;
+    }
+
+    .gamesbutton{
+        height: 50px;
+        margin-block-start: 1.9em;
+        margin-block-end: 1.9em;
+        margin-inline-start: 25px;
+        margin-inline-end: 25px;
+    }
+
+    .nametext{
+        margin: 0px;
+        margin-block-start: 0.9vh;
+        margin-block-end: 0.9vh;
+    }
+
+    .nogames{
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        margin-top: 0px;
+        top: 50%;
+        margin-top: 15vh;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+}
+
+@media only screen and (min-width:2174px){
+    .optionsgrid{
+        align-items: center;
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+        width: 60vw;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(425px, 1fr));
+        row-gap: 50px;
+        column-gap: 10px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        min-height: 88vh;
+        max-height: 88vh;
+    }
+}
+
+@media only screen and (max-width:1200px){
+    #rounddisplay{
+        width: 60%;
+        float:none;
+        align-items: center;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        text-align: center;
+        border: #FD4444 2px solid;
+        border-radius: 6px;
+        height: 60px;
+    }
+
+    #pickeddisplay{
+        margin-top: 25px;
+        width: 60%;
+        float:none;
+        align-items: center;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        text-align: center;
+        border: #FD4444 2px solid;
+        border-radius: 6px;
+        height: 60px;
+    }
+
+    #scoreboard{
+        margin-top: 25px;
+        max-height: 200px;
+    }
 }

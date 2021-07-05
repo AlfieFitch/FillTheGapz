@@ -154,11 +154,11 @@ function createplayer(name){
   document.cookie = "gameid=" + newgameid; 
   firebase.database().ref('Games/' + newgameid + '/scores/' + username).set({
     score: 0,
- });
+  });
   firebase.database().ref('Games/'+ newgameid + '/' + 'players/' + username).set({
     name: 'null'
   });
- document.getElementById("logo").style.marginLeft = "calc(50% - 350px)";  
+  document.getElementById("logo").style.marginLeft = "calc(50% - 350px)";  
   document.getElementById("GameInfo").innerText = newgameid;
   document.getElementById("url").innerText = "https://fillthegapz.com/?code=" + newgameid;
   document.getElementById("StartGame").style.display = "none";
@@ -170,6 +170,9 @@ function createplayer(name){
     var newdata1 = daya.replace(/"/g,'');
     if(newdata1 !== "null"){
       sendalert(newdata1 + " has disconnected");
+      if(host == "1" ){
+        firebase.database().ref('Games/'+ newgameid + "/players/" + newdata1).remove()
+      }
       firebase.database().ref('Games/'+ newgameid + "/disconnectedplayers").remove();
     }
   });
@@ -572,7 +575,7 @@ function gotczar(){
     }
     document.getElementById("czardisplay").innerHTML = "<h1>The Current King is " + string3 + "</h1>";
     const retrieveround = firebase.database().ref('Games/' + newgameid + '/currentround');
-    retrieveround.once('value', (snapshot) =>{
+    retrieveround.on('value', (snapshot) =>{
     let string1 = JSON.stringify(snapshot.val());
     string1 = string1.replace(/"/g,'');
     string1 = string1.replace('{number:','');
@@ -991,7 +994,7 @@ function checkstatus(dacode,id){
 
 
 window.onload = function(){
-  checkscreen();
+  //checkscreen();
   firebase.auth().signInAnonymously();
   let url = new URLSearchParams(location.search);
   let dacode = url.get('code');
@@ -1057,6 +1060,9 @@ function aftercheck (dacode, id){
     }
     document.getElementById("gamesoverall").innerHTML = overallhtml;
     document.getElementById("loaderoverall").style.display = "none";
+    if (window.matchMedia("(max-width: 1500px)").matches) {
+      document.getElementById("body").style.overflowY = "auto";
+    }
   }); 
 }
 
@@ -1190,20 +1196,15 @@ function restartgameadditional(){
 
 
 window.addEventListener("resize", function() {
-  if (window.matchMedia("(min-width: 1200px)").matches) {
-    document.getElementById("screentosmall").style.display = "none";
+  if(window.matchMedia("(max-width: 1500px)").matches) {
+   document.getElementById("body").style.overflowY = "auto";
   } else {
-    document.getElementById("screentosmall").style.display = "block";
-  }
+    document.getElementById("body").style.overflowY = "hidden";
+    window.scrollTo(0,0); 
+ }
 })
 
-function checkscreen(){
-  if (window.matchMedia("(min-width: 1200px)").matches) {
-    document.getElementById("screentosmall").style.display = "none";
-  } else {
-    document.getElementById("screentosmall").style.display = "block";
-  }
-}
+
 
 function sendalert(value){
   document.getElementById("warning").style.display = "block";
