@@ -176,11 +176,11 @@ body{
 .input{
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
+    width: 75%;
+    max-width: 500px;
     background-color: #1F222E;
     color: white;
-    width: 500px;
-    height: 200px;
+    height: 160px;
     border-radius: 6px;
     padding: 20px;
     text-align: center;
@@ -1124,7 +1124,7 @@ body{
 }
 
 #warning{
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 55px;
     background-color: #FD4444;
@@ -1141,7 +1141,8 @@ body{
 }
 
 .rightarrow{
-    margin-left: -480px;
+    float: left;
+    margin-top: 5px;
     height: 20px;
     cursor: pointer;
 }
@@ -1288,5 +1289,207 @@ body{
     #scoreboard{
         margin-top: 25px;
         max-height: 200px;
+    }
+}
+
+@media only screen and (max-width:700px){
+    #czarnotif{
+        margin-top: 5vh;
+    }
+
+    #warning{
+        height: 65px;
+    }
+
+    body{
+        height: fit-content;
+        overflow-x: hidden;
+    }
+    .logo{
+        display: none;
+    }
+
+    .options{
+        height: fit-content;
+        top: 25%;
+    }
+
+    .pleasewait{
+        float: none;
+        text-align: center;
+        width: 85vw;
+        margin-top: 15vh;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+
+    .playertable{
+        min-height: fit-content;
+        height: fit-content;
+    }
+    
+    .addplayertable{
+        padding-bottom: 25px;
+    }
+
+    #additionplayeroverall{
+        margin-right: auto;
+        margin-left: auto;
+        width: 85vw;
+        height: fit-content;
+        min-height: fit-content;
+    }
+
+    .addplayeroverall{
+        margin-right: auto;
+        margin-left: auto;
+        padding-right: 10px;
+        height: fit-content;
+        width: 85vw;
+    }
+
+    #playeroverall{
+        margin-right: auto;
+        margin-left: auto;
+        padding-right: 10px;
+        height: fit-content;
+        width: 85vw;
+    }
+
+    .centeroptions{
+        margin-top: 5vh;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100vw;
+        height: fit-content;
+        max-height: fit-content;
+    }
+
+    .optionsgrid{ 
+        width: 100vw;
+        max-height: fit-content;
+    }
+
+    .dabutton{
+        margin-top: 0vh;
+    }
+    
+    .optionsover:last-child{
+        height:fit-content;
+    }
+
+    .over1{
+        width: 100vw;
+    }
+
+    #scoreboard{
+        margin-left: 1%;
+        padding-right: 0px;
+        min-height: fit-content;
+        max-height: fit-content;
+        padding-bottom: 25px;
+        position: relative;
+        width: 100%;
+    }
+
+    #whiteboxesparent{
+        width: 100vw;
+        float: none;
+        margin: 0vw;
+        margin-top: 5vh;
+        border: 0px;
+        border-top: #FD4444 2px solid;
+        border-radius: 0px;
+        height:fit-content;
+        min-height: fit-content;
+        margin-bottom: 25px;
+    }
+
+    .SelectedWhiteCard{
+        background-color: #FD4444;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: none;
+        width: 200px !important;
+    }
+
+    .confirmslectionbutton{
+        width: 90vw;
+        margin-top: -8vh;
+        margin-bottom: 25px;
+    }
+
+    #whiteboxes{
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 5vh;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        row-gap: 50px;
+        column-gap: 10px;
+    }
+
+    .select{
+        margin-left: auto;
+        margin-right: auto;
+        max-width: none;
+        width: 200px !important;
+    }
+
+    .singlebutton{
+        margin-left: auto;
+        margin-right: auto;
+        margin: 0px;
+    }
+
+    .whitebutton{
+        margin-left: auto;
+        margin-right: auto;
+        max-width: none;
+        width: 200px !important;
+    }
+
+
+    #blackcard{
+        position: relative;
+        margin-left: 5vw;
+        margin-right: 5vw;
+        width: 90vw;
+        height: fit-content;
+    }
+
+    .selectoverall{
+        margin-top: 0px;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: none;
+        width: 200px !important;
+    }
+
+    .czarselect{
+        width: 200px;
+    }
+
+    #pickerselection{
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 5vh;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        row-gap: 50px;
+        column-gap: 10px;
+    }
+}
+
+@media only screen and (max-width:1450px){
+    .dabutton{
+        margin-top: 0vh;
+    }
+
+    .optionsover:last-child{
+        height:fit-content;
     }
 }

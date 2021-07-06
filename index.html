@@ -26,6 +26,18 @@
     <script src="https://contextual.media.net/dmedianet.js?cid=8CUPQ473C" async="async"></script>
 </head>
 <body id = "body">
+    <div id = "screentosmall" style="display: none;">
+        <img id="logo" src = "/imgs/logo.svg" class = "sorrylogo" style="margin-top: 30vh;"></img>
+        <div class = "titlediv">
+            <h1 class = "sorrytitle">We are Sorry.</h1>
+        </div>
+        <h1 class = "sorrytextresponsive"> 
+            Unfortunately, Fill The Gapz is not yet available on this device.</br></br>
+            Our team is working hard to make the game avaiable for all devices, big or small, but in the meantime, Please try on a device with a larger screen, such as a laptop.
+        </h1>
+    </div>
+
+
     <div id = "loaderoverall" style = "display:block">
         <div class = "loader">
             <div class="lds-ring">
@@ -124,6 +136,14 @@
             </div>
             </div>
         </div>
+
+        
+        <div class = "optionsover">
+            <div id = "fullpacklist">
+                <h1 class = "packtitle">Added Packs:</h1>
+                <h1 id = "packlist"></h1>
+            </div>
+        </div>
         
         <div class = "optionsover">
             <div class = "rounds">
@@ -139,18 +159,9 @@
                 <button class = "joinbutton1" id = "submit" onclick = "lobbyname()">Submit</button>
                 <h2 class = "smallercustom1" id ="lobnamedisp">Not Public</h2>
             </div>
-       
-        </div>
-
- 
-
-        <div class = "optionsover">
-            <div id = "fullpacklist">
-                <h1 class = "packtitle">Added Packs:</h1>
-                <h1 id = "packlist"></h1>
-            </div>
-        </div>
         
+        </div>
+
         <div class = "optionsover">
             <button class = "dabutton"  onclick = "startgame();">Start Game</button>
             <h1 id = "url"></h1>
@@ -221,16 +232,7 @@
 
 
 
-<div id = "screentosmall" style="display: none;">
-    <img id="logo" src = "/imgs/logo.svg" class = "sorrylogo" style="margin-top: 30vh;"></img>
-    <div class = "titlediv">
-        <h1 class = "sorrytitle">We are Sorry.</h1>
-    </div>
-    <h1 class = "sorrytextresponsive"> 
-        Unfortunately, Fill The Gapz is not yet available on this device.</br></br>
-        Our team is working hard to make the game avaiable for all devices, big or small, but in the meantime, Please try on a device with a larger screen, such as a laptop.
-    </h1>
-</div>
+
 
 </body>
 

@@ -600,7 +600,11 @@ function gotczar(){
       document.getElementById("czarnotif").style.display = "block";
       document.getElementById("confirmselection").style.display = "none";
     }else{
-      document.getElementById("whiteboxes").style.display = "block";
+      if(window.matchMedia("(max-width: 700px)").matches) {
+        document.getElementById("whiteboxes").style.display = "grid";
+      }else {
+        document.getElementById("whiteboxes").style.display = "block";
+      }
       document.getElementById("confirmselection").style.display = "block";
     }
     document.getElementById("playeroverall").style.display = "none";
@@ -870,7 +874,11 @@ function selectiontime(){
       }
     }
     document.getElementById("pickerselection").innerHTML = finalhtml;
-    document.getElementById("pickerselection").style.display = "block";
+    if(window.matchMedia("(max-width: 700px)").matches) {
+      document.getElementById("pickerselection").style.display = "grid";
+    }else {
+      document.getElementById("pickerselection").style.display = "block";
+    }
     const status = firebase.database().ref('Games/' + newgameid + '/czarpick/');
     status.on('value', (snapshot) =>{
       if(runpicked == "false"){
@@ -1197,14 +1205,17 @@ function restartgameadditional(){
 
 window.addEventListener("resize", function() {
   if(window.matchMedia("(max-width: 1500px)").matches) {
-   document.getElementById("body").style.overflowY = "auto";
-  } else {
+    document.getElementById("body").style.overflowY = "auto";
+  }else {
     document.getElementById("body").style.overflowY = "hidden";
     window.scrollTo(0,0); 
- }
+  }
+  if(window.matchMedia("(min-width: 400px)").matches) {
+    document.getElementById("screentosmall").style.display = "none";
+  } else {
+    document.getElementById("screentosmall").style.display = "block";
+  }
 })
-
-
 
 function sendalert(value){
   document.getElementById("warning").style.display = "block";
