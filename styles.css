@@ -25,14 +25,20 @@ body{
     background-color: white;
 }
 
+#whiteboxes{
+    margin-top: -5vh;
+}
+
+
+
 .leavebutton{
+    position: relative;
     outline: none;
     color: white;
     background-color: #FD4444;
-    display: block;
-    float: left;
+    float: right;
     margin-top: 12px;
-    margin-left: 20px;
+    margin-right: 25px;
     width: 200px;
     border-radius: 7px;
     height: 35px;
@@ -530,10 +536,15 @@ body{
 }
 
 .logo{
+    float: none;
     position: relative;
     height: 40px;
     margin-top: 10px;
-    margin-left: 30px;
+    margin-left: 25px;
+}
+
+.logoingame{
+    margin-left: 50vw;
 }
 
 .Playerstitle{
@@ -662,7 +673,7 @@ body{
 .neu1{
     border: 2px solid #fd4444;
     width: 40vw;
-    height: 80vh;
+    height: 75vh;
     border-radius: 48px;
     background: #0d0b25;
     margin-top: 50px;
@@ -1292,10 +1303,19 @@ body{
     }
 }
 
-@media only screen and (max-width:700px){
+@media only screen and (max-width:1000px){
     #czarnotif{
         margin-top: 5vh;
     }
+
+    .logo{
+        float: none;
+        margin-left: auto;
+        margin-right: 25px;
+        position: absolute;
+    }
+
+
 
     #warning{
         height: 65px;
@@ -1305,14 +1325,11 @@ body{
         height: fit-content;
         overflow-x: hidden;
     }
-    .logo{
-        display: none;
-    }
 
     .options{
         height: fit-content;
         top: 25%;
-    }
+    } 
 
     .pleasewait{
         float: none;
@@ -1331,6 +1348,10 @@ body{
     
     .addplayertable{
         padding-bottom: 25px;
+    }
+
+    .GameCode{
+        margin-top: 30px;
     }
 
     #additionplayeroverall{
@@ -1355,6 +1376,7 @@ body{
         padding-right: 10px;
         height: fit-content;
         width: 85vw;
+        margin-top: 100px;
     }
 
     .centeroptions{
@@ -1377,6 +1399,10 @@ body{
     
     .optionsover:last-child{
         height:fit-content;
+    }
+
+    #url{
+        margin-bottom: 50px;
     }
 
     .over1{

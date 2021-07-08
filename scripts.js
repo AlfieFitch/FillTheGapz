@@ -158,12 +158,11 @@ function createplayer(name){
   firebase.database().ref('Games/'+ newgameid + '/' + 'players/' + username).set({
     name: 'null'
   });
-  document.getElementById("logo").style.marginLeft = "calc(50% - 350px)";  
-  document.getElementById("GameInfo").innerText = newgameid;
   document.getElementById("url").innerText = "https://fillthegapz.com/?code=" + newgameid;
   document.getElementById("StartGame").style.display = "none";
   document.getElementById("JoinGame").style.display = "none";
   document.getElementById("Leave").style.display = "block";
+  document.getElementById("logo").style.float = "right";  
   var checkdisconnect = firebase.database().ref('Games/' + newgameid + '/disconnectedplayers')
   checkdisconnect.on('value', (snapshot) =>{
     var daya = JSON.stringify(snapshot);
@@ -600,7 +599,7 @@ function gotczar(){
       document.getElementById("czarnotif").style.display = "block";
       document.getElementById("confirmselection").style.display = "none";
     }else{
-      if(window.matchMedia("(max-width: 700px)").matches) {
+      if(window.matchMedia("(max-width: 1000px)").matches) {
         document.getElementById("whiteboxes").style.display = "grid";
       }else {
         document.getElementById("whiteboxes").style.display = "block";
@@ -621,10 +620,11 @@ function gotczar(){
       number: rounddisplay,
     })
   }
+  
 }
 
 function getwhite(){
-    if(playerwhite.length < 10){
+    if(playerwhite.length < 12){
       const whitecards = firebase.database().ref('Games/' + newgameid + '/white/cards');
       whitecards.once('value', (snapshot) =>{
         var splited = snapshot.val();
@@ -874,7 +874,7 @@ function selectiontime(){
       }
     }
     document.getElementById("pickerselection").innerHTML = finalhtml;
-    if(window.matchMedia("(max-width: 700px)").matches) {
+    if(window.matchMedia("(max-width: 1000px)").matches) {
       document.getElementById("pickerselection").style.display = "grid";
     }else {
       document.getElementById("pickerselection").style.display = "block";
@@ -1176,8 +1176,6 @@ function restartgame(){
     data: 'True',
   });
   document.getElementById("options").style.display = "block";
-  document.getElementById("logo").style.marginLeft = "calc(50% - 350px)";  
-  document.getElementById("GameInfo").innerText = newgameid;
   document.getElementById("url").innerText = "https://fillthegapz.com/?code=" + newgameid;
   document.getElementById("StartGame").style.display = "none";
   document.getElementById("JoinGame").style.display = "none";
