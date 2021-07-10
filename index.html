@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <script data-ad-client="ca-pub-1516365371884656" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -79,7 +80,7 @@
     <div id = "warning" style = "display: none;">
         <h1 id = "warningtext">Please enter a value!</h1>
     </div>
-    <img src = "/imgs/logo.svg" class = "logo"></img>
+    <img src = "/imgs/logo.svg" class = "logo" alt="Fill The Gapz Logo"></img>
     <button class = "button" id = "StartGame" onclick = "newinput('Enter Name', 'new');" style="display: block;">Start a New Game</button>
     <button class = "button" id = "JoinGame" onclick = "newinput('Enter Code', 'join');" style="display: none;">Join a Game</button>
     <button class = "leavebutton" id = "Leave" onclick = "leavegame()" style="display: none;">Leave</button>
@@ -88,19 +89,19 @@
     <div class = "homepage" id="homepage">
         <div class = "neu1">
             <h1 class = "homeheader">Do not hold back.</h1>
-            <h1 class = "hometext">That is right - Do not hold back - especially in the name of fun and humour. Fill the gapz... <br><br> The game that may not be for all the family! Come up with the most outrageous, offensive, and hilarious statements by matching statement cards with your own selection of cards. <br><br> Use the <a class="link" href="https://cast.clrtd.com/" target="_blank">CrCast</a> system to add your own custom card decks and even inside jokes into the game. Simply find the code to the deck you want to add into the game and instantly play it! <br><br> Fill the Gapz is free, online and multiplayer. Quickly and easily join your friends or families game on any browser and get involved with the fun that is possible! <br><br> The Fill the Gapz game and website is developed by <a class = "link" href="https://alfiefitch.com" target="_blank">Alfie Fitch</a> and is apart of the variant features available on <a class = "link" href="https://fitchnetwork.co.uk" target="_blank">The Fitch Network</a>.<br><br>Help and support is available through email at 'support@fillthegapz.com' or general enquiries can be sent to 'general@fillthegapz.com'. Click <a class = "link" href="https://fillthegapz.com/legal">Here</a> for legal information and website policies.</h1>
+            <h1 class = "hometext">That is right - Do not hold back - especially in the name of fun and humour. Fill the gapz... <br><br> The game that may not be for all the family! Come up with the most outrageous, offensive, and hilarious statements by matching statement cards with your own selection of cards. <br><br> Use the <a class="link" href="https://cast.clrtd.com/" target="_blank" rel="noopener">CrCast</a> system to add your own custom card decks and even inside jokes into the game. Simply find the code to the deck you want to add into the game and instantly play it! <br><br> Fill the Gapz is free, online and multiplayer. Quickly and easily join your friends or families game on any browser and get involved with the fun that is possible! <br><br> The Fill the Gapz game and website is developed by <a class = "link" href="https://alfiefitch.com" target="_blank" rel="noopener">Alfie Fitch</a> and is apart of the variant features available on <a class = "link" href="https://fitchnetwork.co.uk" target="_blank" rel="noopener">The Fitch Network</a>.<br><br>Help and support is available through email at 'support@fillthegapz.com' or general enquiries can be sent to 'general@fillthegapz.com'. Find <a class = "link" href="https://fillthegapz.com/legal" rel="noopener">Legal Information and website policies.</a></h1>
         </div>
         <div class = "findgame">
             <h1 class = "homeheader1">Find a Game:</h1>
             <div class = "gamesoverall" id = "gamesoverall"></div>
         </div>
         <div class = "footer">
-            <h1>Copyright ©  Fitch Network 2021 | <a class = "feedbacklink" data-az-l="a6086b83-c7e0-4165-a11c-46a969617153">Leave Feedback</br></br></br></a></h1>
+            <h1>Copyright ©  Fitch Network 2021 | V1.6 | <span class = "feedbacklink" data-az-l="a6086b83-c7e0-4165-a11c-46a969617153">Leave Feedback</br></br></br></span></h1>
         </div>
     </div>
 
     <div class = "input" id = "inputmodal" style="display: none;">
-        <img id="rightarrow" src = "/imgs/right-arrow.png" class = "rightarrow" onclick="back();"></img>
+        <img id="rightarrow" src = "/imgs/right-arrow.png" class = "rightarrow" onclick="back();" alt="back arrow"></img>
         <h1 class = "popuptitle" id="popuptitle">Temporary</h1>
         <input class = "inputbox" id = "input" type ="text" placeholder = "" name = "input" required>
         <br><br>
@@ -120,7 +121,7 @@
             <div class = "over2internals">
             <div class = "over2header">
                 <h2>Add decks:</h2>
-                <h1 class = "crcasthelp">Enter the code to the card deck, which can be found <a class=link href="https://cast.clrtd.com/" target="_blank">here</a>.</h1>
+                <h1 class = "crcasthelp">Enter the code to the card deck, which can be found at<a class=link href="https://cast.clrtd.com/" target="_blank">CrCast</a>.</h1>
             </div>
             <div class = "over2buttons">
             <input class = "inputbox" id = "cardcode" type ="text" placeholder = "  Enter Card Code" name = "cardcode" required>
@@ -225,12 +226,6 @@
         </div>
         <button class = "restartbutton"  onclick = "restartgame();">Start Game</button>
     </div>
-
-
-
-
-
-
 
 
 </body>

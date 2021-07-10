@@ -1113,7 +1113,7 @@ function rejoindagame(){
   });
 }
 
-window.addEventListener("beforeunload", function(e){
+window.addEventListener("pagehide", function(e){
   firebase.database().ref('Games/'+ gameid + '/players/' + username).remove();
 }, false);
 
@@ -1213,6 +1213,16 @@ window.addEventListener("resize", function() {
   } else {
     document.getElementById("screentosmall").style.display = "block";
   }
+  if(window.matchMedia("(min-width: 1000px)").matches) {
+    if(document.getElementById("whiteboxes").style.display == "grid"){
+      document.getElementById("whiteboxes").style.display = "block";
+    }
+  }
+  if(window.matchMedia("(max-width: 1000px)").matches) {
+    if(document.getElementById("whiteboxes").style.display == "block"){
+      document.getElementById("whiteboxes").style.display = "grid";
+    }
+  }
 })
 
 function sendalert(value){
@@ -1232,5 +1242,7 @@ function back(){
   document.getElementById("inputmodal").style.display = "none";
   document.getElementById("homepage").style.display = "block";
 }
+
+
 //------------------------------------------------------------------------------------------
 
