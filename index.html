@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name = "robots" content="index, follow">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fill The Gapz</title>
     <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
@@ -181,16 +180,18 @@
         <h1 id = "waittext"></h1>
     </div>
 
-
     <div id = "Game" style="display:none;">
-        <div id = "blackcard">
-            <div class = "actualblack">
-                <h1 id = "blackcontent"></h1>
+        <div class = "blackparent">
+            <div id = "blackcard">
+                <div class = "actualblack">
+                    <button class = "voteskip" id = "submit" onclick = "voteskip()">Skip Card</button>
+                    <h1 id = "blackcontent"></h1>
+                </div>
+                <div id ="czardisplay"></div>
+                <div id ="rounddisplay"></div>
+                <div id ="pickeddisplay"></div>
+                <div id = "scoreboard">0 players done</div>
             </div>
-            <div id ="czardisplay"></div>
-            <div id ="rounddisplay"></div>
-            <div id ="pickeddisplay"></div>
-            <div id = "scoreboard">0 players done</div>
         </div>
     </div>
     

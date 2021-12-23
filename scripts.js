@@ -57,8 +57,9 @@ let alreadyaddedimages = false;
 let alreadyadded = false;
 let joinlist = [];
 let tempusers = [];
-
-
+let lastczar = null;
+let czariteration = 0;
+let voted = false;
 
 
 // Functions -------------------------------------------------------------------------------------
@@ -87,7 +88,7 @@ function wait(ms){
   var end = start;
   while(end < start + ms) {
     end = new Date().getTime();
- }
+  }
 }
 
 
@@ -116,8 +117,8 @@ function joingame(code){
     newdata8 = newdata8.replace(/\n/g , '');
     tempusers = newdata8.split(',');
     newgameid = code;
-    if(tempusers.length == 10){
-      sendalert("Sorry, this game already has 10 players.")
+    if(tempusers.length == 12){
+      sendalert("Sorry, this game already has 12 players.")
     }else{
     newinput("Enter Name", "create");
     }
@@ -227,7 +228,7 @@ function startgame(){
   if(host == "1"){
     if(rawwhite.length == 0 || black.length == 0){
       sendalert("Please ensure the deck has at least 1 black card and white card.")
-    }else if(userlist[0].length == 1){
+    }else if(userlist.length == 1){
       sendalert("You can't play this alone.");
     }else{
         rawwhite.push(tempwhite);
@@ -246,21 +247,14 @@ function startgame(){
 function loadlist(){
   var playerlist = firebase.database().ref('Games/' + newgameid + "/" + 'players/');
   playerlist.on('value', (snapshot) =>{
-    let data = (JSON.stringify(snapshot.val(), null, 3))
-    var newdata1 = data.replace(/}/g,'');
-    var newdata2 = newdata1.replace(/{/g,'');
-    var newdata3 = newdata2.replace(/:/g,'');
-    var newdata4 = newdata3.replace(/"/g,'');
-    var newdata5 = newdata4.replace(/name/g,'');
-    var newdata6 = newdata5.replace(/null/g,'');
-    var newdata7 = newdata6.replace(/ /g , '');
-    var newdata8 = newdata7.replace(/(\n)+/g , '');
-    newdata8 = newdata8.replace(/\n/g , '');
-    var users = newdata8.split(',');
     userlist = [];
-    userlist.push(users);
-    document.getElementById("PlayerList").innerHTML = makeTableHTML(users,"tablerow");
-    document.getElementById("additionalPlayerList").innerHTML = makeTableHTML(users,"tablerow"); 
+    let data = snapshot.val();
+    data = Object.keys(data);
+    for(i in data){
+      userlist.push(data[i]);
+    }
+    document.getElementById("PlayerList").innerHTML = makeTableHTML(data,"tablerow");
+    document.getElementById("additionalPlayerList").innerHTML = makeTableHTML(data,"tablerow"); 
   });
 }
 
@@ -294,18 +288,21 @@ function newinput(title,code){
 }
 
 function submit(){
+  var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
   let input = document.getElementById("input").value;
   if(input == null || input == ""){
     sendalert("Please enter a value.")
+  }else if(input.length > 30){
+    sendalert("Ensure value is less than 30 characters.");
+  }else if(format.test(input)){
+    sendalert("Please remove symbols and special characters.")
   }else{
     if(overallcode == "join"){
       joingame(input);
     }if(overallcode == "startnew"){
       newgame(input);
-      
     }if(overallcode == "create"){
       createplayer(input);
-      
     }
   }
 }
@@ -358,8 +355,8 @@ function customcards(){
     let int1 = parseInt(input);
     while(i < int1){
       var customcard = {text: customarray};
-       tempwhite.push(customcard);
-       i++;
+      tempwhite.push(customcard);
+      i++;
     }
     if(packs.length == 0){
       alreadyadded = true;
@@ -373,11 +370,11 @@ function customcards(){
         }else if(check !== true && alreadyadded == false){
           alreadyadded = true;
           packs.push(input + " Custom Cards");
-       }
+        }
       }
     }
     firebase.database().ref('Games/'+ newgameid + '/packs').set({
-     packs : packs,
+      packs : packs,
     });
   }
 }
@@ -392,16 +389,16 @@ function imagecards(){
     i = 0;
     let int1 = parseInt(input);
     while(i < int1){
-       var customicard = {text: customiarray};
-       tempimage.push(customicard);
-       i++;
+      var customicard = {text: customiarray};
+      tempimage.push(customicard);
+      i++;
     }
     if(packs.length == 0){
       alreadyaddedimages = true;
       packs.push(input + " Image Cards");
     }else{
       for(i in packs){
-       let check = packs[i].includes("Image");
+        let check = packs[i].includes("Image");
         if(check == true){
           alreadyaddedimages = true;
           packs[i] = input + " Image Cards";
@@ -412,7 +409,7 @@ function imagecards(){
             packs.push(input + " Image Cards");
           }else{
           }
-       }
+        }
       }
     }
     firebase.database().ref('Games/'+ newgameid + '/packs').set({
@@ -434,6 +431,23 @@ function getRandomwhite(arr) {
   return final;
 }
 
+async function getdaczar(){
+  if(czariteration > userlist.length - 1){
+    czariteration = 0;
+  }
+  czarname = userlist[czariteration];
+  if(czarname == lastczar){
+    getdaczar();
+  }else{
+    firebase.database().ref('Games/' + newgameid + '/czar/').set({
+      czar: czarname,
+    });
+    lastczar = czarname;
+    czariteration = czariteration + 1
+    return;
+  }
+}
+
 
 
 
@@ -442,11 +456,7 @@ async function newround(){
   firebase.database().ref('Games/' + newgameid + '/readyornot/').set({
     data: 'not',
   });
-  czarname = getRandomwhite(userlist);
-  firebase.database().ref('Games/' + newgameid + '/czar/').set({
-    czar: czarname,
-  });
-  getblack();
+  await getdaczar();
   await getblack();
   firebase.database().ref('Games/' + newgameid + '/readyornot/').set({
     data: 'ready',
@@ -474,20 +484,18 @@ async function getblack(){
   return;
 }
 
-
-
 function gotczar(){
   const readyornot = firebase.database().ref("Games/" + newgameid + '/readyornot/')
   readyornot.on('value', (snapshot) =>{
     let readydata = JSON.stringify(snapshot);
     if(readydata == '{"data":"ready"}'){
-      gotczar();
+      czargot();
     }
   })
 }
 
-function gotczar(){
-
+function czargot(){
+  voted = false;
   const statusting = firebase.database().ref('Games/' + newgameid + '/playerstatus/');
   statusting.on('value', (snapshot) =>{
     string = JSON.stringify(snapshot.val());
@@ -524,11 +532,30 @@ function gotczar(){
       smallarray.push(newting);
       final = final + '<tr class="scorerow"><td class = "scoremain">' + smallarray[0][0] + '</td><td class = "scoremain">' + smallarray[0][1] + '</td></tr>';
   }
+  const voting = firebase.database().ref('Games/' + newgameid + '/vote/');
+  voting.on('value', (snapshot) =>{
+    let val = JSON.stringify(snapshot.val());
+    val = val.replace(/{"vote":/g,"");
+    val = val.replace(/}/g,"");
+    val = parseInt(val);
+    console.log("changed" + val);  
+    if(host == "1"){
+      if(val == userlist.length){
+        val = null;
+        console.log("runiing");
+        czariteration = czariteration - 1;
+        compround = compround - 1;
+        lastczar = null;
+        firebase.database().ref('Games/'+ newgameid + '/vote/').remove();
+        newround();
+      }
+    }
+  });
   let finalpoop = '<div><table class = "scoreover">' + final +'</table></div>';
   document.getElementById("scoreboard").innerHTML = finalpoop;
   });
   const status = firebase.database().ref('Games/' + newgameid + '/endofround/');
-  status.on('value', (snapshot) =>{
+  status.on('value', (snapshot) =>{4
     let check = JSON.stringify(snapshot.val());
     if(check == '{"started":"5"}'){
       gamefinished();
@@ -624,7 +651,8 @@ function gotczar(){
 }
 
 function getwhite(){
-    if(playerwhite.length < 12){
+    if(playerwhite.length < 10){
+      console.log(playerwhite.length)
       const whitecards = firebase.database().ref('Games/' + newgameid + '/white/cards');
       whitecards.once('value', (snapshot) =>{
         var splited = snapshot.val();
@@ -704,12 +732,12 @@ function whiteselected(id){
     if(id !== lastpicked){
       if(lastpicked !== null){
         document.getElementById(lastpicked).classList.add("whitebutton");
-       document.getElementById(lastpicked).classList.remove("SelectedWhiteCard");
+        document.getElementById(lastpicked).classList.remove("SelectedWhiteCard");
       }
       document.getElementById(id).classList.add("SelectedWhiteCard");
       document.getElementById(id).classList.remove("whitebutton");
       lastpicked = id;
-     
+
     }
     picked = playerwhite[id];
     document.getElementById("confirmselection").innerHTML = '<button id="confirmselectionpoop" style="display:none;" class="confirmslectionbutton" onclick="selectionconfirmed(' + id + ');">Confirm Selection</button>';
@@ -732,7 +760,7 @@ function selectionconfirmed(id){
       let string4 = string3.replace("status",'');
       let string5 = string4.replace(":",'');
       let int1 = parseInt(string5);
-      if(int1 == (userlist[0].length - 1)){
+      if(int1 == (userlist.length - 1)){
         firebase.database().ref('Games/'+ newgameid + '/status/').set({
           started : '3',
         });
@@ -792,14 +820,14 @@ function selectionconfirmed(id){
         let string4 = string3.replace("status",'');
         let string5 = string4.replace(":",'');
         let int1 = parseInt(string5);
-        let user69 = (userlist[0].length - 1);
+        let user69 = (userlist.length - 1);
         let subtract = null;
         if(user69 == 0){
           subtract = 0;
         }else{
           subtract = 1;
         }
-        if(int1 == (userlist[0].length - 1)){
+        if(int1 == (userlist.length - 1)){
           firebase.database().ref('Games/'+ newgameid + '/status/').set({
             started : '3',
           });
@@ -858,7 +886,6 @@ function selectiontime(){
       let imagecheck = playerwhite[i].includes("https://");
       if(imagecheck == true){
         if(czar == "1"){
-          console.log("czarimage");
           let ting = "'" + selection[0][0] + "'"
           finalhtml = finalhtml + '<div class = "selectoverall"><button onclick = "czarselected('+daid + ',' + ting +');" class = "czarselect" id = "' + daid + '"><h1 class = "mainfunny"><img src="' + selection[0][1] + '"class="whiteimage"></img></h1><h1 class = "author" style = "display:none;">'+ selection[0][0] +'</h1></button></div>';
         }else{
@@ -870,7 +897,7 @@ function selectiontime(){
           finalhtml = finalhtml + '<div class = "selectoverall"><button onclick = "czarselected('+daid + ',' + ting +');" class = "czarselect" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 class = "author" style = "display:none;">'+ selection[0][0] +'</h1></button></div>';
         }else{
           finalhtml = finalhtml + '<div class = "selectoverall"><button class = "select" id = "' + daid + '"><h1 class = "mainfunny">' + selection[0][1] + '</h1><h1 class = "author" style = "display:none;">'+ selection[0][0] +'</h1></button></div>';
-       }
+        }
       }
     }
     document.getElementById("pickerselection").innerHTML = finalhtml;
@@ -992,9 +1019,9 @@ function checkstatus(dacode,id){
   gameactivelink.once('value', (snapshot) =>{
     gameactive = JSON.stringify(snapshot.val())
     if(gameactive == '{"status":"active"}'){
-     amijoining = "join";
+      amijoining = "join";
     }else{
-     amijoining = "inactive";
+      amijoining = "inactive";
     }
     aftercheck(dacode, id);
   });
@@ -1002,7 +1029,6 @@ function checkstatus(dacode,id){
 
 
 window.onload = function(){
-  //checkscreen();
   firebase.auth().signInAnonymously();
   let url = new URLSearchParams(location.search);
   let dacode = url.get('code');
@@ -1031,7 +1057,7 @@ function aftercheck (dacode, id){
       joingame(dacode);
       document.cookie = "visited=" + dacode;
     }
- 
+
   }else if(id !== ""){
     if(amijoining == "join"){
       RejoinGame(id);
@@ -1086,7 +1112,7 @@ function RejoinGame(id){
       gameid = id;
       document.getElementById("rejoinoverall").style.display = 'block';
     };
- });
+  });
 }
 
 function discardgame(){
@@ -1217,10 +1243,16 @@ window.addEventListener("resize", function() {
     if(document.getElementById("whiteboxes").style.display == "grid"){
       document.getElementById("whiteboxes").style.display = "block";
     }
+    if(document.getElementById('pickerselection').style.display == "grid"){
+      document.getElementById('pickerselection').style.display = "block"
+    }
   }
   if(window.matchMedia("(max-width: 1000px)").matches) {
     if(document.getElementById("whiteboxes").style.display == "block"){
       document.getElementById("whiteboxes").style.display = "grid";
+    }
+    if(document.getElementById('pickerselection').style.display == "block"){
+      document.getElementById('pickerselection').style.display = "grid"
     }
   }
 })
@@ -1241,6 +1273,18 @@ function sleep (time) {
 function back(){
   document.getElementById("inputmodal").style.display = "none";
   document.getElementById("homepage").style.display = "block";
+}
+
+function voteskip(){
+  if(voted !== true){
+    const vote = database.ref('Games/' + newgameid + '/vote/')
+    vote.set({
+      vote: firebase.database.ServerValue.increment(1),
+    });
+    voted = true;
+  }else{
+    sendalert("You have already voted.");
+  }
 }
 
 
