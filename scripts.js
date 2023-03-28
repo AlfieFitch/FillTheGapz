@@ -2,7 +2,7 @@
 // Firebase -------------------------------------------------------------------------------------
 
 var firebaseConfig = {
-    apiKey: "AIzaSyAtJsf9OYIx3Ul9wRSWsxSRPrNa69Z4Rj0",
+    apiKey: "too-slow",
     authDomain: "cardsagainsthumanity-6a896.firebaseapp.com",
     databaseURL: "https://cardsagainsthumanity-6a896-default-rtdb.firebaseio.com",
     projectId: "cardsagainsthumanity-6a896",
